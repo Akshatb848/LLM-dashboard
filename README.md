@@ -32,13 +32,3 @@ Set `OLLAMA_URL` (e.g. `http://localhost:11434`) to enable hybrid RAG+LLM summar
 ```bash
 pytest -q
 ```
-
-## Render deployment (recommended)
-
-This repository includes `render.yaml` so Render uses the correct import path and Python runtime.
-
-- Build command: `pip install -r backend/requirements.txt`
-- Start command: `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`
-- Python version: `3.11.9`
-
-If an older failed deploy is cached, trigger a **Clear build cache & deploy** in Render.
