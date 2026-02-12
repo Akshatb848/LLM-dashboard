@@ -1,33 +1,259 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoE Smart Education Intelligence Dashboard</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoE Smart Education Intelligence Dashboard | Newsletter 2025-2026</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Ministry of Education — Smart Education Intelligence Platform</h1>
-    <p>Production-safe, RAG-first conference dashboard</p>
-  </header>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-emblem">
+            <div class="emblem-placeholder">🇮🇳</div>
+        </div>
+        <div class="header-content">
+            <h1>Ministry of Education</h1>
+            <h2>Department of School Education & Literacy</h2>
+            <h3>Smart Education Intelligence Dashboard</h3>
+            <p class="header-subtitle">Newsletter: April 2025 - January 2026</p>
+        </div>
+    </header>
 
-  <main>
-    <section class="stats" id="stats"></section>
-    <section class="charts">
-      <canvas id="attendanceChart"></canvas>
-      <canvas id="apaarChart"></canvas>
+    <!-- Director's Message Section -->
+    <section class="director-message">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">✉️</div>
+                <h2>Director's Message</h2>
+            </div>
+            <div class="message-content">
+                <div class="message-author">
+                    <h3 id="directorName">Dr. Rajesh Kumar</h3>
+                    <p id="directorPosition">Director, Department of School Education & Literacy</p>
+                </div>
+                <div class="message-text" id="directorMessage">
+                    <p>Loading message...</p>
+                </div>
+            </div>
+        </div>
     </section>
-    <section class="chat-panel">
-      <h2>Official Newsletter Assistant</h2>
-      <textarea id="query" placeholder="Ask: Compare Kerala and Gujarat attendance"></textarea>
-      <button id="askBtn">Ask Assistant</button>
-      <pre id="answer"></pre>
-      <div id="sources"></div>
-    </section>
-  </main>
 
-  <script src="js/app.js"></script>
+    <!-- Key Highlights Summary -->
+    <section class="key-highlights">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h2>At a Glance: Our Journey (April 2025 - January 2026)</h2>
+            </div>
+            <div class="highlights-grid" id="highlightsSummary">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Monthly Calendar Layout -->
+    <section class="calendar-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">📅</div>
+                <h2>Monthly Activity Calendar</h2>
+            </div>
+            <div class="month-selector">
+                <button id="prevMonth" class="nav-btn">← Previous</button>
+                <h3 id="currentMonth">Select Month</h3>
+                <button id="nextMonth" class="nav-btn">Next →</button>
+            </div>
+            <div class="calendar-content">
+                <div class="calendar-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">🏫</div>
+                        <div class="stat-value" id="monthSchools">-</div>
+                        <div class="stat-label">Schools</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👨‍🏫</div>
+                        <div class="stat-value" id="monthTeachers">-</div>
+                        <div class="stat-label">Teachers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">👩‍🎓</div>
+                        <div class="stat-value" id="monthStudents">-</div>
+                        <div class="stat-label">Students</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🆔</div>
+                        <div class="stat-value" id="monthApaar">-</div>
+                        <div class="stat-label">APAAR IDs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-value" id="monthAttendance">-</div>
+                        <div class="stat-label">Attendance Rate</div>
+                    </div>
+                </div>
+
+                <div class="month-highlights">
+                    <h4>📌 Key Highlights</h4>
+                    <ul id="monthHighlightsList"></ul>
+                </div>
+
+                <div class="month-activities">
+                    <h4>🎯 Activities & Initiatives</h4>
+                    <ul id="monthActivitiesList"></ul>
+                </div>
+
+                <div class="month-events">
+                    <h4>🎪 Major Events</h4>
+                    <div id="monthEventsList" class="events-grid"></div>
+                </div>
+
+                <div class="month-states">
+                    <h4>🗺️ State Performance</h4>
+                    <div id="monthStatesTable"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics & Visualizations -->
+    <section class="analytics-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">📈</div>
+                <h2>Statistical Analysis & Trends</h2>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h4>APAAR ID Generation Progress</h4>
+                    <canvas id="apaarChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Attendance Trend Analysis</h4>
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h4>Student Enrollment Growth</h4>
+                    <canvas id="studentsChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>Schools & Teachers Expansion</h4>
+                    <canvas id="infrastructureChart"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container full-width">
+                    <h4>Top Performing States (January 2026)</h4>
+                    <canvas id="statesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Developments -->
+    <section class="technical-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h2>Technical Developments & Infrastructure</h2>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>🎯 Dashboard Features</h4>
+                    <ul id="dashboardFeaturesList"></ul>
+                </div>
+                <div class="tech-card">
+                    <h4>🏗️ Infrastructure Upgrades</h4>
+                    <ul id="infrastructureUpgradesList"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KPIs Section -->
+    <section class="kpi-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h2>Key Performance Indicators</h2>
+            </div>
+            <div class="kpi-grid" id="kpiGrid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section class="chatbot-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-icon">💬</div>
+                <h2>Newsletter Intelligence Assistant</h2>
+                <p>Ask questions about the data, statistics, and initiatives from April 2025 - January 2026</p>
+            </div>
+            <div class="chatbot-container">
+                <div class="chat-examples">
+                    <h4>Try asking:</h4>
+                    <button class="example-query" data-query="What was the APAAR ID growth from April 2025 to January 2026?">APAAR ID growth statistics</button>
+                    <button class="example-query" data-query="Compare Kerala and Gujarat's attendance rates">State performance comparison</button>
+                    <button class="example-query" data-query="What activities were conducted in December 2025?">December 2025 activities</button>
+                    <button class="example-query" data-query="Show me the key technical developments">Technical developments</button>
+                    <button class="example-query" data-query="What are the learning outcome improvements?">Learning outcomes</button>
+                </div>
+                <div class="chat-interface">
+                    <textarea
+                        id="chatQuery"
+                        placeholder="Ask a question about the newsletter data, statistics, state performance, APAAR IDs, attendance rates, activities, or any educational initiatives..."
+                        rows="3"
+                    ></textarea>
+                    <button id="chatSubmit" class="submit-btn">Ask Assistant 🔍</button>
+                </div>
+                <div class="chat-response">
+                    <div class="response-header">
+                        <strong>📝 Response:</strong>
+                        <span id="responseMode" class="mode-badge"></span>
+                    </div>
+                    <pre id="chatAnswer">Your answer will appear here...</pre>
+                    <div id="chatSources" class="sources-info"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ministry of Education</h4>
+                    <p>Department of School Education & Literacy</p>
+                    <p>Government of India</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Dashboard Information</h4>
+                    <p>Period: April 2025 - January 2026</p>
+                    <p>Last Updated: January 2026</p>
+                    <p>Data Source: Official MoE Records</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: dashboard@education.gov.in</p>
+                    <p>Website: www.education.gov.in</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ministry of Education, Government of India. All Rights Reserved.</p>
+                <p>Built with AI-powered RAG technology for intelligent data insights</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
 </body>
 </html>
