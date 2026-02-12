@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MoE Smart Education Intelligence Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Ministry of Education — Smart Education Intelligence Platform</h1>
+    <p>Production-safe, RAG-first conference dashboard</p>
+  </header>
+
+  <main>
+    <section class="stats" id="stats"></section>
+    <section class="charts">
+      <canvas id="attendanceChart"></canvas>
+      <canvas id="apaarChart"></canvas>
+    </section>
+    <section class="chat-panel">
+      <h2>Official Newsletter Assistant</h2>
+      <textarea id="query" placeholder="Ask: Compare Kerala and Gujarat attendance"></textarea>
+      <button id="askBtn">Ask Assistant</button>
+      <pre id="answer"></pre>
+      <div id="sources"></div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
