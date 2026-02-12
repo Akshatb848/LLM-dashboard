@@ -129,12 +129,31 @@ class RagSystem:
         for i, score in pairs:
             if i < 0:
                 continue
+
+            # Generate appropriate source based on chunk type
+            metadata = self.chunks[i]["metadata"]
+            chunk_type = metadata.get("type", "month")
+
+            if chunk_type == "month":
+                source = f"official_newsletter::{metadata['data']['month']}"
+            elif chunk_type == "director_message":
+                source = "official_newsletter::director_message"
+            elif chunk_type == "technical":
+                source = "official_newsletter::technical_developments"
+            elif chunk_type == "kpi":
+                category = metadata.get("category", "general")
+                source = f"official_newsletter::kpi_{category}"
+            elif chunk_type == "state_engagement":
+                source = "official_newsletter::state_engagement"
+            else:
+                source = "official_newsletter::general"
+
             results.append(
                 {
                     "score": float(score),
                     "text": self.chunks[i]["text"],
-                    "metadata": self.chunks[i]["metadata"],
-                    "source": f"official_newsletter::{self.chunks[i]['metadata']['month']}",
+                    "metadata": metadata,
+                    "source": source,
                 }
             )
         return results
