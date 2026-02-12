@@ -5,7 +5,7 @@ services:
     plan: free
     rootDir: .
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 75
     envVars:
       - key: PYTHON_VERSION
         value: 3.14.3
@@ -13,3 +13,9 @@ services:
         sync: false
       - key: OLLAMA_MODEL
         value: llama3.1
+    # Health check configuration
+    healthCheckPath: /api/health
+    # Auto-deploy on push
+    autoDeploy: true
+    # Restart policy
+    # Free tier automatically restarts on crashes

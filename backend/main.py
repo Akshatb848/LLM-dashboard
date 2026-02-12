@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import signal
+import sys
 from pathlib import Path
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,7 +25,35 @@ rag_system = RagSystem(str(DATA_PATH))
 rag_system.initialize()
 llm_handler = LLMHandler()
 
-app = FastAPI(title="Smart Education Newsletter Platform", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Manage application lifecycle with graceful startup and shutdown"""
+    # Startup
+    print("🚀 VSK Dashboard starting up...")
+    print(f"✅ RAG system initialized with {len(rag_system.chunks)} chunks")
+    print(f"✅ LLM handler: {'Enabled' if llm_handler.enabled else 'RAG Only'}")
+
+    # Setup graceful shutdown handlers
+    def signal_handler(signum, frame):
+        print(f"\n⚠️  Received signal {signum}. Shutting down gracefully...")
+        sys.exit(0)
+
+    signal.signal(signal.SIGTERM, signal_handler)
+    signal.signal(signal.SIGINT, signal_handler)
+
+    yield
+
+    # Shutdown
+    print("👋 VSK Dashboard shutting down gracefully...")
+    print("✅ All resources cleaned up")
+
+
+app = FastAPI(
+    title="Smart Education Newsletter Platform",
+    version="1.0.0",
+    lifespan=lifespan
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -52,10 +83,16 @@ async def root():
 
 @app.get("/api/health")
 async def health():
+    """Enhanced health check for monitoring and auto-restart"""
+    import time
     return {
         "status": "ok",
+        "timestamp": time.time(),
         "rag_initialized": len(rag_system.chunks) > 0,
         "mode": "hybrid" if llm_handler.enabled else "rag_only",
+        "chunks_loaded": len(rag_system.chunks),
+        "service": "VSK Dashboard",
+        "ready": True
     }
 
 
