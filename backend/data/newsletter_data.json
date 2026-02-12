@@ -1,0 +1,70 @@
+{
+  "months": [
+    {
+      "month": "April 2025",
+      "schools": 915000,
+      "teachers": 4231000,
+      "students": 106700000,
+      "apaar_ids": 120000000,
+      "attendance_rate": 94.2,
+      "highlights": [
+        "National Education Dashboard 2.0 launched",
+        "Teacher tracking expanded to 89.5%",
+        "Digital infrastructure added in 5,000 schools"
+      ],
+      "events": [
+        {"name": "National Education Summit", "date": "April 15, 2025", "description": "Policy review and technology roadmap announced."},
+        {"name": "Teacher Training Workshops", "date": "April 20–22, 2025", "description": "Competency-based pedagogy workshops held across districts."}
+      ],
+      "states": {
+        "Kerala": {"attendance": 96.4, "apaar_coverage": 92.1},
+        "Gujarat": {"attendance": 93.2, "apaar_coverage": 88.4},
+        "Tamil Nadu": {"attendance": 95.1, "apaar_coverage": 90.0}
+      }
+    },
+    {
+      "month": "May 2025",
+      "schools": 918500,
+      "teachers": 4246000,
+      "students": 107200000,
+      "apaar_ids": 124500000,
+      "attendance_rate": 94.6,
+      "highlights": [
+        "Summer learning continuity plan rolled out",
+        "District-wise attendance alerts piloted",
+        "Library modernization completed in 2,300 schools"
+      ],
+      "events": [
+        {"name": "Inclusive Education Conclave", "date": "May 10, 2025", "description": "Focus on assistive technologies for accessibility."},
+        {"name": "School Leadership Forum", "date": "May 24, 2025", "description": "Data-led governance practices shared among states."}
+      ],
+      "states": {
+        "Kerala": {"attendance": 96.7, "apaar_coverage": 93.5},
+        "Gujarat": {"attendance": 93.7, "apaar_coverage": 89.9},
+        "Tamil Nadu": {"attendance": 95.4, "apaar_coverage": 91.3}
+      }
+    },
+    {
+      "month": "June 2025",
+      "schools": 922000,
+      "teachers": 4260000,
+      "students": 107950000,
+      "apaar_ids": 129800000,
+      "attendance_rate": 95.0,
+      "highlights": [
+        "Foundational literacy mission expanded to 120 districts",
+        "Real-time school health monitoring launched",
+        "Skill labs commissioned in 1,450 secondary schools"
+      ],
+      "events": [
+        {"name": "National FLN Review", "date": "June 12, 2025", "description": "Quarterly performance metrics reviewed with state teams."},
+        {"name": "Digital Infrastructure Showcase", "date": "June 27, 2025", "description": "Scalable classroom technology models demonstrated."}
+      ],
+      "states": {
+        "Kerala": {"attendance": 97.1, "apaar_coverage": 94.7},
+        "Gujarat": {"attendance": 94.1, "apaar_coverage": 91.2},
+        "Tamil Nadu": {"attendance": 95.8, "apaar_coverage": 92.5}
+      }
+    }
+  ]
+}
