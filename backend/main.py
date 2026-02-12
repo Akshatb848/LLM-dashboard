@@ -5,12 +5,12 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.admin_handler import AdminHandler
-from api.analytics_handler import AnalyticsHandler
-from api.chat_handler import ChatHandler
-from api.newsletter_handler import NewsletterHandler
-from llm.llm_handler import LLMHandler
-from rag.rag_system import RagSystem
+from backend.api.admin_handler import AdminHandler
+from backend.api.analytics_handler import AnalyticsHandler
+from backend.api.chat_handler import ChatHandler
+from backend.api.newsletter_handler import NewsletterHandler
+from backend.llm.llm_handler import LLMHandler
+from backend.rag.rag_system import RagSystem
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data" / "newsletter_data.json"
