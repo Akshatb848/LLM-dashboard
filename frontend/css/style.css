@@ -816,44 +816,65 @@ section {
     font-family: inherit;
     font-size: 0.95em;
     line-height: 1.6;
-    white-space: pre-wrap;
+    white-space: normal;  /* CRITICAL: Allow HTML rendering */
     word-wrap: break-word;
     overflow-x: auto;
 }
 
-/* Markdown Table Styling in Chat Response */
+/* CRITICAL: Ensure pre elements don't override table rendering */
+#chatAnswer pre {
+    white-space: pre-wrap;
+}
+
+/* Markdown Table Styling - VSK Color Scheme */
 #chatAnswer table {
     border-collapse: collapse;
     width: 100%;
     margin: 15px 0;
     background: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     overflow: hidden;
+    font-size: 0.95em;
+    display: table !important;  /* Force table display */
+}
+
+#chatAnswer table thead {
+    background: var(--gov-blue);
 }
 
 #chatAnswer table th {
-    background: var(--gov-blue);
+    background: var(--gov-blue);      /* VSK Blue #003d82 */
     color: white;
-    padding: 12px;
+    padding: 14px 12px;
     text-align: left;
     font-weight: bold;
-    border: 1px solid var(--border-color);
+    border: 1px solid #002a5c;
+    font-size: 0.95em;
+    letter-spacing: 0.3px;
 }
 
 #chatAnswer table td {
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
+    padding: 12px;
+    border: 1px solid #d0d0d0;
     text-align: left;
+    color: var(--text-primary);
+    background: white;
 }
 
-#chatAnswer table tr:nth-child(even) {
+#chatAnswer table tbody tr:nth-child(even) td {
     background: #f8f9fa;
 }
 
-#chatAnswer table tr:hover {
+#chatAnswer table tbody tr:hover td {
     background: #e8f4f8;
     transition: background 0.3s ease;
+}
+
+/* First column styling */
+#chatAnswer table td:first-child {
+    font-weight: 500;
+    color: var(--gov-blue);
 }
 
 /* Markdown Headings in Chat Response */

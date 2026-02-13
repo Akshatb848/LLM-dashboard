@@ -514,29 +514,46 @@ async function askQuestion() {
 
         const data = await response.json();
 
-        // Render answer with Markdown support (for tables and formatting)
-        if (typeof marked !== 'undefined') {
-            // Configure marked for safe HTML rendering
+        // CRITICAL FIX: Render answer with Markdown support for tables
+        // Check if marked.js is loaded
+        if (typeof marked !== 'undefined' && marked.parse) {
+            // Configure marked for GitHub Flavored Markdown (tables)
             marked.setOptions({
                 breaks: true,
-                gfm: true,  // GitHub Flavored Markdown (tables, etc.)
+                gfm: true,              // Enable GitHub Flavored Markdown
+                tables: true,           // Enable table parsing
                 headerIds: false,
-                mangle: false
+                mangle: false,
+                sanitize: false         // Allow HTML in markdown
             });
-            const htmlContent = marked.parse(data.answer);
-            answerElement.innerHTML = htmlContent;
-            answerElement.style.whiteSpace = 'normal';
+
+            try {
+                // Parse markdown to HTML
+                const htmlContent = marked.parse(data.answer);
+                answerElement.innerHTML = htmlContent;
+
+                // Override white-space to allow proper HTML rendering
+                answerElement.style.whiteSpace = 'normal';
+                answerElement.style.overflowX = 'auto';
+
+                console.log('Markdown parsed successfully with tables');
+            } catch (error) {
+                console.error('Markdown parsing error:', error);
+                // Fallback to plain text
+                answerElement.textContent = data.answer;
+            }
         } else {
-            // Fallback to plain text if marked.js not loaded
+            console.warn('Marked.js not loaded - tables will not render properly');
+            // Fallback to plain text
             answerElement.textContent = data.answer;
         }
 
         modeElement.textContent = data.mode.toUpperCase();
 
         if (data.sources && data.sources.length > 0) {
-            sourcesElement.textContent = `📚 Sources: ${data.sources.join(', ')}`;
+            sourcesElement.textContent = `Sources: ${data.sources.join(', ')}`;
         } else {
-            sourcesElement.textContent = '📚 Sources: Newsletter data from April 2025 - January 2026';
+            sourcesElement.textContent = 'Sources: Newsletter data from April 2025 - January 2026';
         }
     } catch (error) {
         console.error('Error asking question:', error);
