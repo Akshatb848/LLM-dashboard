@@ -514,7 +514,23 @@ async function askQuestion() {
 
         const data = await response.json();
 
-        answerElement.textContent = data.answer;
+        // Render answer with Markdown support (for tables and formatting)
+        if (typeof marked !== 'undefined') {
+            // Configure marked for safe HTML rendering
+            marked.setOptions({
+                breaks: true,
+                gfm: true,  // GitHub Flavored Markdown (tables, etc.)
+                headerIds: false,
+                mangle: false
+            });
+            const htmlContent = marked.parse(data.answer);
+            answerElement.innerHTML = htmlContent;
+            answerElement.style.whiteSpace = 'normal';
+        } else {
+            // Fallback to plain text if marked.js not loaded
+            answerElement.textContent = data.answer;
+        }
+
         modeElement.textContent = data.mode.toUpperCase();
 
         if (data.sources && data.sources.length > 0) {
