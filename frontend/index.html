@@ -71,10 +71,10 @@
             <div class="section-header">
                 <h2>Monthly Activity Calendar</h2>
             </div>
-            <div class="month-selector">
-                <button id="prevMonth" class="nav-btn">Previous Month</button>
+            <div class="month-selector animated-gradient">
+                <button id="prevMonth" class="nav-btn ripple">◀ Previous Month</button>
                 <h3 id="currentMonth">Select Month</h3>
-                <button id="nextMonth" class="nav-btn">Next Month</button>
+                <button id="nextMonth" class="nav-btn ripple">Next Month ▶</button>
             </div>
             <div class="calendar-content">
                 <div class="calendar-stats">
@@ -200,13 +200,15 @@
                 <p>Ask questions about the data, statistics, and initiatives from April 2025 - January 2026</p>
             </div>
             <div class="chatbot-container">
-                <div class="chat-examples">
-                    <h4>Example Queries:</h4>
-                    <button class="example-query" data-query="What was the APAAR ID growth from April 2025 to January 2026?">APAAR ID growth statistics</button>
-                    <button class="example-query" data-query="Compare Kerala and Gujarat attendance rates">State performance comparison</button>
-                    <button class="example-query" data-query="What activities were conducted in December 2025?">December 2025 activities</button>
-                    <button class="example-query" data-query="Show me the key technical developments">Technical developments</button>
-                    <button class="example-query" data-query="What are the learning outcome improvements?">Learning outcomes</button>
+                <div class="chat-examples stagger-container">
+                    <h4>💡 Example Queries:</h4>
+                    <button class="example-query ripple" data-query="What was the APAAR ID growth from April 2025 to January 2026?">📊 APAAR ID growth statistics</button>
+                    <button class="example-query ripple" data-query="Compare Kerala and Gujarat attendance rates">🏆 State performance comparison</button>
+                    <button class="example-query ripple" data-query="What activities were conducted in December 2025?">📅 December 2025 activities</button>
+                    <button class="example-query ripple" data-query="Show me the key technical developments">⚙️ Technical developments</button>
+                    <button class="example-query ripple" data-query="What are the learning outcome improvements?">🎓 Learning outcomes</button>
+                    <button class="example-query ripple" data-query="Tell me about the Viksit Bharat 2047 roadmap">🚀 Viksit Bharat 2047</button>
+                    <button class="example-query ripple" data-query="What was the impact of NEP 2020 implementation?">📜 NEP 2020 Impact</button>
                 </div>
                 <div class="chat-interface">
                     <textarea
@@ -214,7 +216,7 @@
                         placeholder="Ask a question about the newsletter data, statistics, state performance, APAAR IDs, attendance rates, activities, or any educational initiatives..."
                         rows="3"
                     ></textarea>
-                    <button id="chatSubmit" class="submit-btn">Submit Query</button>
+                    <button id="chatSubmit" class="submit-btn ripple">🔍 Submit Query</button>
                 </div>
                 <div class="chat-response">
                     <div class="response-header">

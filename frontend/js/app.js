@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadTechnicalDevelopments();
         loadKPIs();
         initializeChatbot();
+        initializeScrollAnimations();
+        initializeCounterAnimations();
     }
 });
 
@@ -537,4 +539,112 @@ function formatNumber(num) {
         return (num / 1000).toFixed(1) + 'K';
     }
     return num.toString();
+}
+
+// Scroll-based Animations
+function initializeScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+
+                // Trigger counter animation if element has counter
+                if (entry.target.classList.contains('stat-value')) {
+                    animateCounter(entry.target);
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Observe all sections
+    document.querySelectorAll('section').forEach(section => {
+        section.classList.add('animate-on-scroll');
+        observer.observe(section);
+    });
+
+    // Observe cards
+    document.querySelectorAll('.highlight-card, .stat-card, .event-card, .tech-card, .kpi-category').forEach(card => {
+        card.classList.add('animate-on-scroll');
+        observer.observe(card);
+    });
+}
+
+// Counter Animation for Statistics
+function initializeCounterAnimations() {
+    // Will be triggered by intersection observer
+}
+
+function animateCounter(element) {
+    const text = element.textContent;
+    const hasM = text.includes('M');
+    const hasK = text.includes('K');
+    const hasPercent = text.includes('%');
+
+    // Extract number
+    let targetNum = parseFloat(text.replace(/[^\d.]/g, ''));
+    if (isNaN(targetNum)) return;
+
+    let currentNum = 0;
+    const increment = targetNum / 50; // 50 frames
+    const duration = 1000; // 1 second
+    const frameTime = duration / 50;
+
+    element.classList.add('counting');
+
+    const counter = setInterval(() => {
+        currentNum += increment;
+        if (currentNum >= targetNum) {
+            currentNum = targetNum;
+            clearInterval(counter);
+            element.classList.remove('counting');
+        }
+
+        let displayValue = currentNum.toFixed(hasM || hasK ? 1 : 0);
+        if (hasM) displayValue += 'M';
+        if (hasK) displayValue += 'K';
+        if (hasPercent) displayValue += '%';
+
+        element.textContent = displayValue;
+    }, frameTime);
+}
+
+// Add ripple effect to buttons
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('ripple') || e.target.closest('.ripple')) {
+        const button = e.target.classList.contains('ripple') ? e.target : e.target.closest('.ripple');
+        const ripple = document.createElement('span');
+        const rect = button.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple-effect');
+
+        button.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 600);
+    }
+});
+
+// Add glow effect to active elements
+function addGlowToActiveElements() {
+    const currentMonthElement = document.getElementById('currentMonth');
+    if (currentMonthElement) {
+        currentMonthElement.parentElement.classList.add('glow');
+    }
+}
+
+// Enhance chart animations
+function enhanceChartAnimations() {
+    document.querySelectorAll('.chart-container').forEach(container => {
+        container.classList.add('chart-animate');
+    });
 }

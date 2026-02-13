@@ -30,6 +30,26 @@ class RagSystem:
         self.newsletters = self.data.get("months", [])
         self.chunks = self._build_chunks(self.data)
 
+        # Load detailed context file if available
+        context_path = self.data_path.parent / "detailed_context.txt"
+        if context_path.exists():
+            with context_path.open("r", encoding="utf-8") as f:
+                detailed_context = f.read()
+                # Split into sections for better retrieval
+                sections = detailed_context.split("=" * 78)
+                for section in sections:
+                    section = section.strip()
+                    if section and len(section) > 100:
+                        # Further split large sections into paragraphs
+                        paragraphs = section.split("\n\n")
+                        for para in paragraphs:
+                            para = para.strip()
+                            if para and len(para) > 50:
+                                self.chunks.append({
+                                    "text": para,
+                                    "metadata": {"type": "detailed_context", "data": {}}
+                                })
+
         corpus = [chunk["text"] for chunk in self.chunks]
         tfidf = self.vectorizer.fit_transform(corpus)
         dense = tfidf.astype(np.float32).toarray()

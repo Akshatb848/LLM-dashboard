@@ -96,6 +96,37 @@ async def health():
     }
 
 
+# Global variable to track service start time
+import time
+_service_start_time = time.time()
+
+
+@app.get("/api/keep-alive")
+async def keep_alive():
+    """
+    Dedicated endpoint for Render Cron Job keep-alive pings
+    Returns detailed status and logs the ping
+    """
+    current_time = time.time()
+    uptime = current_time - _service_start_time
+
+    print(f"🔔 Keep-alive ping received at {time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"   Uptime: {uptime:.0f} seconds ({uptime/3600:.2f} hours)")
+
+    return {
+        "status": "alive",
+        "message": "VSK Dashboard is active",
+        "timestamp": current_time,
+        "uptime_seconds": uptime,
+        "service": "VSK Dashboard",
+        "rag_initialized": len(rag_system.chunks) > 0,
+        "chunks_loaded": len(rag_system.chunks),
+        "mode": "hybrid" if llm_handler.enabled else "rag_only",
+        "ready": True,
+        "cron_job": "render_native"
+    }
+
+
 @app.get("/api/llm/status")
 async def llm_status():
     return llm_handler.status()
