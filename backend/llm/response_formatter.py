@@ -16,9 +16,9 @@ def add_source_urls(response: str, newsletter_month: str = None) -> str:
 
 **Data Source:**
 Newsletter: {newsletter_month or "VSK Newsletter (April 2025 - January 2026)"}
-📊 Live Data API: {base_url}/api/analytics/full-data
-🏛️ Official Website: {gov_url}/en/documents-reports-category/newsletter
-✅ Verification: Users can access the live API or official Ministry website to verify this information
+Live Data API: {base_url}/api/analytics/full-data
+Official Website: {gov_url}/en/documents-reports-category/newsletter
+Verification: Data can be verified via the API endpoint or official Ministry website
 """
         response += source_section
 
@@ -26,7 +26,7 @@ Newsletter: {newsletter_month or "VSK Newsletter (April 2025 - January 2026)"}
     elif "https://" not in response:
         response = response.replace(
             "**Data Source:**",
-            f"**Data Source:**\n📊 Live Data API: {base_url}/api/analytics/full-data\n🏛️ Official Website: {gov_url}/en/documents-reports-category/newsletter\n"
+            f"**Data Source:**\nLive Data API: {base_url}/api/analytics/full-data\nOfficial Website: {gov_url}/en/documents-reports-category/newsletter\n"
         )
 
     return response
