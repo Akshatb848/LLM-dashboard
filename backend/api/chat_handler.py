@@ -5,11 +5,15 @@ from typing import Any
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-# Import data formatter for auto-table conversion
+# Import data formatter, production cleaner, and source verification
 try:
     from backend.llm.data_formatter import enhance_response_with_tables
+    from backend.llm.production_cleaner import production_grade_cleanup, intelligent_data_visualization
+    from backend.llm.source_verification import get_footer_attribution
 except ImportError:
     from llm.data_formatter import enhance_response_with_tables
+    from llm.production_cleaner import production_grade_cleanup, intelligent_data_visualization
+    from llm.source_verification import get_footer_attribution
 
 
 class ChatRequest(BaseModel):
@@ -244,16 +248,22 @@ Please try asking about:
         if llm_text and llm_text.strip():
             # Auto-format LLM response with tables
             llm_text = enhance_response_with_tables(llm_text, query)
+            # Apply intelligent visualization based on query
+            llm_text = intelligent_data_visualization(llm_text, query)
+            # Clean up for production (remove emojis, AI language)
+            llm_text = production_grade_cleanup(llm_text)
             answer += "\n\nANALYSIS:\n" + llm_text
             mode = "hybrid"
         else:
-            # Even for RAG-only responses, try to auto-format with tables
+            # Even for RAG-only responses, apply enhancements
             answer = enhance_response_with_tables(answer, query)
+            answer = intelligent_data_visualization(answer, query)
 
-        # Add data source attribution
-        answer += "\n\n---\n📚 **Source:** Official Newsletter Data (April 2025 - January 2026)"
-        answer += "\n🏛️ Department of School Education & Literacy, Ministry of Education, Government of India"
-        answer += "\n✅ **Verification:** Data can be verified at https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data"
+        # Final production cleanup for entire response
+        answer = production_grade_cleanup(answer)
+
+        # Add professional footer with verified source URLs
+        answer += "\n\n" + get_footer_attribution()
 
         return {
             "answer": answer,
