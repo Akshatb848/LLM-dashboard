@@ -5,6 +5,12 @@ from typing import Any
 from fastapi import APIRouter
 from pydantic import BaseModel
 
+# Import data formatter for auto-table conversion
+try:
+    from backend.llm.data_formatter import enhance_response_with_tables
+except ImportError:
+    from llm.data_formatter import enhance_response_with_tables
+
 
 class ChatRequest(BaseModel):
     query: str
@@ -236,12 +242,18 @@ Please try asking about:
         mode = "rag_only"
 
         if llm_text and llm_text.strip():
+            # Auto-format LLM response with tables
+            llm_text = enhance_response_with_tables(llm_text, query)
             answer += "\n\nANALYSIS:\n" + llm_text
             mode = "hybrid"
+        else:
+            # Even for RAG-only responses, try to auto-format with tables
+            answer = enhance_response_with_tables(answer, query)
 
         # Add data source attribution
-        answer += "\n\n---\nSource: Official Newsletter Data (April 2025 - January 2026)"
-        answer += "\nDepartment of School Education & Literacy"
+        answer += "\n\n---\n📚 **Source:** Official Newsletter Data (April 2025 - January 2026)"
+        answer += "\n🏛️ Department of School Education & Literacy, Ministry of Education, Government of India"
+        answer += "\n✅ **Verification:** Data can be verified at https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data"
 
         return {
             "answer": answer,
