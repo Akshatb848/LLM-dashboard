@@ -489,6 +489,199 @@ function initializeChatbot() {
     });
 }
 
+// Enhance HTML tables with interactive features
+function enhanceInteractiveTables(container) {
+    const tables = container.querySelectorAll('table');
+
+    tables.forEach(table => {
+        // Add smooth scroll for wide tables
+        table.style.overflowX = 'auto';
+        table.style.display = 'block';
+        table.style.maxWidth = '100%';
+
+        // Add row click animation
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach((row, index) => {
+            // Stagger animation on load
+            row.style.opacity = '0';
+            row.style.transform = 'translateY(10px)';
+
+            setTimeout(() => {
+                row.style.transition = 'all 0.3s ease';
+                row.style.opacity = '1';
+                row.style.transform = 'translateY(0)';
+            }, index * 50);
+
+            // Add click effect
+            row.addEventListener('click', function() {
+                // Remove previous highlights
+                rows.forEach(r => r.style.outline = 'none');
+
+                // Highlight clicked row
+                this.style.outline = '2px solid #FF6600';
+                this.style.outlineOffset = '-2px';
+
+                // Add ripple effect
+                const ripple = document.createElement('div');
+                ripple.style.position = 'absolute';
+                ripple.style.borderRadius = '50%';
+                ripple.style.background = 'rgba(0, 61, 130, 0.3)';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.animation = 'ripple 0.6s ease-out';
+                ripple.style.pointerEvents = 'none';
+
+                this.style.position = 'relative';
+                this.appendChild(ripple);
+
+                setTimeout(() => ripple.remove(), 600);
+            });
+
+            // Add double-click to copy row data
+            row.addEventListener('dblclick', function() {
+                const cells = Array.from(this.querySelectorAll('td'));
+                const rowData = cells.map(cell => cell.textContent.trim()).join('\t');
+
+                navigator.clipboard.writeText(rowData).then(() => {
+                    showCopyNotification('Row data copied!');
+                }).catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+            });
+        });
+
+        // Add column sorting (optional)
+        const headers = table.querySelectorAll('thead th');
+        headers.forEach((header, colIndex) => {
+            header.style.cursor = 'pointer';
+            header.title = 'Click to sort';
+
+            header.addEventListener('click', function() {
+                sortTableByColumn(table, colIndex);
+            });
+        });
+
+        // Add hover tooltips for cells with truncated content
+        const cells = table.querySelectorAll('td, th');
+        cells.forEach(cell => {
+            if (cell.scrollWidth > cell.clientWidth) {
+                cell.title = cell.textContent.trim();
+            }
+        });
+    });
+}
+
+// Sort table by column
+function sortTableByColumn(table, colIndex) {
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    // Determine sort direction
+    const header = table.querySelectorAll('thead th')[colIndex];
+    const isAscending = header.dataset.sortOrder !== 'asc';
+    header.dataset.sortOrder = isAscending ? 'asc' : 'desc';
+
+    // Sort rows
+    rows.sort((a, b) => {
+        const aValue = a.querySelectorAll('td')[colIndex].textContent.trim();
+        const bValue = b.querySelectorAll('td')[colIndex].textContent.trim();
+
+        // Try numeric comparison first
+        const aNum = parseFloat(aValue.replace(/[^0-9.-]/g, ''));
+        const bNum = parseFloat(bValue.replace(/[^0-9.-]/g, ''));
+
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+            return isAscending ? aNum - bNum : bNum - aNum;
+        }
+
+        // Fallback to string comparison
+        return isAscending ?
+            aValue.localeCompare(bValue) :
+            bValue.localeCompare(aValue);
+    });
+
+    // Re-append sorted rows
+    rows.forEach(row => tbody.appendChild(row));
+
+    // Update sort indicators
+    table.querySelectorAll('thead th').forEach(th => {
+        th.style.position = 'relative';
+        const indicator = th.querySelector('.sort-indicator');
+        if (indicator) indicator.remove();
+    });
+
+    const indicator = document.createElement('span');
+    indicator.className = 'sort-indicator';
+    indicator.textContent = isAscending ? ' ▲' : ' ▼';
+    indicator.style.marginLeft = '5px';
+    indicator.style.fontSize = '0.8em';
+    indicator.style.color = '#FF6600';
+    header.appendChild(indicator);
+}
+
+// Show copy notification
+function showCopyNotification(message) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.background = '#28a745';
+    notification.style.color = 'white';
+    notification.style.padding = '12px 20px';
+    notification.style.borderRadius = '6px';
+    notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+    notification.style.zIndex = '10000';
+    notification.style.animation = 'slideInUp 0.3s ease-out';
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideOutDown 0.3s ease-in';
+        setTimeout(() => notification.remove(), 300);
+    }, 2000);
+}
+
+// Add CSS animations for interactive features
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        0% {
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+        }
+        100% {
+            width: 200px;
+            height: 200px;
+            opacity: 0;
+        }
+    }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideOutDown {
+        from {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
 async function askQuestion() {
     const query = document.getElementById('chatQuery').value.trim();
     if (!query) return;
@@ -535,6 +728,9 @@ async function askQuestion() {
                 // Override white-space to allow proper HTML rendering
                 answerElement.style.whiteSpace = 'normal';
                 answerElement.style.overflowX = 'auto';
+
+                // Enhance HTML tables with interactive features
+                enhanceInteractiveTables(answerElement);
 
                 console.log('Markdown parsed successfully with tables');
             } catch (error) {
