@@ -1,11 +1,12 @@
 services:
+  # Main web service
   - type: web
     name: moe-education-dashboard-backend
     env: python
     plan: free
     rootDir: .
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 1 --timeout-keep-alive 75
     envVars:
       - key: PYTHON_VERSION
         value: 3.14.3
@@ -13,3 +14,23 @@ services:
         sync: false
       - key: OLLAMA_MODEL
         value: llama3.1
+    # Health check configuration
+    healthCheckPath: /api/health
+    # Auto-deploy on push
+    autoDeploy: true
+    # Restart policy
+    # Free tier automatically restarts on crashes
+
+  # Keep-alive cron job - Pings the web service every 10 minutes
+  - type: cron
+    name: vsk-dashboard-keepalive
+    env: python
+    plan: free
+    schedule: "*/10 * * * *"  # Every 10 minutes
+    buildCommand: pip install requests
+    startCommand: python keep_alive_cron.py
+    envVars:
+      - key: SERVICE_URL
+        value: https://moe-education-dashboard-backend.onrender.com
+      - key: PYTHON_VERSION
+        value: 3.14.3

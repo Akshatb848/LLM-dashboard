@@ -1,0 +1,65 @@
+name: Keep Service Alive
+
+on:
+  schedule:
+    # Run every 10 minutes to keep the service active
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ping VSK Dashboard Health Endpoint
+        run: |
+          echo "🏥 Checking VSK Dashboard health..."
+
+          # Replace with your actual Render URL
+          # Format: https://your-service-name.onrender.com
+          SERVICE_URL="${{ secrets.SERVICE_URL || 'https://moe-education-dashboard-backend.onrender.com' }}"
+
+          # Ping the health endpoint
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "${SERVICE_URL}/api/health" || echo "000")
+
+          if [ "$RESPONSE" = "200" ]; then
+            echo "✅ Service is healthy (HTTP $RESPONSE)"
+
+            # Get detailed health info
+            curl -s "${SERVICE_URL}/api/health" | jq '.' || true
+          else
+            echo "⚠️  Service returned HTTP $RESPONSE"
+            echo "Attempting to wake up the service..."
+
+            # Try hitting the root endpoint to wake it up
+            curl -s "${SERVICE_URL}/" > /dev/null || true
+
+            # Wait and retry
+            sleep 5
+            RETRY=$(curl -s -o /dev/null -w "%{http_code}" "${SERVICE_URL}/api/health" || echo "000")
+
+            if [ "$RETRY" = "200" ]; then
+              echo "✅ Service recovered on retry (HTTP $RETRY)"
+            else
+              echo "❌ Service still unresponsive (HTTP $RETRY)"
+              exit 1
+            fi
+          fi
+
+          echo "📊 Keep-alive ping completed at $(date)"
+
+      - name: Ping Root Endpoint
+        run: |
+          SERVICE_URL="${{ secrets.SERVICE_URL || 'https://moe-education-dashboard-backend.onrender.com' }}"
+          echo "🌐 Pinging root endpoint..."
+          curl -s -o /dev/null -w "Status: %{http_code}\n" "${SERVICE_URL}/" || true
+
+      - name: Summary
+        run: |
+          echo "### 🎯 Keep-Alive Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Service**: VSK Dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "- **Timestamp**: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: Service pinged successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This workflow prevents the Render free tier from spinning down due to inactivity." >> $GITHUB_STEP_SUMMARY
