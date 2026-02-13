@@ -877,6 +877,125 @@ section {
     color: var(--gov-blue);
 }
 
+/* Enhanced Interactive Table Styling */
+#chatAnswer table tbody tr {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+#chatAnswer table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.2);
+}
+
+#chatAnswer table tbody tr:hover td {
+    background: linear-gradient(90deg, #e8f4f8 0%, #f0f8ff 100%) !important;
+    color: #003d82;
+}
+
+/* Highlight positive/negative values */
+#chatAnswer table td[style*="color: #28a745"],
+#chatAnswer table td[style*="color: rgb(40, 167, 69)"] {
+    font-weight: 600;
+    position: relative;
+}
+
+#chatAnswer table td[style*="color: #28a745"]::before,
+#chatAnswer table td[style*="color: rgb(40, 167, 69)"]::before {
+    content: "▲";
+    margin-right: 4px;
+    font-size: 0.8em;
+    animation: pulse 2s infinite;
+}
+
+#chatAnswer table td[style*="color: #dc3545"],
+#chatAnswer table td[style*="color: rgb(220, 53, 69)"] {
+    font-weight: 600;
+    position: relative;
+}
+
+#chatAnswer table td[style*="color: #dc3545"]::before,
+#chatAnswer table td[style*="color: rgb(220, 53, 69)"]::before {
+    content: "▼";
+    margin-right: 4px;
+    font-size: 0.8em;
+    animation: pulse 2s infinite;
+}
+
+/* Pulse animation for trends */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+/* Table cell focus effect */
+#chatAnswer table td:focus-within {
+    outline: 2px solid var(--gov-orange);
+    outline-offset: -2px;
+    background: #fff8e1 !important;
+}
+
+/* Smooth scrolling for wide tables */
+#chatAnswer table {
+    scroll-behavior: smooth;
+    will-change: transform;
+}
+
+/* Add subtle animation on table load */
+#chatAnswer table {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced header gradient */
+#chatAnswer table thead tr {
+    position: relative;
+    overflow: hidden;
+}
+
+#chatAnswer table thead tr::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+#chatAnswer table:hover thead tr::after {
+    left: 100%;
+}
+
+/* Responsive table styling */
+@media (max-width: 768px) {
+    #chatAnswer table {
+        font-size: 0.85em;
+    }
+
+    #chatAnswer table th,
+    #chatAnswer table td {
+        padding: 10px 8px;
+    }
+}
+
 /* Markdown Headings in Chat Response */
 #chatAnswer h1, #chatAnswer h2, #chatAnswer h3, #chatAnswer h4 {
     color: var(--gov-blue);
