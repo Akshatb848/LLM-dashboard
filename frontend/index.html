@@ -503,44 +503,6 @@
         </div>
     </section>
 
-    <!-- Chatbot Section -->
-    <section class="chatbot-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Newsletter Intelligence Assistant</h2>
-                <p>Ask questions about the data, statistics, and initiatives from April 2025 - January 2026</p>
-            </div>
-            <div class="chatbot-container">
-                <div class="chat-examples stagger-container">
-                    <h4>Example Queries:</h4>
-                    <button class="example-query ripple" data-query="What was the APAAR ID growth from April 2025 to January 2026?">APAAR ID growth statistics</button>
-                    <button class="example-query ripple" data-query="Compare Kerala and Gujarat attendance rates">State performance comparison</button>
-                    <button class="example-query ripple" data-query="What activities were conducted in December 2025?">December 2025 activities</button>
-                    <button class="example-query ripple" data-query="Show me the key technical developments">Technical developments</button>
-                    <button class="example-query ripple" data-query="What are the learning outcome improvements?">Learning outcomes</button>
-                    <button class="example-query ripple" data-query="Tell me about the Viksit Bharat 2047 roadmap">Viksit Bharat 2047</button>
-                    <button class="example-query ripple" data-query="What was the impact of NEP 2020 implementation?">NEP 2020 Impact</button>
-                </div>
-                <div class="chat-interface">
-                    <textarea
-                        id="chatQuery"
-                        placeholder="Ask a question about the newsletter data, statistics, state performance, APAAR IDs, attendance rates, activities, or any educational initiatives..."
-                        rows="3"
-                    ></textarea>
-                    <button id="chatSubmit" class="submit-btn ripple">Submit Query</button>
-                </div>
-                <div class="chat-response">
-                    <div class="response-header">
-                        <strong>Response:</strong>
-                        <span id="responseMode" class="mode-badge"></span>
-                    </div>
-                    <pre id="chatAnswer">Your answer will appear here...</pre>
-                    <div id="chatSources" class="sources-info"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     </div> <!-- End layout-container -->
     </main> <!-- End main-content -->
 
@@ -813,6 +775,9 @@
     <!-- Chat Widget -->
     <script src="js/chat-widget.js"></script>
 
+    <!-- Sidebar Functionality -->
+    <script src="js/sidebar-functionality.js"></script>
+
     <!-- Main App -->
     <script src="js/app.js"></script>
 
@@ -824,6 +789,9 @@
 
             // Initialize chat widget
             initializeChatWidget();
+
+            // Initialize sidebar features
+            initializeSidebarFeatures();
         });
     </script>
 </body>
