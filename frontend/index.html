@@ -649,12 +649,86 @@
                 </div>
             </div>
 
-            <!-- Feedback Widget (Floating) -->
-            <button class="feedback-fab" id="feedbackButton" aria-label="Provide Feedback" title="Share your feedback">
+            <!-- Chat Widget FAB (replaces feedback FAB) -->
+            <button class="chat-fab" id="chatFabButton" aria-label="Open AI Assistant" title="AI Newsletter Assistant">
+                <i class="fas fa-comments"></i>
+            </button>
+
+            <!-- Feedback Button (Secondary FAB) -->
+            <button class="feedback-fab-secondary" id="feedbackButton" aria-label="Provide Feedback" title="Share your feedback">
                 <i class="fas fa-comment-dots"></i>
             </button>
         </div>
     </footer>
+
+    <!-- Chat Widget Panel -->
+    <div class="chat-widget" id="chatWidget" role="dialog" aria-labelledby="chatWidgetTitle" aria-hidden="true">
+        <div class="chat-widget-header">
+            <div class="chat-header-left">
+                <i class="fas fa-robot"></i>
+                <div>
+                    <h3 id="chatWidgetTitle" data-en="Newsletter AI Assistant" data-hi="समाचार पत्र AI सहायक">Newsletter AI Assistant</h3>
+                    <span class="chat-status" data-en="Online" data-hi="ऑनलाइन">Online</span>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button class="chat-minimize" aria-label="Minimize chat" title="Minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="chat-close" aria-label="Close chat" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-widget-body">
+            <!-- Chat Messages Area -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot-message">
+                    <div class="message-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                        <p data-en="Hello! I'm your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026."
+                           data-hi="नमस्ते! मैं आपका समाचार पत्र AI सहायक हूं। मैं अप्रैल 2025 से जनवरी 2026 तक शिक्षा सांख्यिकी, APAAR IDs, उपस्थिति दर, राज्य प्रदर्शन और पहलों के बारे में आपके प्रश्नों में मदद कर सकता हूं।">
+                            Hello! I'm your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Query Buttons -->
+            <div class="quick-queries">
+                <button class="quick-query-btn" data-query="What was the APAAR ID growth from April 2025 to January 2026?"
+                        data-en="APAAR ID Growth" data-hi="APAAR ID वृद्धि">
+                    APAAR ID Growth
+                </button>
+                <button class="quick-query-btn" data-query="Compare Kerala and Gujarat attendance rates"
+                        data-en="State Comparison" data-hi="राज्य तुलना">
+                    State Comparison
+                </button>
+                <button class="quick-query-btn" data-query="Show me key technical developments"
+                        data-en="Technical Updates" data-hi="तकनीकी अपडेट">
+                    Technical Updates
+                </button>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="chat-input-area">
+                <textarea
+                    id="chatInput"
+                    class="chat-input"
+                    rows="2"
+                    placeholder="Ask about education data, statistics, or initiatives..."
+                    data-placeholder-en="Ask about education data, statistics, or initiatives..."
+                    data-placeholder-hi="शिक्षा डेटा, सांख्यिकी या पहल के बारे में पूछें..."
+                ></textarea>
+                <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Feedback Modal -->
     <div class="modal" id="feedbackModal" role="dialog" aria-labelledby="feedbackModalTitle" aria-hidden="true">
@@ -732,6 +806,25 @@
 
     <!-- Marked.js for Markdown rendering (tables, formatting) -->
     <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+
+    <!-- Translation System -->
+    <script src="js/translations.js"></script>
+
+    <!-- Chat Widget -->
+    <script src="js/chat-widget.js"></script>
+
+    <!-- Main App -->
     <script src="js/app.js"></script>
+
+    <!-- Initialize on Load -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize language
+            initializeLanguage();
+
+            // Initialize chat widget
+            initializeChatWidget();
+        });
+    </script>
 </body>
 </html>
