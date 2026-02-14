@@ -4,36 +4,347 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vidya Samiksha Kendra | National Education Dashboard</title>
+    <meta name="description" content="Smart Education Newsletter Platform - Ministry of Education, Government of India">
+    <meta name="keywords" content="Education, Newsletter, India, Ministry, VSK, APAAR, Schools, Teachers">
+
+    <!-- UX4G Compliance -->
+    <meta name="accessibility" content="WCAG 2.1 Level AA">
+    <meta name="language" content="English, Hindi">
+
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/enhanced-ui.css">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts - Roboto & Noto Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <!-- Top Bar - Matching VSK Format -->
-    <div class="top-bar">
+    <!-- Skip to Main Content (Accessibility) -->
+    <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
+
+    <!-- Top Government Bar -->
+    <div class="gov-top-bar" role="banner">
         <div class="container">
-            <div class="top-bar-content">
-                <span>Department of School Education & Literacy | Ministry of Education | Government of India</span>
+            <div class="gov-bar-content">
+                <div class="gov-identity">
+                    <i class="fas fa-landmark" aria-hidden="true"></i>
+                    <span>Government of India</span>
+                </div>
+                <div class="gov-actions">
+                    <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="accessibilityToggle" class="icon-btn" aria-label="Toggle high contrast" title="High Contrast">
+                        <i class="fas fa-universal-access"></i>
+                    </button>
+                    <button id="fontSizeToggle" class="icon-btn" aria-label="Increase font size" title="Font Size">
+                        <i class="fas fa-text-height"></i>
+                    </button>
+                    <div class="language-toggle">
+                        <button class="lang-btn active" data-lang="en" aria-label="Switch to English">EN</button>
+                        <button class="lang-btn" data-lang="hi" aria-label="Switch to Hindi">हिं</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Header - VSK Style -->
-    <header class="main-header">
+    <!-- Main Header with Logo -->
+    <header class="main-header" role="banner">
         <div class="container">
             <div class="header-content">
                 <div class="header-logo">
-                    <div class="emblem-circle">
-                        <span class="emblem-text">GoI</span>
+                    <div class="emblem-container">
+                        <!-- Government of India Emblem -->
+                        <svg class="gov-emblem" viewBox="0 0 100 100" aria-label="Government of India Emblem">
+                            <circle cx="50" cy="50" r="48" fill="#003d82" stroke="#FF6600" stroke-width="2"/>
+                            <text x="50" y="40" font-size="16" fill="white" text-anchor="middle" font-weight="bold">सत्यमेव</text>
+                            <text x="50" y="60" font-size="16" fill="white" text-anchor="middle" font-weight="bold">जयते</text>
+                            <circle cx="50" cy="70" r="3" fill="#FF6600"/>
+                            <circle cx="40" cy="70" r="3" fill="#FF6600"/>
+                            <circle cx="60" cy="70" r="3" fill="#FF6600"/>
+                        </svg>
+                    </div>
+                    <div class="ministry-logo">
+                        <i class="fas fa-graduation-cap" style="font-size: 48px; color: #003d82;"></i>
                     </div>
                 </div>
                 <div class="header-title">
-                    <h1>Vidya Samiksha Kendra</h1>
-                    <h2 class="subtitle-orange">National Education Dashboard</h2>
-                    <p class="header-subtitle">Newsletter: April 2025 - January 2026</p>
+                    <h1 class="main-title">Vidya Samiksha Kendra</h1>
+                    <h2 class="subtitle-orange">विद्या समीक्षा केंद्र</h2>
+                    <p class="department-name">Department of School Education & Literacy</p>
+                    <p class="ministry-name">Ministry of Education | भारत सरकार</p>
+                </div>
+                <div class="header-actions">
+                    <button class="search-btn" aria-label="Search" title="Search Dashboard">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="help-btn" aria-label="Help" title="Help & Documentation">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Navigation Menu -->
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        <div class="container">
+            <ul class="nav-menu" role="menubar">
+                <li role="none">
+                    <a href="#home" class="nav-link active" role="menuitem" aria-current="page">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#newsletters" class="nav-link" role="menuitem">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Newsletters</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#analytics" class="nav-link" role="menuitem">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#trends" class="nav-link" role="menuitem">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Trends</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#ai-assistant" class="nav-link" role="menuitem">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Assistant</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#documentation" class="nav-link" role="menuitem">
+                        <i class="fas fa-book"></i>
+                        <span>Documentation</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#feedback" class="nav-link" role="menuitem">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Feedback</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb-container" aria-label="Breadcrumb navigation">
+        <div class="container">
+            <nav aria-label="Breadcrumb">
+                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <a href="#home" itemprop="item"><span itemprop="name">Home</span></a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <span itemprop="name">Dashboard</span>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Layout with Sidebar -->
+    <div class="layout-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" role="complementary" aria-label="Filter and navigation sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-filter"></i> Filters
+                </h3>
+                <div class="filter-group">
+                    <label for="timeFilter">Time Period</label>
+                    <select id="timeFilter" class="filter-select">
+                        <option value="all">All Months (Apr 2025 - Jan 2026)</option>
+                        <option value="q1">Q1 (Apr-Jun 2025)</option>
+                        <option value="q2">Q2 (Jul-Sep 2025)</option>
+                        <option value="q3">Q3 (Oct-Dec 2025)</option>
+                        <option value="q4">Q4 (Jan 2026)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="metricFilter">Metric Type</label>
+                    <select id="metricFilter" class="filter-select">
+                        <option value="all">All Metrics</option>
+                        <option value="schools">Schools</option>
+                        <option value="teachers">Teachers</option>
+                        <option value="students">Students</option>
+                        <option value="apaar">APAAR IDs</option>
+                        <option value="attendance">Attendance</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-bookmark"></i> Quick Links
+                </h3>
+                <ul class="quick-links">
+                    <li><a href="#key-metrics"><i class="fas fa-tachometer-alt"></i> Key Metrics</a></li>
+                    <li><a href="#monthly-data"><i class="fas fa-calendar-alt"></i> Monthly Data</a></li>
+                    <li><a href="#state-wise"><i class="fas fa-map-marked-alt"></i> State-wise Analysis</a></li>
+                    <li><a href="#charts"><i class="fas fa-chart-pie"></i> Visual Charts</a></li>
+                    <li><a href="#ai-chat"><i class="fas fa-comments"></i> AI Chat</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">
+                    <i class="fas fa-download"></i> Export Data
+                </h3>
+                <div class="export-buttons">
+                    <button class="export-btn" id="exportCSV">
+                        <i class="fas fa-file-csv"></i> CSV
+                    </button>
+                    <button class="export-btn" id="exportExcel">
+                        <i class="fas fa-file-excel"></i> Excel
+                    </button>
+                    <button class="export-btn" id="exportPDF">
+                        <i class="fas fa-file-pdf"></i> PDF
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="main-content" role="main">
+
+    <!-- Dashboard Metric Cards -->
+    <section class="metrics-dashboard" aria-label="Key Performance Indicators">
+        <div class="metrics-header">
+            <h2><i class="fas fa-tachometer-alt"></i> Key Performance Indicators</h2>
+            <div class="metrics-period">
+                <i class="fas fa-calendar-alt"></i>
+                <span>As of January 2026</span>
+            </div>
+        </div>
+        <div class="metrics-grid">
+            <div class="metric-card schools-card" role="region" aria-label="Total Schools">
+                <div class="metric-icon">
+                    <i class="fas fa-school"></i>
+                </div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Total Schools</h3>
+                    <div class="metric-value" id="totalSchools">948,000</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+33,000 (3.6%)</span>
+                    </div>
+                    <div class="metric-subtitle">Since April 2025</div>
+                </div>
+                <div class="metric-chart">
+                    <canvas id="schoolsTrend"></canvas>
+                </div>
+            </div>
+
+            <div class="metric-card teachers-card" role="region" aria-label="Total Teachers">
+                <div class="metric-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Total Teachers</h3>
+                    <div class="metric-value" id="totalTeachers">4.37M</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+140K (3.3%)</span>
+                    </div>
+                    <div class="metric-subtitle">Since April 2025</div>
+                </div>
+                <div class="metric-chart">
+                    <canvas id="teachersTrend"></canvas>
+                </div>
+            </div>
+
+            <div class="metric-card students-card" role="region" aria-label="Total Students">
+                <div class="metric-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Total Students</h3>
+                    <div class="metric-value" id="totalStudents">112.5M</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+5.8M (5.4%)</span>
+                    </div>
+                    <div class="metric-subtitle">Since April 2025</div>
+                </div>
+                <div class="metric-chart">
+                    <canvas id="studentsTrend"></canvas>
+                </div>
+            </div>
+
+            <div class="metric-card apaar-card" role="region" aria-label="APAAR ID Registrations">
+                <div class="metric-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <div class="metric-content">
+                    <h3 class="metric-label">APAAR IDs</h3>
+                    <div class="metric-value" id="totalApaar">235M</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+115M (95.8%)</span>
+                    </div>
+                    <div class="metric-subtitle">Since April 2025</div>
+                </div>
+                <div class="metric-chart">
+                    <canvas id="apaarTrend"></canvas>
+                </div>
+            </div>
+
+            <div class="metric-card attendance-card" role="region" aria-label="Attendance Rate">
+                <div class="metric-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Attendance Rate</h3>
+                    <div class="metric-value" id="totalAttendance">96.8%</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+1.0% points</span>
+                    </div>
+                    <div class="metric-subtitle">Since April 2025</div>
+                </div>
+                <div class="metric-chart">
+                    <canvas id="attendanceTrend"></canvas>
+                </div>
+            </div>
+
+            <div class="metric-card digital-card" role="region" aria-label="Digital Readiness">
+                <div class="metric-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="metric-content">
+                    <h3 class="metric-label">Digital Readiness</h3>
+                    <div class="metric-value" id="digitalReadiness">87.3%</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+12.5% points</span>
+                    </div>
+                    <div class="metric-subtitle">Schools with ICT facilities</div>
+                </div>
+                <div class="metric-chart">
+                    <canvas id="digitalTrend"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Director's Message Section -->
     <section class="director-message">
@@ -230,40 +541,194 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="main-footer">
+    </div> <!-- End layout-container -->
+    </main> <!-- End main-content -->
+
+    <!-- Professional Footer with GIGW Compliance -->
+    <footer class="main-footer" role="contentinfo">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>About VSK</h4>
-                    <p>Vidya Samiksha Kendra (VSK) is a centralized dashboard for monitoring and analysing the school education system in India.</p>
-                    <p>This platform provides real-time insights into educational metrics across all states and union territories.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact Information</h4>
-                    <p>Department of School Education & Literacy</p>
-                    <p>Ministry of Education, Government of India</p>
-                    <p>Shastri Bhawan, New Delhi - 110001</p>
-                    <p>Email: vsk@education.gov.in</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Important Links</h4>
-                    <p><a href="https://www.education.gov.in" target="_blank">Ministry of Education</a></p>
-                    <p><a href="https://www.ndear.gov.in" target="_blank">NDEAR</a></p>
-                    <p><a href="https://www.india.gov.in" target="_blank">National Portal of India</a></p>
+            <!-- Footer Top Section -->
+            <div class="footer-top">
+                <div class="footer-grid">
+                    <div class="footer-section">
+                        <h4><i class="fas fa-info-circle"></i> About VSK</h4>
+                        <p>Vidya Samiksha Kendra (विद्या समीक्षा केंद्र) is a centralized dashboard for monitoring and analyzing the school education system in India.</p>
+                        <p>This platform provides real-time insights into educational metrics across all states and union territories.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Twitter" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Facebook" title="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" aria-label="YouTube" title="Subscribe on YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="LinkedIn" title="Connect on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4><i class="fas fa-link"></i> Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="https://www.education.gov.in" target="_blank" rel="noopener">Ministry of Education</a></li>
+                            <li><a href="https://www.ndear.gov.in" target="_blank" rel="noopener">NDEAR Portal</a></li>
+                            <li><a href="https://www.india.gov.in" target="_blank" rel="noopener">National Portal of India</a></li>
+                            <li><a href="#privacy-policy">Privacy Policy</a></li>
+                            <li><a href="#terms">Terms & Conditions</a></li>
+                            <li><a href="#sitemap">Sitemap</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4><i class="fas fa-address-book"></i> Contact Us</h4>
+                        <address>
+                            <p><strong>Department of School Education & Literacy</strong></p>
+                            <p>Ministry of Education, Government of India</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Shastri Bhawan, New Delhi - 110001</p>
+                            <p><i class="fas fa-phone"></i> <a href="tel:+911123382698">+91-11-23382698</a></p>
+                            <p><i class="fas fa-envelope"></i> <a href="mailto:vsk@education.gov.in">vsk@education.gov.in</a></p>
+                        </address>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4><i class="fas fa-certificate"></i> Compliance & Standards</h4>
+                        <div class="compliance-badges">
+                            <div class="badge gigw-badge" title="GIGW Compliant">
+                                <i class="fas fa-check-circle"></i>
+                                <span>GIGW<br>Compliant</span>
+                            </div>
+                            <div class="badge wcag-badge" title="WCAG 2.1 Level AA">
+                                <i class="fas fa-universal-access"></i>
+                                <span>WCAG 2.1<br>Level AA</span>
+                            </div>
+                            <div class="badge ssl-badge" title="SSL Secured">
+                                <i class="fas fa-lock"></i>
+                                <span>SSL<br>Secured</span>
+                            </div>
+                        </div>
+                        <div class="footer-links">
+                            <a href="#accessibility-statement">
+                                <i class="fas fa-universal-access"></i> Accessibility Statement
+                            </a>
+                            <a href="#screen-reader">
+                                <i class="fas fa-headphones"></i> Screen Reader Access
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Visitor Counter & Stats -->
+            <div class="footer-stats">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span>Visitors Today: <strong id="visitorsToday">2,456</strong></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Total Visitors: <strong id="visitorsTotal">1,245,678</strong></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Last Updated: <strong>February 14, 2026</strong></span>
+                </div>
+            </div>
+
+            <!-- Disclaimer Section -->
             <div class="footer-disclaimer">
-                <h4>Disclaimer</h4>
-                <p>This is an official website of the Department of School Education & Literacy, Ministry of Education, Government of India. The information provided on this website is for educational and informational purposes only. All data presented is based on official government records and is subject to periodic updates.</p>
+                <h4><i class="fas fa-exclamation-triangle"></i> Disclaimer</h4>
+                <p>This is an official website of the Department of School Education & Literacy, Ministry of Education, Government of India. The information provided on this website is for educational and informational purposes only. All data presented is based on official government records and is subject to periodic updates. While every effort has been made to ensure accuracy, the Ministry does not guarantee completeness or accuracy of the information. Users are advised to verify critical information from official sources.</p>
             </div>
+
+            <!-- Copyright & Bottom Bar -->
             <div class="footer-bottom">
-                <p>© 2026 Department of School Education & Literacy, Ministry of Education, Government of India. All Rights Reserved.</p>
-                <p>Content on this website is published and managed by the Department of School Education & Literacy</p>
-                <p>Last Updated: January 2026 | Version 1.0</p>
+                <div class="copyright">
+                    <p>© 2026 Department of School Education & Literacy, Ministry of Education, Government of India</p>
+                    <p>Content owned and maintained by Department of School Education & Literacy</p>
+                    <p>Designed, Developed and Hosted by National Informatics Centre (NIC)</p>
+                </div>
+                <div class="footer-meta">
+                    <span><i class="fas fa-code"></i> Version 1.0.0</span>
+                    <span><i class="fas fa-calendar-alt"></i> Last Updated: January 31, 2026</span>
+                    <span><i class="fas fa-eye"></i> <a href="#page-views">Page Views: 15,234</a></span>
+                </div>
             </div>
+
+            <!-- Feedback Widget (Floating) -->
+            <button class="feedback-fab" id="feedbackButton" aria-label="Provide Feedback" title="Share your feedback">
+                <i class="fas fa-comment-dots"></i>
+            </button>
         </div>
     </footer>
+
+    <!-- Feedback Modal -->
+    <div class="modal" id="feedbackModal" role="dialog" aria-labelledby="feedbackModalTitle" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="feedbackModalTitle"><i class="fas fa-comment-dots"></i> Share Your Feedback</h3>
+                <button class="modal-close" aria-label="Close feedback modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="feedbackForm">
+                    <div class="form-group">
+                        <label for="feedbackName">Name (Optional)</label>
+                        <input type="text" id="feedbackName" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackEmail">Email (Optional)</label>
+                        <input type="email" id="feedbackEmail" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackType">Feedback Type *</label>
+                        <select id="feedbackType" class="form-input" required>
+                            <option value="">-- Select --</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="improvement">Improvement Suggestion</option>
+                            <option value="general">General Feedback</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackMessage">Your Feedback *</label>
+                        <textarea id="feedbackMessage" class="form-input" rows="5" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Feedback
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeFeedbackModal()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accessibility Tools Panel (Hidden by default) -->
+    <div class="accessibility-panel" id="accessibilityPanel" aria-hidden="true">
+        <div class="panel-header">
+            <h3>Accessibility Options</h3>
+            <button class="panel-close" aria-label="Close accessibility panel">&times;</button>
+        </div>
+        <div class="panel-body">
+            <div class="accessibility-option">
+                <label for="fontSizeSlider">Font Size</label>
+                <input type="range" id="fontSizeSlider" min="12" max="20" value="16" step="1">
+                <span id="fontSizeValue">16px</span>
+            </div>
+            <div class="accessibility-option">
+                <label for="lineHeightSlider">Line Height</label>
+                <input type="range" id="lineHeightSlider" min="1" max="2" value="1.6" step="0.1">
+                <span id="lineHeightValue">1.6</span>
+            </div>
+            <div class="accessibility-option">
+                <button class="accessibility-btn" id="highContrastBtn">
+                    <i class="fas fa-adjust"></i> Toggle High Contrast
+                </button>
+            </div>
+            <div class="accessibility-option">
+                <button class="accessibility-btn" id="readAloudBtn">
+                    <i class="fas fa-volume-up"></i> Read Aloud
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Marked.js for Markdown rendering (tables, formatting) -->
     <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>

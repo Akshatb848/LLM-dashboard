@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         initializeChatbot();
         initializeScrollAnimations();
         initializeCounterAnimations();
+        initializeEnhancedUI();
+        initializeMetricCards();
+        initializeAccessibility();
     }
 });
 
@@ -877,3 +880,452 @@ function enhanceChartAnimations() {
         container.classList.add('chart-animate');
     });
 }
+
+// ========== ENHANCED UI FUNCTIONALITY ==========
+
+// Initialize Enhanced UI Features
+function initializeEnhancedUI() {
+    initializeThemeToggle();
+    initializeLanguageToggle();
+    initializeFeedbackModal();
+    initializeExportButtons();
+    initializeNavigationHighlight();
+    initializeSearchFunctionality();
+}
+
+// Theme Toggle (Dark/Light Mode)
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+
+    document.body.classList.toggle('dark-mode', savedTheme === 'dark');
+    updateThemeIcon(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-mode');
+            const newTheme = isDark ? 'dark' : 'light';
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            // Announce to screen readers
+            announceToScreenReader(`Switched to ${newTheme} mode`);
+        });
+    }
+}
+
+function updateThemeIcon(theme) {
+    const icon = document.querySelector('#themeToggle i');
+    if (icon) {
+        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+}
+
+// Language Toggle
+function initializeLanguageToggle() {
+    const langButtons = document.querySelectorAll('.lang-btn');
+    
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            langButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const lang = btn.dataset.lang;
+            document.documentElement.lang = lang;
+            
+            // Here you would typically load language translations
+            announceToScreenReader(`Language changed to ${lang === 'en' ? 'English' : 'Hindi'}`);
+        });
+    });
+}
+
+// Feedback Modal
+function initializeFeedbackModal() {
+    const feedbackBtn = document.getElementById('feedbackButton');
+    const modal = document.getElementById('feedbackModal');
+    const closeBtn = modal?.querySelector('.modal-close');
+    const form = document.getElementById('feedbackForm');
+
+    if (feedbackBtn && modal) {
+        feedbackBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            modal.setAttribute('aria-hidden', 'false');
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            closeFeedbackModal();
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeFeedbackModal();
+            }
+        });
+
+        form?.addEventListener('submit', handleFeedbackSubmit);
+    }
+}
+
+function closeFeedbackModal() {
+    const modal = document.getElementById('feedbackModal');
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+}
+
+function handleFeedbackSubmit(e) {
+    e.preventDefault();
+    
+    const formData = {
+        name: document.getElementById('feedbackName').value,
+        email: document.getElementById('feedbackEmail').value,
+        type: document.getElementById('feedbackType').value,
+        message: document.getElementById('feedbackMessage').value
+    };
+
+    // Here you would send feedback to backend
+    console.log('Feedback submitted:', formData);
+    
+    showNotification('Thank you for your feedback!', 'success');
+    closeFeedbackModal();
+    e.target.reset();
+}
+
+// Export Buttons
+function initializeExportButtons() {
+    document.getElementById('exportCSV')?.addEventListener('click', () => exportData('csv'));
+    document.getElementById('exportExcel')?.addEventListener('click', () => exportData('excel'));
+    document.getElementById('exportPDF')?.addEventListener('click', () => exportData('pdf'));
+}
+
+function exportData(format) {
+    if (!newsletterData) {
+        showNotification('No data available to export', 'error');
+        return;
+    }
+
+    switch(format) {
+        case 'csv':
+            exportToCSV();
+            break;
+        case 'excel':
+            exportToExcel();
+            break;
+        case 'pdf':
+            exportToPDF();
+            break;
+    }
+}
+
+function exportToCSV() {
+    const data = newsletterData.monthly_data;
+    let csv = 'Month,Schools,Teachers,Students,APAAR IDs,Attendance\n';
+    
+    data.forEach(month => {
+        csv += `${month.month},${month.schools},${month.teachers},${month.students},${month.apaar_ids},${month.attendance_rate}\n`;
+    });
+
+    downloadFile(csv, 'newsletter-data.csv', 'text/csv');
+    showNotification('CSV exported successfully!', 'success');
+}
+
+function exportToExcel() {
+    // Simplified Excel export (would need library like SheetJS for full functionality)
+    exportToCSV(); // Fallback to CSV
+    showNotification('Excel export functionality coming soon!', 'info');
+}
+
+function exportToPDF() {
+    showNotification('PDF export functionality coming soon!', 'info');
+}
+
+function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Navigation Highlight
+function initializeNavigationHighlight() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+            
+            const target = link.getAttribute('href').substring(1);
+            scrollToSection(target);
+        });
+    });
+}
+
+function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// Search Functionality
+function initializeSearchFunctionality() {
+    const searchBtn = document.querySelector('.search-btn');
+    
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            const query = prompt('Search the dashboard:');
+            if (query) {
+                performSearch(query);
+            }
+        });
+    }
+}
+
+function performSearch(query) {
+    // Simplified search - would be enhanced with proper search implementation
+    console.log('Searching for:', query);
+    showNotification(`Searching for "${query}"...`, 'info');
+}
+
+// Initialize Metric Cards with Mini Charts
+function initializeMetricCards() {
+    if (!newsletterData) return;
+
+    const monthlyData = newsletterData.monthly_data;
+    
+    // Create mini sparkline charts
+    createMiniChart('schoolsTrend', monthlyData.map(m => m.schools), '#FF6600');
+    createMiniChart('teachersTrend', monthlyData.map(m => m.teachers), '#28a745');
+    createMiniChart('studentsTrend', monthlyData.map(m => m.students), '#003d82');
+    createMiniChart('apaarTrend', monthlyData.map(m => m.apaar_ids), '#ffc107');
+    createMiniChart('attendanceTrend', monthlyData.map(m => parseFloat(m.attendance_rate)), '#17a2b8');
+}
+
+function createMiniChart(canvasId, data, color) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Array(data.length).fill(''),
+            datasets: [{
+                data: data,
+                borderColor: color,
+                backgroundColor: `${color}33`,
+                borderWidth: 2,
+                pointRadius: 0,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: false }
+            },
+            scales: {
+                x: { display: false },
+                y: { display: false }
+            }
+        }
+    });
+}
+
+// Initialize Accessibility Features
+function initializeAccessibility() {
+    initializeAccessibilityPanel();
+    initializeFontSizeControl();
+    initializeHighContrast();
+    initializeKeyboardNavigation();
+}
+
+function initializeAccessibilityPanel() {
+    const accessibilityToggle = document.getElementById('accessibilityToggle');
+    const panel = document.getElementById('accessibilityPanel');
+    const closeBtn = panel?.querySelector('.panel-close');
+
+    if (accessibilityToggle && panel) {
+        accessibilityToggle.addEventListener('click', () => {
+            const isActive = panel.classList.toggle('active');
+            panel.setAttribute('aria-hidden', !isActive);
+        });
+
+        closeBtn?.addEventListener('click', () => {
+            panel.classList.remove('active');
+            panel.setAttribute('aria-hidden', 'true');
+        });
+    }
+
+    // Font Size Slider
+    const fontSizeSlider = document.getElementById('fontSizeSlider');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+
+    if (fontSizeSlider) {
+        fontSizeSlider.addEventListener('input', (e) => {
+            const size = e.target.value;
+            document.body.style.fontSize = `${size}px`;
+            fontSizeValue.textContent = `${size}px`;
+            localStorage.setItem('fontSize', size);
+        });
+
+        // Load saved font size
+        const savedSize = localStorage.getItem('fontSize') || 16;
+        document.body.style.fontSize = `${savedSize}px`;
+        fontSizeSlider.value = savedSize;
+        fontSizeValue.textContent = `${savedSize}px`;
+    }
+
+    // Line Height Slider
+    const lineHeightSlider = document.getElementById('lineHeightSlider');
+    const lineHeightValue = document.getElementById('lineHeightValue');
+
+    if (lineHeightSlider) {
+        lineHeightSlider.addEventListener('input', (e) => {
+            const height = e.target.value;
+            document.body.style.lineHeight = height;
+            lineHeightValue.textContent = height;
+            localStorage.setItem('lineHeight', height);
+        });
+
+        // Load saved line height
+        const savedHeight = localStorage.getItem('lineHeight') || 1.6;
+        document.body.style.lineHeight = savedHeight;
+        lineHeightSlider.value = savedHeight;
+        lineHeightValue.textContent = savedHeight;
+    }
+}
+
+function initializeFontSizeControl() {
+    const fontSizeToggle = document.getElementById('fontSizeToggle');
+    let currentSize = parseInt(localStorage.getItem('fontSize')) || 16;
+
+    if (fontSizeToggle) {
+        fontSizeToggle.addEventListener('click', () => {
+            currentSize = currentSize >= 20 ? 14 : currentSize + 2;
+            document.body.style.fontSize = `${currentSize}px`;
+            localStorage.setItem('fontSize', currentSize);
+            announceToScreenReader(`Font size changed to ${currentSize} pixels`);
+        });
+    }
+}
+
+function initializeHighContrast() {
+    const highContrastBtn = document.getElementById('accessibilityToggle');
+    const savedContrast = localStorage.getItem('highContrast') === 'true';
+
+    document.body.classList.toggle('high-contrast', savedContrast);
+
+    if (highContrastBtn) {
+        highContrastBtn.addEventListener('click', () => {
+            const isHighContrast = document.body.classList.toggle('high-contrast');
+            localStorage.setItem('highContrast', isHighContrast);
+            announceToScreenReader(`High contrast mode ${isHighContrast ? 'enabled' : 'disabled'}`);
+        });
+    }
+}
+
+function initializeKeyboardNavigation() {
+    // Escape key to close modals
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeFeedbackModal();
+            const accessibilityPanel = document.getElementById('accessibilityPanel');
+            if (accessibilityPanel) {
+                accessibilityPanel.classList.remove('active');
+                accessibilityPanel.setAttribute('aria-hidden', 'true');
+            }
+        }
+    });
+
+    // Tab key focus management
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+            document.body.classList.add('keyboard-navigation');
+        }
+    });
+
+    document.addEventListener('mousedown', () => {
+        document.body.classList.remove('keyboard-navigation');
+    });
+}
+
+// Notification System
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    const icon = document.createElement('i');
+    icon.className = type === 'success' ? 'fas fa-check-circle' :
+                     type === 'error' ? 'fas fa-exclamation-circle' :
+                     'fas fa-info-circle';
+    
+    notification.prepend(icon);
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: ${type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        animation: slideInUp 0.3s ease-out;
+        max-width: 400px;
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideOutDown 0.3s ease-in';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Screen Reader Announcements
+function announceToScreenReader(message) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('role', 'status');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
+    
+    document.body.appendChild(announcement);
+    setTimeout(() => announcement.remove(), 1000);
+}
+
+// Add CSS for screen reader only content
+const srOnlyStyle = document.createElement('style');
+srOnlyStyle.textContent = `
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0,0,0,0);
+        white-space: nowrap;
+        border: 0;
+    }
+    
+    body.keyboard-navigation *:focus {
+        outline: 3px solid #FF6600;
+        outline-offset: 2px;
+    }
+`;
+document.head.appendChild(srOnlyStyle);
+
+console.log('✅ Enhanced UI features initialized');
