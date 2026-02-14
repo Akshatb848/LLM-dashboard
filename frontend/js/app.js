@@ -924,17 +924,21 @@ function updateThemeIcon(theme) {
 // Language Toggle
 function initializeLanguageToggle() {
     const langButtons = document.querySelectorAll('.lang-btn');
-    
+
     langButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             langButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             const lang = btn.dataset.lang;
-            document.documentElement.lang = lang;
-            
-            // Here you would typically load language translations
-            announceToScreenReader(`Language changed to ${lang === 'en' ? 'English' : 'Hindi'}`);
+
+            // Use translation system
+            if (typeof switchLanguage === 'function') {
+                switchLanguage(lang);
+            } else {
+                document.documentElement.lang = lang;
+                announceToScreenReader(`Language changed to ${lang === 'en' ? 'English' : 'Hindi'}`);
+            }
         });
     });
 }
