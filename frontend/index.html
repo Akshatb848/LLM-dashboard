@@ -28,15 +28,21 @@
     <!-- Skip to Main Content (Accessibility) -->
     <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
 
-    <!-- Top Government Bar -->
+    <!-- GIGW Compliant: Top Government Identity Bar -->
     <div class="gov-top-bar" role="banner">
         <div class="container">
             <div class="gov-bar-content">
                 <div class="gov-identity">
-                    <i class="fas fa-landmark" aria-hidden="true"></i>
-                    <span>Government of India | भारत सरकार</span>
+                    <span class="gov-identity-text">भारत सरकार | Government of India</span>
                 </div>
                 <div class="gov-actions">
+                    <!-- Accessibility: Font Size Controls (GIGW requirement) -->
+                    <div class="font-size-controls" role="group" aria-label="Font size controls">
+                        <button class="font-size-btn" id="fontDecrease" aria-label="Decrease font size" title="Decrease Text Size">A<sup>-</sup></button>
+                        <button class="font-size-btn" id="fontDefault" aria-label="Default font size" title="Default Text Size">A</button>
+                        <button class="font-size-btn" id="fontIncrease" aria-label="Increase font size" title="Increase Text Size">A<sup>+</sup></button>
+                    </div>
+                    <span class="gov-bar-separator" aria-hidden="true">|</span>
                     <!-- Theme Picker -->
                     <div class="theme-picker" id="themePicker">
                         <button class="icon-btn theme-trigger" aria-label="Choose Theme" title="Choose Theme Layout">
@@ -70,7 +76,7 @@
         </div>
     </div>
 
-    <!-- Main Header with Logo -->
+    <!-- GIGW Compliant: Main Header — National Emblem (left) | Title (center) | NCERT Logo (right) -->
     <header class="main-header" role="banner">
         <div class="container">
             <div class="header-content">
@@ -92,19 +98,28 @@
                         <p class="ministry-logo-goi">Ministry of Education | Government of India</p>
                     </div>
                 </div>
+
+                <!-- Center: Title block (Hindi above English per GIGW norms) -->
                 <div class="header-title">
+                    <h2 class="subtitle-hindi">राष्ट्रीय विद्या समीक्षा केंद्र</h2>
                     <h1 class="main-title">Rashtriya Vidya Samiksha Kendra</h1>
-                    <h2 class="subtitle-orange">राष्ट्रीय विद्या समीक्षा केंद्र</h2>
-                    <p class="department-name">Department of School Education & Literacy | CIET-NCERT</p>
-                    <p class="ministry-name">Ministry of Education | भारत सरकार</p>
+                    <p class="department-name">स्कूल शिक्षा और साक्षरता विभाग | Department of School Education & Literacy</p>
+                    <p class="ministry-name">शिक्षा मंत्रालय, भारत सरकार | Ministry of Education, Government of India</p>
                 </div>
-                <div class="header-actions">
-                    <button class="search-btn" aria-label="Search" title="Search Dashboard">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <button class="help-btn" aria-label="Help" title="Help & Documentation">
-                        <i class="fas fa-question-circle"></i>
-                    </button>
+
+                <!-- Right: NCERT Logo + Header Actions -->
+                <div class="header-logo-right">
+                    <a href="https://ncert.nic.in" target="_blank" rel="noopener noreferrer" class="ncert-link" aria-label="NCERT - National Council of Educational Research and Training">
+                        <img src="assets/ncert-logo.svg" alt="NCERT Logo - National Council of Educational Research and Training" class="ncert-logo-img" width="75" height="75">
+                    </a>
+                    <div class="header-actions">
+                        <button class="search-btn" aria-label="Search" title="Search Dashboard">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <button class="help-btn" aria-label="Help" title="Help & Documentation">
+                            <i class="fas fa-question-circle"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
