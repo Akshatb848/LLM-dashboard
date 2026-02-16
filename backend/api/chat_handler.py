@@ -29,169 +29,260 @@ class ChatHandler:
         self.router.add_api_route("/chat", self.chat, methods=["POST"])
 
     def _format_monthly_data(self, month_data: dict[str, Any]) -> str:
-        """Format monthly newsletter data"""
-        lines = [
-            f"[{month_data['month']}] Education Intelligence Report",
-            "",
-            "KEY STATISTICS:",
-            f"• Schools: {month_data['schools']:,}",
-            f"• Teachers: {month_data['teachers']:,}",
-            f"• Students: {month_data['students']:,}",
-            f"• APAAR IDs Generated: {month_data['apaar_ids']:,}",
-            f"• Attendance Rate: {month_data['attendance_rate']}%",
-            "",
-            "HIGHLIGHTS:",
+        """Format monthly newsletter data with HTML tables for production display"""
+        month = month_data.get('month', 'Unknown')
+
+        # Key Statistics table
+        stats_rows = ""
+        stats = [
+            ("Schools", f"{month_data.get('schools', 0):,}"),
+            ("Teachers", f"{month_data.get('teachers', 0):,}"),
+            ("Students", f"{month_data.get('students', 0):,}"),
+            ("APAAR IDs Generated", f"{month_data.get('apaar_ids', 0):,}"),
+            ("Attendance Rate", f"{month_data.get('attendance_rate', 0)}%"),
         ]
-        lines.extend([f"• {h}" for h in month_data.get("highlights", [])])
+        for i, (metric, value) in enumerate(stats):
+            bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
+            stats_rows += (
+                f'<tr style="background:{bg};">'
+                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{metric}</td>'
+                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{value}</td>'
+                f'</tr>'
+            )
 
-        if month_data.get("activities"):
-            lines.append("")
-            lines.append("MAJOR ACTIVITIES:")
-            lines.extend([f"• {a}" for a in month_data.get("activities", [])[:5]])
+        result = f"<strong>{month} - Education Intelligence Report</strong>\n\n"
+        result += (
+            '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
+            'border-radius:8px;overflow:hidden;">'
+            '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
+            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Metric</th>'
+            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Value</th>'
+            f'</tr></thead><tbody>{stats_rows}</tbody></table>'
+        )
 
-        if month_data.get("events"):
-            lines.append("")
-            lines.append("NOTABLE EVENTS:")
-            for event in month_data.get("events", [])[:3]:
-                lines.append(f"• {event['name']} ({event['date']})")
-                lines.append(f"  {event['description']}")
-                lines.append(f"  Participants: {event.get('participants', 'N/A'):,}")
+        # Highlights
+        highlights = month_data.get("highlights", [])
+        if highlights:
+            result += "\n\n<strong>Key Highlights:</strong>\n<ul>"
+            for h in highlights:
+                result += f"<li>{h}</li>"
+            result += "</ul>"
 
-        if month_data.get("states"):
-            lines.append("")
-            lines.append("STATE PERFORMANCE:")
-            for state, data in list(month_data.get("states", {}).items())[:5]:
-                lines.append(f"• {state}: Attendance {data['attendance']}%, APAAR Coverage {data['apaar_coverage']}%")
+        # State performance table
+        states = month_data.get("states", {})
+        if states:
+            state_rows = ""
+            for i, (state, data) in enumerate(states.items()):
+                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
+                att_color = "#28a745" if data.get('attendance', 0) >= 95 else "#333"
+                state_rows += (
+                    f'<tr style="background:{bg};">'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{state}</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:{att_color};font-weight:600;">{data.get("attendance", "N/A")}%</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{data.get("apaar_coverage", "N/A")}%</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{data.get("schools", 0):,}</td>'
+                    f'</tr>'
+                )
+            result += (
+                '\n\n<strong>State Performance:</strong>\n'
+                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
+                'border-radius:8px;overflow:hidden;">'
+                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">State</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Attendance</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">APAAR Coverage</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Schools</th>'
+                f'</tr></thead><tbody>{state_rows}</tbody></table>'
+            )
 
-        return "\n".join(lines)
+        return result
 
     def _format_technical_data(self, tech_data: dict[str, Any]) -> str:
-        """Format technical developments data"""
-        lines = [
-            "TECHNICAL DEVELOPMENTS & INFRASTRUCTURE",
-            "",
-            "DASHBOARD FEATURES:",
-        ]
+        """Format technical developments data with HTML"""
+        if not isinstance(tech_data, dict):
+            return "Technical development data is not available."
 
-        if isinstance(tech_data, dict):
-            features = tech_data.get("dashboard_features", [])
-            lines.extend([f"• {f}" for f in features[:6]])
+        result = "<strong>Technical Developments & Infrastructure</strong>\n\n"
 
-            if tech_data.get("infrastructure_upgrades"):
-                lines.append("")
-                lines.append("INFRASTRUCTURE UPGRADES:")
-                lines.extend([f"• {u}" for u in tech_data.get("infrastructure_upgrades", [])[:6]])
+        # Dashboard Features
+        features = tech_data.get("dashboard_features", [])
+        if features:
+            result += "<strong>Dashboard Features:</strong>\n<ul>"
+            for f in features[:8]:
+                result += f"<li>{f}</li>"
+            result += "</ul>\n\n"
 
-            if tech_data.get("apaar_milestones"):
-                lines.append("")
-                lines.append("APAAR MILESTONES:")
-                milestones = tech_data.get("apaar_milestones", [])
-                if milestones:
-                    first = milestones[0]
-                    last = milestones[-1]
-                    lines.append(f"• Registration Growth: {first['registrations']:,} to {last['registrations']:,}")
-                    lines.append(f"• State Coverage: {first['states_active']} to {last['states_active']} states/UTs")
-                    total_growth = last['registrations'] - first['registrations']
-                    lines.append(f"• Total Growth: {total_growth:,} new registrations")
+        # Infrastructure Upgrades
+        upgrades = tech_data.get("infrastructure_upgrades", [])
+        if upgrades:
+            result += "<strong>Infrastructure Upgrades:</strong>\n<ul>"
+            for u in upgrades[:8]:
+                result += f"<li>{u}</li>"
+            result += "</ul>\n\n"
 
-        return "\n".join(lines)
+        # APAAR Milestones as table
+        milestones = tech_data.get("apaar_milestones", [])
+        if milestones:
+            rows = ""
+            for i, m in enumerate(milestones):
+                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
+                rows += (
+                    f'<tr style="background:{bg};">'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{m.get("month", "N/A")}</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{m.get("registrations", 0):,}</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{m.get("states_active", 0)}</td>'
+                    f'</tr>'
+                )
+            result += (
+                '<strong>APAAR Registration Milestones:</strong>\n'
+                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
+                'border-radius:8px;overflow:hidden;">'
+                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Month</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Registrations</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">States Active</th>'
+                f'</tr></thead><tbody>{rows}</tbody></table>'
+            )
+
+        return result
 
     def _format_kpi_data(self, kpi_data: dict[str, Any], category: str) -> str:
-        """Format KPI data"""
-        category_name = category.replace("_", " ").upper()
-        lines = [
-            f"KEY PERFORMANCE INDICATORS: {category_name}",
-            "",
-        ]
+        """Format KPI data as HTML table"""
+        category_name = category.replace("_", " ").title()
 
-        if isinstance(kpi_data, dict):
-            for key, value in kpi_data.items():
-                label = key.replace("_", " ").title()
-                lines.append(f"• {label}: {value}")
+        if not isinstance(kpi_data, dict) or not kpi_data:
+            return f"KPI data for {category_name} is not available."
 
-        return "\n".join(lines)
+        rows = ""
+        for i, (key, value) in enumerate(kpi_data.items()):
+            label = key.replace("_", " ").title()
+            bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
+            rows += (
+                f'<tr style="background:{bg};">'
+                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{label}</td>'
+                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{value}</td>'
+                f'</tr>'
+            )
+
+        return (
+            f'<strong>Key Performance Indicators: {category_name}</strong>\n\n'
+            '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
+            'border-radius:8px;overflow:hidden;">'
+            '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
+            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Indicator</th>'
+            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Value</th>'
+            f'</tr></thead><tbody>{rows}</tbody></table>'
+        )
 
     def _format_director_message(self, msg_data: dict[str, Any]) -> str:
         """Format director's message"""
-        lines = [
-            "DIRECTOR'S MESSAGE",
-            "",
-            f"From: {msg_data.get('name', 'Director')}",
-            f"Position: {msg_data.get('position', 'Director, Department of School Education & Literacy')}",
-            "",
-            msg_data.get('message', ''),
-        ]
-        return "\n".join(lines)
+        name = msg_data.get('name', 'Director')
+        position = msg_data.get('position', 'Director, Department of School Education & Literacy')
+        message = msg_data.get('message', '')
+
+        # Format message paragraphs
+        paragraphs = message.split('\n\n')
+        formatted_msg = ''.join(f'<p style="margin-bottom:12px;line-height:1.8;">{p.strip()}</p>' for p in paragraphs if p.strip())
+
+        return (
+            f'<strong>Director\'s Message</strong>\n\n'
+            f'<p><strong>From:</strong> {name}<br>'
+            f'<strong>Position:</strong> {position}</p>\n\n'
+            f'{formatted_msg}'
+        )
 
     def _format_state_engagement(self, engagement_data: dict[str, Any]) -> str:
-        """Format state engagement data"""
-        lines = [
-            "STATE ENGAGEMENT OVERVIEW",
-            "",
-        ]
+        """Format state engagement data with HTML tables"""
+        if not isinstance(engagement_data, dict):
+            return "State engagement data is not available."
 
-        if isinstance(engagement_data, dict):
-            summary = engagement_data.get("correspondence_summary", {})
-            if summary:
-                lines.append("SUMMARY:")
-                lines.append(f"• Total States/UTs: {summary.get('total_states_uts', 0)}")
-                lines.append(f"• Active Participants: {summary.get('active_participants', 0)}")
-                lines.append(f"• MOUs Signed: {summary.get('mou_signed', 0)}")
-                lines.append(f"• Advanced Implementation: {summary.get('implementation_advanced', 0)}")
-                lines.append(f"• Pilot Phase: {summary.get('pilot_phase', 0)}")
+        result = "<strong>State Engagement Overview</strong>\n\n"
 
-            top_states = engagement_data.get("top_performing_states", [])
-            if top_states:
-                lines.append("")
-                lines.append("TOP PERFORMING STATES:")
-                for state in top_states[:5]:
-                    lines.append(f"• {state['name']}:")
-                    lines.append(f"  - APAAR Coverage: {state['apaar_coverage']}%")
-                    lines.append(f"  - Attendance: {state['attendance']}%")
-                    lines.append(f"  - Digital Readiness: {state['digital_readiness']}%")
+        # Summary table
+        summary = engagement_data.get("correspondence_summary", {})
+        if summary:
+            summary_items = [
+                ("Total States/UTs", str(summary.get('total_states_uts', 0))),
+                ("Active Participants", str(summary.get('active_participants', 0))),
+                ("MOUs Signed", str(summary.get('mou_signed', 0))),
+                ("Advanced Implementation", str(summary.get('implementation_advanced', 0))),
+                ("Pilot Phase", str(summary.get('pilot_phase', 0))),
+            ]
+            rows = ""
+            for i, (label, val) in enumerate(summary_items):
+                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
+                rows += (
+                    f'<tr style="background:{bg};">'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{label}</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{val}</td>'
+                    f'</tr>'
+                )
+            result += (
+                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
+                'border-radius:8px;overflow:hidden;">'
+                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Parameter</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Value</th>'
+                f'</tr></thead><tbody>{rows}</tbody></table>\n\n'
+            )
 
-            consent = engagement_data.get("consent_framework", {})
-            if consent:
-                lines.append("")
-                lines.append("CONSENT FRAMEWORK:")
-                lines.append(f"• Total Consents Collected: {consent.get('total_consents_collected', 0):,}")
-                lines.append(f"• Digital Consent Rate: {consent.get('digital_consent_rate', 0)}%")
-                lines.append(f"• Parent Awareness Programs: {consent.get('parent_awareness_programs', 0):,}")
-                lines.append(f"• Data Privacy Compliance: {consent.get('data_privacy_compliance', 'N/A')}")
+        # Top performing states table
+        top_states = engagement_data.get("top_performing_states", [])
+        if top_states:
+            state_rows = ""
+            for i, state in enumerate(top_states[:5]):
+                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
+                state_rows += (
+                    f'<tr style="background:{bg};">'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{state.get("name", "N/A")}</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{state.get("apaar_coverage", "N/A")}%</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{state.get("attendance", "N/A")}%</td>'
+                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{state.get("digital_readiness", "N/A")}%</td>'
+                    f'</tr>'
+                )
+            result += (
+                '<strong>Top Performing States:</strong>\n'
+                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
+                'border-radius:8px;overflow:hidden;">'
+                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">State</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">APAAR Coverage</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Attendance</th>'
+                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Digital Readiness</th>'
+                f'</tr></thead><tbody>{state_rows}</tbody></table>'
+            )
 
-        return "\n".join(lines)
+        return result
 
     def _format_generic_answer(self, results: list[dict[str, Any]], query: str) -> str:
         """Format a generic answer based on search results"""
-        lines = [
-            f"RESPONSE: {query}",
-            "",
-            "Based on official newsletter data:",
-            "",
-        ]
+        result = f"<strong>Based on official newsletter data:</strong>\n\n<ul>"
 
-        for i, result in enumerate(results[:3], 1):
-            text = result.get("text", "")
+        for res in results[:3]:
+            text = res.get("text", "")
             if text:
                 text = text.replace("\n", " ").strip()
-                if len(text) > 350:
-                    text = text[:347] + "..."
-                lines.append(f"{i}. {text}")
-                lines.append("")
+                if len(text) > 400:
+                    text = text[:397] + "..."
+                result += f"<li style='margin-bottom:12px;line-height:1.6;'>{text}</li>"
 
-        return "\n".join(lines)
+        result += "</ul>"
+        return result
 
     def _render_no_data(self) -> str:
-        return """No relevant information found in the official newsletter data.
-
-Please try asking about:
-• Monthly statistics and activities (April 2025 - January 2026)
-• APAAR ID generation progress and milestones
-• State performance and attendance rates
-• Technical developments and infrastructure
-• Learning outcomes and key performance indicators
-• Director's message and vision
-• Major events and initiatives"""
+        return (
+            "<strong>No relevant information found in the official newsletter data.</strong>\n\n"
+            "<p>Please try asking about:</p>\n"
+            "<ul>"
+            "<li>Monthly statistics and activities (April 2025 - January 2026)</li>"
+            "<li>APAAR ID generation progress and milestones</li>"
+            "<li>State performance and attendance rates</li>"
+            "<li>Technical developments and infrastructure</li>"
+            "<li>Learning outcomes and key performance indicators</li>"
+            "<li>Director's message and vision</li>"
+            "<li>Major events and initiatives</li>"
+            "</ul>"
+        )
 
     async def chat(self, payload: ChatRequest) -> dict[str, Any]:
         query = payload.query.strip()

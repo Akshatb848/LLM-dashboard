@@ -352,23 +352,23 @@ def detect_chapter(query: str) -> str:
     return "general"
 
 def get_structured_prompt(query: str, context: str, language: str = "en") -> str:
-    """Generate a structured prompt for VSK Newsletter queries - English only"""
+    """Generate a structured prompt for VSK Newsletter queries"""
     query_type = detect_query_type(query)
     chapter = detect_chapter(query)
 
     prompt = f"""{ENHANCED_SYSTEM_PROMPT}
 
-📋 QUERY ANALYSIS:
+QUERY ANALYSIS:
 Query Type: {query_type.upper().replace('_', ' ')}
 Relevant Section: {chapter.upper().replace('_', ' ')}
 
-📚 NEWSLETTER CONTEXT:
+NEWSLETTER CONTEXT:
 {context}
 
-❓ USER QUERY:
+USER QUERY:
 {query}
 
-📊 YOUR RESPONSE (Professional English, Data-Focused):
+YOUR RESPONSE (Professional English, Data-Focused, HTML Tables for all numerical data):
 """
 
     return prompt
