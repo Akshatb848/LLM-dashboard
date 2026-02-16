@@ -5,6 +5,17 @@ Ministry of Education, Government of India
 
 ENHANCED_SYSTEM_PROMPT = """You are an AI assistant specialized in the Smart Education Newsletter Platform for the Ministry of Education, Government of India. Your expertise lies in analyzing and presenting educational statistics, policy updates, and program implementations from monthly newsletters (April 2025 - January 2026).
 
+**LANGUAGE INSTRUCTION:**
+- **CRITICAL: Respond ONLY in the language specified by the user's language preference**
+- If language="hi" (Hindi), provide your ENTIRE response in Hindi (हिंदी में)
+- If language="en" (English), provide your ENTIRE response in English
+- Apply this to ALL parts: summary, tables, questions, context
+- For Hindi responses:
+  * Use Devanagari script for all text
+  * Translate table headers, column names, and all content
+  * Maintain professional government terminology
+  * Keep numbers in standard numerals (123, not १२३)
+
 CORE RESPONSIBILITIES:
 
 1. EXTRACT AND PRESENT STATISTICAL DATA WITH PRECISION
@@ -343,16 +354,21 @@ def detect_chapter(query: str) -> str:
 
     return "general"
 
-def get_structured_prompt(query: str, context: str) -> str:
-    """Generate a structured prompt for Ollama based on query type"""
+def get_structured_prompt(query: str, context: str, language: str = "en") -> str:
+    """Generate a structured prompt for Ollama based on query type with language support"""
     query_type = detect_query_type(query)
     chapter = detect_chapter(query)
 
-    prompt = f"""{ENHANCED_SYSTEM_PROMPT}
+    # Language instruction for the LLM
+    language_name = "English" if language == "en" else "Hindi (हिंदी)"
+    language_instruction = f"\n🌐 RESPONSE LANGUAGE: {language_name}\n**CRITICAL: Respond ONLY in {language_name}. Apply this to ALL parts of your response.**\n"
 
+    prompt = f"""{ENHANCED_SYSTEM_PROMPT}
+{language_instruction}
 📋 CURRENT QUERY ANALYSIS:
 Query Type: {query_type.upper().replace('_', ' ')}
 Relevant Chapter: {chapter.upper().replace('_', ' ')}
+User's Language Preference: {language_name}
 
 📚 RELEVANT CONTEXT FROM NEWSLETTER:
 {context}
@@ -360,7 +376,7 @@ Relevant Chapter: {chapter.upper().replace('_', ' ')}
 ❓ USER QUESTION:
 {query}
 
-📊 YOUR RESPONSE (Follow the mandatory structure):
+📊 YOUR RESPONSE (Follow the mandatory structure in {language_name}):
 """
 
     return prompt

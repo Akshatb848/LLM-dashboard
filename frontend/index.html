@@ -133,12 +133,6 @@
                         <span>Documentation</span>
                     </a>
                 </li>
-                <li role="none">
-                    <a href="#feedback" class="nav-link" role="menuitem">
-                        <i class="fas fa-comment-dots"></i>
-                        <span>Feedback</span>
-                    </a>
-                </li>
             </ul>
         </div>
     </nav>
@@ -217,13 +211,7 @@
                 </h3>
                 <div class="export-buttons">
                     <button class="export-btn" id="exportCSV">
-                        <i class="fas fa-file-csv"></i> CSV
-                    </button>
-                    <button class="export-btn" id="exportExcel">
-                        <i class="fas fa-file-excel"></i> Excel
-                    </button>
-                    <button class="export-btn" id="exportPDF">
-                        <i class="fas fa-file-pdf"></i> PDF
+                        <i class="fas fa-file-csv"></i> Export CSV
                     </button>
                 </div>
             </div>
@@ -378,64 +366,6 @@
             </div>
             <div class="highlights-grid" id="highlightsSummary">
                 <!-- Dynamically populated -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Monthly Calendar Layout -->
-    <section class="calendar-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Monthly Activity Calendar</h2>
-            </div>
-            <div class="month-selector animated-gradient">
-                <button id="prevMonth" class="nav-btn ripple">◀ Previous Month</button>
-                <h3 id="currentMonth">Select Month</h3>
-                <button id="nextMonth" class="nav-btn ripple">Next Month ▶</button>
-            </div>
-            <div class="calendar-content">
-                <div class="calendar-stats">
-                    <div class="stat-card">
-                        <div class="stat-label">Schools</div>
-                        <div class="stat-value" id="monthSchools">-</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Teachers</div>
-                        <div class="stat-value" id="monthTeachers">-</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Students</div>
-                        <div class="stat-value" id="monthStudents">-</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">APAAR IDs</div>
-                        <div class="stat-value" id="monthApaar">-</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Attendance Rate</div>
-                        <div class="stat-value" id="monthAttendance">-</div>
-                    </div>
-                </div>
-
-                <div class="month-highlights">
-                    <h4>Key Highlights</h4>
-                    <ul id="monthHighlightsList"></ul>
-                </div>
-
-                <div class="month-activities">
-                    <h4>Activities & Initiatives</h4>
-                    <ul id="monthActivitiesList"></ul>
-                </div>
-
-                <div class="month-events">
-                    <h4>Major Events</h4>
-                    <div id="monthEventsList" class="events-grid"></div>
-                </div>
-
-                <div class="month-states">
-                    <h4>State Performance</h4>
-                    <div id="monthStatesTable"></div>
-                </div>
             </div>
         </div>
     </section>
@@ -689,50 +619,6 @@
                 <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">
                     <i class="fas fa-paper-plane"></i>
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Feedback Modal -->
-    <div class="modal" id="feedbackModal" role="dialog" aria-labelledby="feedbackModalTitle" aria-hidden="true">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="feedbackModalTitle"><i class="fas fa-comment-dots"></i> Share Your Feedback</h3>
-                <button class="modal-close" aria-label="Close feedback modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="feedbackForm">
-                    <div class="form-group">
-                        <label for="feedbackName">Name (Optional)</label>
-                        <input type="text" id="feedbackName" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="feedbackEmail">Email (Optional)</label>
-                        <input type="email" id="feedbackEmail" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="feedbackType">Feedback Type *</label>
-                        <select id="feedbackType" class="form-input" required>
-                            <option value="">-- Select --</option>
-                            <option value="bug">Bug Report</option>
-                            <option value="feature">Feature Request</option>
-                            <option value="improvement">Improvement Suggestion</option>
-                            <option value="general">General Feedback</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="feedbackMessage">Your Feedback *</label>
-                        <textarea id="feedbackMessage" class="form-input" rows="5" required></textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Submit Feedback
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="closeFeedbackModal()">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
