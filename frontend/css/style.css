@@ -153,32 +153,16 @@ body {
     gap: 20px;
 }
 
-.header-logo {
+/* GIGW: Left emblem */
+.header-logo-left {
     flex-shrink: 0;
     animation: scaleIn 0.8s ease-out;
 }
 
-.emblem-circle {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--gov-blue), var(--gov-orange));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid var(--gov-gold);
-    transition: transform 0.3s ease;
-}
-
-.emblem-circle:hover {
-    transform: rotate(360deg) scale(1.1);
-    transition: transform 0.6s ease;
-}
-
-.emblem-text {
-    color: white;
-    font-size: 1.5em;
-    font-weight: bold;
+/* GIGW: Right logo area */
+.header-logo-right {
+    flex-shrink: 0;
+    animation: scaleIn 0.8s ease-out 0.3s both;
 }
 
 .header-title {
@@ -187,16 +171,16 @@ body {
 
 .header-title h1 {
     color: var(--gov-blue);
-    font-size: 2em;
+    font-size: 1.8em;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .header-title h2 {
     color: var(--gov-orange);
-    font-size: 1.3em;
-    font-weight: 600;
-    margin-bottom: 5px;
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 3px;
 }
 
 .header-subtitle {
