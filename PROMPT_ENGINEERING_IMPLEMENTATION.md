@@ -63,7 +63,7 @@ All requirements from the enhanced RAG system prompt have been successfully impl
 - **Status:** Fully Implemented
 - **Location:** `backend/llm/response_formatter.py` → `add_source_urls()`
 - **URLs Included:**
-  - 📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+  - 📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
   - 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
   - ✅ Verification instructions
 
@@ -297,7 +297,7 @@ As of January 2026, there are 948,000 schools registered across India, represent
 
 **Data Source:**
 Newsletter: January 2026, Section: Infrastructure Statistics
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 ✅ Verification: Users can access the live API or official Ministry website
 
@@ -337,7 +337,7 @@ APAAR IDs surged from 120 million (April 2025) to 235 million (January 2026), ac
 
 **Data Source:**
 Newsletter: Multi-month data (April 2025 - January 2026), Section: Digital Initiatives
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 
 **Related Questions You Might Ask:**

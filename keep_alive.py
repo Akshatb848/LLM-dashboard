@@ -7,7 +7,7 @@ This script pings the VSK Dashboard service periodically to prevent
 it from spinning down on Render's free tier.
 
 Usage:
-    python keep_alive.py --url https://your-service.onrender.com
+    python keep_alive.py --url https://vsk-newsletter.in
 
 The script will ping the service every 10 minutes and log the results.
 """
@@ -113,7 +113,7 @@ def main():
     )
     parser.add_argument(
         "--url",
-        default="https://moe-education-dashboard-backend.onrender.com",
+        default="https://vsk-newsletter.in",
         help="Service URL (default: Render deployment)"
     )
     parser.add_argument(

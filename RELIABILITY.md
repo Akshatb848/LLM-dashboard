@@ -100,10 +100,10 @@ Features:
 pip install requests
 
 # Run with default settings (pings every 10 minutes)
-python keep_alive.py --url https://your-service.onrender.com
+python keep_alive.py --url https://vsk-newsletter.in
 
 # Custom ping interval (5 minutes)
-python keep_alive.py --url https://your-service.onrender.com --interval 300
+python keep_alive.py --url https://vsk-newsletter.in --interval 300
 ```
 
 **Features**:
@@ -124,17 +124,17 @@ python keep_alive.py --url https://your-service.onrender.com --interval 300
 1. **UptimeRobot** (https://uptimerobot.com)
    - 50 monitors free
    - 5-minute check intervals
-   - Setup: Add monitor → HTTP(s) → `https://your-service.onrender.com/api/health`
+   - Setup: Add monitor → HTTP(s) → `https://vsk-newsletter.in/api/health`
 
 2. **Cron-Job.org** (https://cron-job.org)
    - Unlimited free HTTP requests
    - 1-minute minimum interval
-   - Setup: Create job → URL: `https://your-service.onrender.com/api/health`
+   - Setup: Create job → URL: `https://vsk-newsletter.in/api/health`
 
 3. **Better Uptime** (https://betteruptime.com)
    - 10 monitors free
    - 30-second check intervals
-   - Setup: Create monitor → HTTP → `https://your-service.onrender.com/api/health`
+   - Setup: Create monitor → HTTP → `https://vsk-newsletter.in/api/health`
 
 4. **Freshping** (https://www.freshworks.com/website-monitoring/)
    - 50 checks free
@@ -144,8 +144,8 @@ python keep_alive.py --url https://your-service.onrender.com --interval 300
 ## 📊 Monitoring Dashboard
 
 Access your service health:
-- **Health endpoint**: `https://your-service.onrender.com/api/health`
-- **LLM status**: `https://your-service.onrender.com/api/llm/status`
+- **Health endpoint**: `https://vsk-newsletter.in/api/health`
+- **LLM status**: `https://vsk-newsletter.in/api/llm/status`
 - **Render dashboard**: https://dashboard.render.com
 
 ## 🚀 Deployment Best Practices
@@ -160,7 +160,7 @@ git push origin main
 ### Verify Health
 ```bash
 # Check if service is responding
-curl https://your-service.onrender.com/api/health
+curl https://vsk-newsletter.in/api/health
 
 # Expected response:
 {

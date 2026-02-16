@@ -99,7 +99,7 @@ Tables must be visually appealing with VSK colors, gradients, shadows, and hover
 
 **Data Source:**
 Newsletter: [Month Year], Section: [Section Name]
-Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 Verification: Users can access the live API or official Ministry website to verify this information
 
