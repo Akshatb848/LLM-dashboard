@@ -1,12 +1,13 @@
 /**
- * Enhanced Chat Widget with Language Selection & Beautiful Responses
+ * Enhanced Chat Widget - English Only Version
+ * Ministry of Education Newsletter AI Assistant
  */
 
-// Chat language preference
+// Force English language only
 let chatLanguage = 'en';
-let hasSelectedLanguage = false;
+let hasSelectedLanguage = true; // Always true for English-only mode
 
-// Override the original initializeChatWidget to add language selection
+// Override the original initializeChatWidget
 const originalInitializeChatWidget = window.initializeChatWidget;
 
 window.initializeChatWidget = function() {
@@ -15,17 +16,9 @@ window.initializeChatWidget = function() {
         originalInitializeChatWidget();
     }
 
-    // Add language selection UI
-    addLanguageSelectionToChatWidget();
-
     // Override sendChatMessage to include language in API request
     const originalSendChatMessage = window.sendChatMessage;
     window.sendChatMessage = async function() {
-        if (!hasSelectedLanguage) {
-            showNotification('Please select your preferred language first', 'info');
-            return;
-        }
-
         const chatInput = document.getElementById('chatInput');
         const chatMessages = document.getElementById('chatMessages');
         const chatSendBtn = document.getElementById('chatSendBtn');
@@ -47,7 +40,7 @@ window.initializeChatWidget = function() {
         const typingIndicator = addTypingIndicator();
 
         try {
-            // Send request to backend WITH LANGUAGE
+            // Send request to backend - always English
             const response = await fetch(`${API_BASE}/api/chat`, {
                 method: 'POST',
                 headers: {
@@ -55,7 +48,7 @@ window.initializeChatWidget = function() {
                 },
                 body: JSON.stringify({
                     query: message,
-                    language: chatLanguage // CRITICAL: Include language preference
+                    language: 'en' // Always English
                 })
             });
 
@@ -75,10 +68,7 @@ window.initializeChatWidget = function() {
         } catch (error) {
             console.error('Chat error:', error);
             typingIndicator.remove();
-            const errorMsg = chatLanguage === 'hi' ?
-                'क्षमा करें, एक त्रुटि हुई। कृपया पुनः प्रयास करें।' :
-                'Sorry, I encountered an error. Please try again.';
-            addChatMessage(errorMsg, 'bot');
+            addChatMessage('Sorry, I encountered an error. Please try again.', 'bot');
         } finally {
             // Re-enable input
             chatInput.disabled = false;
@@ -87,127 +77,6 @@ window.initializeChatWidget = function() {
         }
     };
 };
-
-// Add language selection to chat widget
-function addLanguageSelectionToChatWidget() {
-    const chatMessages = document.getElementById('chatMessages');
-    if (!chatMessages) return;
-
-    // Clear welcome message
-    chatMessages.innerHTML = '';
-
-    // Add language selection message
-    const langSelectMessage = document.createElement('div');
-    langSelectMessage.className = 'chat-message bot-message language-selection-message';
-    langSelectMessage.innerHTML = `
-        <div class="message-avatar">
-            <i class="fas fa-robot"></i>
-        </div>
-        <div class="message-content">
-            <p style="margin-bottom: 16px; font-weight: 600; color: #003d82;">
-                Welcome to Newsletter AI Assistant!<br>
-                समाचार पत्र AI सहायक में आपका स्वागत है!
-            </p>
-            <p style="margin-bottom: 12px;">Please select your preferred language for responses:</p>
-            <p style="margin-bottom: 16px;">कृपया प्रतिक्रियाओं के लिए अपनी पसंदीदा भाषा चुनें:</p>
-            <div class="language-selection-buttons" style="display: flex; gap: 12px;">
-                <button class="chat-lang-btn" data-lang="en" style="
-                    flex: 1;
-                    padding: 14px 20px;
-                    background: linear-gradient(135deg, #003d82, #0056b3);
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    font-size: 15px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 2px 8px rgba(0,61,130,0.2);
-                ">
-                    <i class="fas fa-language"></i> English
-                </button>
-                <button class="chat-lang-btn" data-lang="hi" style="
-                    flex: 1;
-                    padding: 14px 20px;
-                    background: linear-gradient(135deg, #FF6600, #ff8533);
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    font-size: 15px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 2px 8px rgba(255,102,0,0.2);
-                ">
-                    <i class="fas fa-language"></i> हिंदी
-                </button>
-            </div>
-        </div>
-    `;
-
-    chatMessages.appendChild(langSelectMessage);
-
-    // Add event listeners to language buttons
-    document.querySelectorAll('.chat-lang-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            chatLanguage = this.dataset.lang;
-            hasSelectedLanguage = true;
-
-            // Add confirmation message
-            const confirmMsg = document.createElement('div');
-            confirmMsg.className = 'chat-message bot-message';
-            confirmMsg.innerHTML = `
-                <div class="message-avatar">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="message-content">
-                    <p style="font-weight: 600; color: #28a745;">
-                        ${chatLanguage === 'en' ?
-                            '✓ Language set to English. How can I help you today?' :
-                            '✓ भाषा हिंदी में सेट की गई। आज मैं आपकी कैसे मदद कर सकता हूं?'}
-                    </p>
-                    <p style="margin-top: 8px; font-size: 13px; color: #666;">
-                        ${chatLanguage === 'en' ?
-                            'Ask me about APAAR IDs, attendance rates, state performance, or any education statistics from April 2025 to January 2026.' :
-                            'मुझसे APAAR IDs, उपस्थिति दर, राज्य प्रदर्शन, या अप्रैल 2025 से जनवरी 2026 तक की किसी भी शिक्षा सांख्यिकी के बारे में पूछें।'}
-                    </p>
-                </div>
-            `;
-            chatMessages.appendChild(confirmMsg);
-
-            // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Enable input
-            document.getElementById('chatInput').disabled = false;
-            document.getElementById('chatSendBtn').disabled = false;
-
-            showNotification(
-                chatLanguage === 'en' ? 'Language set to English' : 'भाषा हिंदी में सेट की गई',
-                'success'
-            );
-        });
-
-        // Add hover effect
-        btn.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05) translateY(-2px)';
-            this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
-        });
-
-        btn.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1) translateY(0)';
-            this.style.boxShadow = this.dataset.lang === 'en' ?
-                '0 2px 8px rgba(0,61,130,0.2)' :
-                '0 2px 8px rgba(255,102,0,0.2)';
-        });
-    });
-
-    // Disable input until language is selected
-    document.getElementById('chatInput').disabled = true;
-    document.getElementById('chatSendBtn').disabled = true;
-    document.getElementById('chatInput').placeholder =
-        'Please select language first / कृपया पहले भाषा चुनें...';
-}
 
 // Enhanced message rendering with beautiful formatting
 window.addChatMessage = function(message, type = 'bot') {

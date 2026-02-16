@@ -40,16 +40,6 @@
                     <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle Theme">
                         <i class="fas fa-moon"></i>
                     </button>
-                    <button id="accessibilityToggle" class="icon-btn" aria-label="Toggle high contrast" title="High Contrast">
-                        <i class="fas fa-universal-access"></i>
-                    </button>
-                    <button id="fontSizeToggle" class="icon-btn" aria-label="Increase font size" title="Font Size">
-                        <i class="fas fa-text-height"></i>
-                    </button>
-                    <div class="language-toggle">
-                        <button class="lang-btn active" data-lang="en" aria-label="Switch to English">EN</button>
-                        <button class="lang-btn" data-lang="hi" aria-label="Switch to Hindi">हिं</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -100,13 +90,13 @@
                 <li role="none">
                     <a href="#home" class="nav-link active" role="menuitem" aria-current="page">
                         <i class="fas fa-home"></i>
-                        <span data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
+                        <span>Dashboard</span>
                     </a>
                 </li>
                 <li role="none">
                     <a href="#ai-chat" class="nav-link" role="menuitem">
                         <i class="fas fa-comments"></i>
-                        <span data-en="AI Assistant" data-hi="AI सहायक">AI Assistant</span>
+                        <span>AI Assistant</span>
                     </a>
                 </li>
             </ul>
@@ -259,35 +249,35 @@
     <section class="analytics-section" id="analytics">
         <div class="container">
             <div class="section-header">
-                <h2><i class="fas fa-chart-line"></i> <span data-en="Statistical Analysis & Trends" data-hi="सांख्यिकीय विश्लेषण और रुझान">Statistical Analysis & Trends</span></h2>
-                <p data-en="Interactive data visualization of education metrics from April 2025 to January 2026" data-hi="अप्रैल 2025 से जनवरी 2026 तक शिक्षा मेट्रिक्स का इंटरैक्टिव डेटा विज़ुअलाइज़ेशन">Interactive data visualization of education metrics from April 2025 to January 2026</p>
+                <h2><i class="fas fa-chart-line"></i> Statistical Analysis & Trends</h2>
+                <p>Interactive data visualization of education metrics from April 2025 to January 2026</p>
             </div>
 
             <div class="charts-row">
                 <div class="chart-container">
-                    <h4><i class="fas fa-id-card"></i> <span data-en="APAAR ID Generation Progress" data-hi="APAAR ID निर्माण प्रगति">APAAR ID Generation Progress</span></h4>
+                    <h4><i class="fas fa-id-card"></i> APAAR ID Generation Progress</h4>
                     <canvas id="apaarChart"></canvas>
                 </div>
                 <div class="chart-container">
-                    <h4><i class="fas fa-clipboard-check"></i> <span data-en="Monthly Attendance Trend" data-hi="मासिक उपस्थिति रुझान">Monthly Attendance Trend</span></h4>
+                    <h4><i class="fas fa-clipboard-check"></i> Monthly Attendance Trend</h4>
                     <canvas id="attendanceChart"></canvas>
                 </div>
             </div>
 
             <div class="charts-row">
                 <div class="chart-container">
-                    <h4><i class="fas fa-user-graduate"></i> <span data-en="Student Enrollment Growth" data-hi="छात्र नामांकन वृद्धि">Student Enrollment Growth</span></h4>
+                    <h4><i class="fas fa-user-graduate"></i> Student Enrollment Growth</h4>
                     <canvas id="studentsChart"></canvas>
                 </div>
                 <div class="chart-container">
-                    <h4><i class="fas fa-school"></i> <span data-en="Infrastructure Expansion" data-hi="बुनियादी ढांचा विस्तार">Infrastructure Expansion</span></h4>
+                    <h4><i class="fas fa-school"></i> Infrastructure Expansion</h4>
                     <canvas id="infrastructureChart"></canvas>
                 </div>
             </div>
 
             <div class="charts-row">
                 <div class="chart-container full-width">
-                    <h4><i class="fas fa-trophy"></i> <span data-en="Top Performing States (January 2026)" data-hi="शीर्ष प्रदर्शन करने वाले राज्य (जनवरी 2026)">Top Performing States (January 2026)</span></h4>
+                    <h4><i class="fas fa-trophy"></i> Top Performing States (January 2026)</h4>
                     <canvas id="statesChart"></canvas>
                 </div>
             </div>
@@ -445,8 +435,8 @@
             <div class="chat-header-left">
                 <i class="fas fa-robot"></i>
                 <div>
-                    <h3 id="chatWidgetTitle" data-en="Newsletter AI Assistant" data-hi="समाचार पत्र AI सहायक">Newsletter AI Assistant</h3>
-                    <span class="chat-status" data-en="Online" data-hi="ऑनलाइन">Online</span>
+                    <h3 id="chatWidgetTitle">Newsletter AI Assistant</h3>
+                    <span class="chat-status">Online</span>
                 </div>
             </div>
             <div class="chat-header-actions">
@@ -467,10 +457,7 @@
                         <i class="fas fa-robot"></i>
                     </div>
                     <div class="message-content">
-                        <p data-en="Hello! I'm your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026."
-                           data-hi="नमस्ते! मैं आपका समाचार पत्र AI सहायक हूं। मैं अप्रैल 2025 से जनवरी 2026 तक शिक्षा सांख्यिकी, APAAR IDs, उपस्थिति दर, राज्य प्रदर्शन और पहलों के बारे में आपके प्रश्नों में मदद कर सकता हूं।">
-                            Hello! I'm your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026.
-                        </p>
+                        <p>Hello! I'm your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026.</p>
                     </div>
                 </div>
             </div>
@@ -478,15 +465,12 @@
             <!-- Quick Query Buttons -->
             <div class="quick-queries">
                 <button class="quick-query-btn" data-query="What was the APAAR ID growth from April 2025 to January 2026?"
-                        data-en="APAAR ID Growth" data-hi="APAAR ID वृद्धि">
-                    APAAR ID Growth
+APAAR ID Growth
                 </button>
-                <button class="quick-query-btn" data-query="Compare Kerala and Gujarat attendance rates"
-                        data-en="State Comparison" data-hi="राज्य तुलना">
+                <button class="quick-query-btn" data-query="Compare Kerala and Gujarat attendance rates">
                     State Comparison
                 </button>
-                <button class="quick-query-btn" data-query="Show me key technical developments"
-                        data-en="Technical Updates" data-hi="तकनीकी अपडेट">
+                <button class="quick-query-btn" data-query="Show me key technical developments">
                     Technical Updates
                 </button>
             </div>
@@ -503,36 +487,6 @@
                 ></textarea>
                 <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">
                     <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Accessibility Tools Panel (Hidden by default) -->
-    <div class="accessibility-panel" id="accessibilityPanel" aria-hidden="true">
-        <div class="panel-header">
-            <h3>Accessibility Options</h3>
-            <button class="panel-close" aria-label="Close accessibility panel">&times;</button>
-        </div>
-        <div class="panel-body">
-            <div class="accessibility-option">
-                <label for="fontSizeSlider">Font Size</label>
-                <input type="range" id="fontSizeSlider" min="12" max="20" value="16" step="1">
-                <span id="fontSizeValue">16px</span>
-            </div>
-            <div class="accessibility-option">
-                <label for="lineHeightSlider">Line Height</label>
-                <input type="range" id="lineHeightSlider" min="1" max="2" value="1.6" step="0.1">
-                <span id="lineHeightValue">1.6</span>
-            </div>
-            <div class="accessibility-option">
-                <button class="accessibility-btn" id="highContrastBtn">
-                    <i class="fas fa-adjust"></i> Toggle High Contrast
-                </button>
-            </div>
-            <div class="accessibility-option">
-                <button class="accessibility-btn" id="readAloudBtn">
-                    <i class="fas fa-volume-up"></i> Read Aloud
                 </button>
             </div>
         </div>

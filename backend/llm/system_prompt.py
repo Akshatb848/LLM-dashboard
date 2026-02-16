@@ -3,18 +3,15 @@ Enhanced System Prompt for Smart Education Newsletter Platform
 Ministry of Education, Government of India
 """
 
-ENHANCED_SYSTEM_PROMPT = """You are an AI assistant specialized in the Smart Education Newsletter Platform for the Ministry of Education, Government of India. Your expertise lies in analyzing and presenting educational statistics, policy updates, and program implementations from monthly newsletters (April 2025 - January 2026).
+ENHANCED_SYSTEM_PROMPT = """You are an AI assistant for the Ministry of Education, Government of India's Vidya Samiksha Kendra (VSK) Newsletter Platform. You provide precise, data-driven insights from monthly newsletters (April 2025 - January 2026).
 
-**LANGUAGE INSTRUCTION:**
-- **CRITICAL: Respond ONLY in the language specified by the user's language preference**
-- If language="hi" (Hindi), provide your ENTIRE response in Hindi (हिंदी में)
-- If language="en" (English), provide your ENTIRE response in English
-- Apply this to ALL parts: summary, tables, questions, context
-- For Hindi responses:
-  * Use Devanagari script for all text
-  * Translate table headers, column names, and all content
-  * Maintain professional government terminology
-  * Keep numbers in standard numerals (123, not १२३)
+**COMMUNICATION STANDARDS:**
+- **CRITICAL: ALWAYS respond in professional English (India)**
+- Use formal, government-appropriate language
+- Be precise, factual, and concise
+- Focus on data accuracy and clarity
+- Avoid casual expressions or unnecessary embellishments
+- Use proper units (millions, thousands, %, etc.)
 
 CORE RESPONSIBILITIES:
 
@@ -355,48 +352,23 @@ def detect_chapter(query: str) -> str:
     return "general"
 
 def get_structured_prompt(query: str, context: str, language: str = "en") -> str:
-    """Generate a structured prompt for Ollama based on query type with language support"""
+    """Generate a structured prompt for VSK Newsletter queries - English only"""
     query_type = detect_query_type(query)
     chapter = detect_chapter(query)
 
-    # Language instruction for the LLM
-    language_name = "English" if language == "en" else "Hindi (हिंदी)"
-
-    # CRITICAL: Strengthen language instruction
-    if language == "hi":
-        language_instruction = f"""
-🌐 MANDATORY LANGUAGE REQUIREMENT: हिंदी (HINDI)
-**ABSOLUTE REQUIREMENT: You MUST respond ENTIRELY in Hindi (हिंदी).**
-- Write ALL text in Devanagari script (हिंदी में)
-- Translate table headers to Hindi
-- Translate all labels, summaries, and explanations to Hindi
-- Translate follow-up questions to Hindi
-- Use professional Hindi government terminology
-- Numbers can remain in standard numerals (123, 456, etc.)
-**DO NOT mix English and Hindi. Everything must be in Hindi except numbers.**
-"""
-    else:
-        language_instruction = f"""
-🌐 MANDATORY LANGUAGE REQUIREMENT: ENGLISH
-**ABSOLUTE REQUIREMENT: You MUST respond ENTIRELY in English.**
-- Write ALL text in English
-- Use proper English grammar and terminology
-"""
-
     prompt = f"""{ENHANCED_SYSTEM_PROMPT}
-{language_instruction}
-📋 CURRENT QUERY ANALYSIS:
-Query Type: {query_type.upper().replace('_', ' ')}
-Relevant Chapter: {chapter.upper().replace('_', ' ')}
-User's Language Preference: {language_name}
 
-📚 RELEVANT CONTEXT FROM NEWSLETTER:
+📋 QUERY ANALYSIS:
+Query Type: {query_type.upper().replace('_', ' ')}
+Relevant Section: {chapter.upper().replace('_', ' ')}
+
+📚 NEWSLETTER CONTEXT:
 {context}
 
-❓ USER QUESTION:
+❓ USER QUERY:
 {query}
 
-📊 YOUR RESPONSE (Follow the mandatory structure in {language_name}):
+📊 YOUR RESPONSE (Professional English, Data-Focused):
 """
 
     return prompt
