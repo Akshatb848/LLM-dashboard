@@ -34,10 +34,35 @@
             <div class="gov-bar-content">
                 <div class="gov-identity">
                     <i class="fas fa-landmark" aria-hidden="true"></i>
-                    <span>Government of India</span>
+                    <span>Government of India | भारत सरकार</span>
                 </div>
                 <div class="gov-actions">
-                    <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Toggle Theme">
+                    <!-- Theme Picker -->
+                    <div class="theme-picker" id="themePicker">
+                        <button class="icon-btn theme-trigger" aria-label="Choose Theme" title="Choose Theme Layout">
+                            <i class="fas fa-palette"></i>
+                        </button>
+                        <div class="theme-dropdown" id="themeDropdown">
+                            <div class="theme-dropdown-title">Government Themes</div>
+                            <button class="theme-option active" data-theme="nic-blue" title="NIC Blue — Default">
+                                <span class="theme-swatch" style="background:linear-gradient(135deg,#003d82,#0056b3);"></span>
+                                <span>NIC Blue</span>
+                            </button>
+                            <button class="theme-option" data-theme="india-saffron" title="India Saffron — india.gov.in">
+                                <span class="theme-swatch" style="background:linear-gradient(135deg,#FF6B00,#FF9933);"></span>
+                                <span>India Saffron</span>
+                            </button>
+                            <button class="theme-option" data-theme="digital-green" title="Digital Green — Digital India">
+                                <span class="theme-swatch" style="background:linear-gradient(135deg,#00695C,#26A69A);"></span>
+                                <span>Digital India</span>
+                            </button>
+                            <button class="theme-option" data-theme="parliament-maroon" title="Parliament Maroon">
+                                <span class="theme-swatch" style="background:linear-gradient(135deg,#5D1049,#880E4F);"></span>
+                                <span>Parliament</span>
+                            </button>
+                        </div>
+                    </div>
+                    <button id="themeToggle" class="icon-btn" aria-label="Toggle dark mode" title="Light / Dark Mode">
                         <i class="fas fa-moon"></i>
                     </button>
                 </div>
@@ -124,6 +149,9 @@
     <!-- Main Content Area -->
     <div class="container">
         <main id="main-content" class="main-content" role="main">
+
+    <!-- Dashboard Section Anchor -->
+    <div id="home"></div>
 
     <!-- Dashboard Metric Cards -->
     <section class="metrics-dashboard" aria-label="Key Performance Indicators">
@@ -314,6 +342,26 @@
         </div>
     </section>
 
+    <!-- AI Assistant Inline Section -->
+    <section class="ai-assistant-section" id="ai-chat">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-robot"></i> AI Newsletter Assistant</h2>
+                <p>Ask questions about education data, statistics, state performance, and initiatives</p>
+            </div>
+            <div class="ai-assistant-prompt">
+                <div class="ai-prompt-icon"><i class="fas fa-comments"></i></div>
+                <div class="ai-prompt-text">
+                    <h3>Need quick insights from the newsletter?</h3>
+                    <p>Click the chat button below or the floating assistant icon to start a conversation with our AI-powered newsletter assistant.</p>
+                </div>
+                <button class="ai-prompt-btn" id="openChatFromSection" aria-label="Open AI Assistant">
+                    <i class="fas fa-paper-plane"></i> Start Conversation
+                </button>
+            </div>
+        </div>
+    </section>
+
         </main> <!-- End main-content -->
     </div> <!-- End container -->
 
@@ -436,10 +484,13 @@
                 <i class="fas fa-robot"></i>
                 <div>
                     <h3 id="chatWidgetTitle">Newsletter AI Assistant</h3>
-                    <span class="chat-status">Online</span>
+                    <span class="chat-status" id="chatStatusText">Online</span>
                 </div>
             </div>
             <div class="chat-header-actions">
+                <button class="chat-lang-switch icon-btn" id="chatLangSwitch" aria-label="Switch language" title="Switch Language">
+                    <i class="fas fa-language"></i>
+                </button>
                 <button class="chat-minimize" aria-label="Minimize chat" title="Minimize">
                     <i class="fas fa-minus"></i>
                 </button>
@@ -450,33 +501,48 @@
         </div>
 
         <div class="chat-widget-body">
-            <!-- Chat Messages Area -->
-            <div class="chat-messages" id="chatMessages">
-                <div class="chat-message bot-message">
-                    <div class="message-avatar">
-                        <i class="fas fa-robot"></i>
+            <!-- Language Selection Screen (shown on first open) -->
+            <div class="chat-lang-select" id="chatLangSelect">
+                <div class="lang-select-inner">
+                    <div class="lang-select-icon">
+                        <i class="fas fa-globe-asia"></i>
                     </div>
-                    <div class="message-content">
-                        <p>Hello! I'm your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026.</p>
+                    <h4>Choose Your Language / भाषा चुनें</h4>
+                    <p>Select the language for the AI Assistant</p>
+                    <div class="lang-select-buttons">
+                        <button class="lang-choice-btn" data-lang="en">
+                            <span class="lang-flag">🇬🇧</span>
+                            <span class="lang-name">English</span>
+                            <span class="lang-sub">Continue in English</span>
+                        </button>
+                        <button class="lang-choice-btn" data-lang="hi">
+                            <span class="lang-flag">🇮🇳</span>
+                            <span class="lang-name">हिन्दी</span>
+                            <span class="lang-sub">हिन्दी में जारी रखें</span>
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- Chat Messages Area (hidden until language is selected) -->
+            <div class="chat-messages" id="chatMessages" style="display:none;">
+            </div>
+
             <!-- Quick Query Buttons -->
-            <div class="quick-queries">
-                <button class="quick-query-btn" data-query="What was the APAAR ID growth from April 2025 to January 2026?">
-                    APAAR ID Growth
+            <div class="quick-queries" id="quickQueries" style="display:none;">
+                <button class="quick-query-btn" data-query="What was the APAAR ID growth from April 2025 to January 2026?" data-query-hi="अप्रैल 2025 से जनवरी 2026 तक APAAR ID वृद्धि क्या थी?">
+                    <span data-en="APAAR ID Growth" data-hi="APAAR ID वृद्धि">APAAR ID Growth</span>
                 </button>
-                <button class="quick-query-btn" data-query="Compare Kerala and Gujarat attendance rates">
-                    State Comparison
+                <button class="quick-query-btn" data-query="Compare Kerala and Gujarat attendance rates" data-query-hi="केरल और गुजरात की उपस्थिति दरों की तुलना करें">
+                    <span data-en="State Comparison" data-hi="राज्य तुलना">State Comparison</span>
                 </button>
-                <button class="quick-query-btn" data-query="Show me key technical developments">
-                    Technical Updates
+                <button class="quick-query-btn" data-query="Show me key technical developments" data-query-hi="प्रमुख तकनीकी विकास दिखाएं">
+                    <span data-en="Technical Updates" data-hi="तकनीकी अपडेट">Technical Updates</span>
                 </button>
             </div>
 
             <!-- Chat Input Area -->
-            <div class="chat-input-area">
+            <div class="chat-input-area" id="chatInputArea" style="display:none;">
                 <textarea
                     id="chatInput"
                     class="chat-input"
