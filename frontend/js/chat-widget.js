@@ -120,6 +120,7 @@ async function sendChatMessage() {
 // Add message to chat
 function addChatMessage(message, type = 'bot') {
     const chatMessages = document.getElementById('chatMessages');
+    if (!chatMessages) return;
 
     const messageDiv = document.createElement('div');
     messageDiv.className = `chat-message ${type}-message`;
@@ -132,22 +133,33 @@ function addChatMessage(message, type = 'bot') {
     content.className = 'message-content';
 
     if (type === 'bot') {
-        // Parse HTML for bot messages (tables, formatting)
-        if (typeof marked !== 'undefined' && marked.parse) {
-            marked.setOptions({
-                breaks: true,
-                gfm: true,
-                tables: true,
-                headerIds: false,
-                mangle: false,
-                sanitize: false
-            });
-            content.innerHTML = marked.parse(message);
+        // Smart rendering: detect if response has HTML tables
+        const hasHtmlTable = /<table[\s>]/i.test(message);
+
+        if (hasHtmlTable) {
+            // HTML tables present - render as raw HTML, process non-table parts
+            let processed = message
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n(?!<)/g, '<br>');
+            content.innerHTML = processed;
+        } else if (typeof marked !== 'undefined' && marked.parse) {
+            // No HTML tables - parse as markdown
+            try {
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: false,
+                    mangle: false
+                });
+                content.innerHTML = marked.parse(message);
+            } catch (e) {
+                content.textContent = message;
+            }
         } else {
-            content.innerHTML = message;
+            content.textContent = message;
         }
     } else {
-        // Plain text for user messages
         const p = document.createElement('p');
         p.textContent = message;
         content.appendChild(p);
@@ -155,10 +167,7 @@ function addChatMessage(message, type = 'bot') {
 
     messageDiv.appendChild(avatar);
     messageDiv.appendChild(content);
-
     chatMessages.appendChild(messageDiv);
-
-    // Scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
