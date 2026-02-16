@@ -184,38 +184,118 @@ function loadAnalytics() {
     createStatesChart();
 }
 
+// Enhanced APAAR ID Progress Chart - Professional Conference Style
 function createAPAARChart() {
-    const ctx = document.getElementById('apaarChart').getContext('2d');
+    const ctx = document.getElementById('apaarChart');
+    if (!ctx) return;
+
     const data = newsletterData.technical_developments.apaar_milestones;
 
-    charts.apaar = new Chart(ctx, {
+    charts.apaar = new Chart(ctx.getContext('2d'), {
         type: 'line',
         data: {
             labels: data.map(d => d.month),
             datasets: [{
-                label: 'APAAR ID Registrations (Millions)',
+                label: 'APAAR ID Registrations',
                 data: data.map(d => d.registrations / 1000000),
-                borderColor: '#FF9933',
-                backgroundColor: 'rgba(255, 153, 51, 0.1)',
+                borderColor: '#FF6600',
+                backgroundColor: 'rgba(255, 102, 0, 0.1)',
+                borderWidth: 3,
                 tension: 0.4,
-                fill: true
+                fill: true,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#FF6600',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
+                title: {
+                    display: true,
+                    text: 'APAAR ID Generation Progress (in Millions)',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                        family: "'Roboto', sans-serif"
+                    },
+                    color: '#003d82',
+                    padding: 20
+                },
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: "'Roboto', sans-serif"
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 61, 130, 0.9)',
+                    titleFont: {
+                        size: 14,
+                        family: "'Roboto', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 13,
+                        family: "'Roboto', sans-serif"
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + 'M';
+                        }
+                    }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: false,
+                    grid: {
+                        color: 'rgba(0, 61, 130, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        callback: function(value) {
+                            return value + 'M';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Registrations (Millions)'
+                        text: 'Registrations (Millions)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#003d82'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 10,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        maxRotation: 45,
+                        minRotation: 45
                     }
                 }
             }
@@ -223,40 +303,126 @@ function createAPAARChart() {
     });
 }
 
+// Enhanced Attendance Trend Chart
 function createAttendanceChart() {
-    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    const ctx = document.getElementById('attendanceChart');
+    if (!ctx) return;
+
     const months = newsletterData.months;
 
-    charts.attendance = new Chart(ctx, {
+    charts.attendance = new Chart(ctx.getContext('2d'), {
         type: 'line',
         data: {
             labels: months.map(m => m.month),
             datasets: [{
-                label: 'Attendance Rate (%)',
+                label: 'Attendance Rate',
                 data: months.map(m => m.attendance_rate),
-                borderColor: '#138808',
-                backgroundColor: 'rgba(19, 136, 8, 0.1)',
+                borderColor: '#28a745',
+                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                borderWidth: 3,
                 tension: 0.4,
-                fill: true
+                fill: true,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#28a745',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
+                title: {
+                    display: true,
+                    text: 'Monthly Attendance Trend (%)',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                        family: "'Roboto', sans-serif"
+                    },
+                    color: '#003d82',
+                    padding: 20
+                },
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: "'Roboto', sans-serif"
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 61, 130, 0.9)',
+                    titleFont: {
+                        size: 14,
+                        family: "'Roboto', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 13,
+                        family: "'Roboto', sans-serif"
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                        }
+                    }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: false,
-                    min: 93,
+                    min: 94,
                     max: 98,
+                    grid: {
+                        color: 'rgba(0, 61, 130, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Attendance Rate (%)'
+                        text: 'Attendance Rate (%)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#003d82'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 10,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            }
+        }
+    });
+}
                     }
                 }
             }
@@ -264,37 +430,118 @@ function createAttendanceChart() {
     });
 }
 
+// Enhanced Student Enrollment Chart
 function createStudentsChart() {
-    const ctx = document.getElementById('studentsChart').getContext('2d');
+    const ctx = document.getElementById('studentsChart');
+    if (!ctx) return;
+
     const months = newsletterData.months;
 
-    charts.students = new Chart(ctx, {
-        type: 'bar',
+    charts.students = new Chart(ctx.getContext('2d'), {
+        type: 'line',
         data: {
             labels: months.map(m => m.month),
             datasets: [{
-                label: 'Students (Millions)',
+                label: 'Student Enrollment',
                 data: months.map(m => m.students / 1000000),
-                backgroundColor: '#003366',
-                borderColor: '#003366',
-                borderWidth: 1
+                borderColor: '#003d82',
+                backgroundColor: 'rgba(0, 61, 130, 0.1)',
+                borderWidth: 3,
+                tension: 0.4,
+                fill: true,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#003d82',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
+                title: {
+                    display: true,
+                    text: 'Student Enrollment Growth (in Millions)',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                        family: "'Roboto', sans-serif"
+                    },
+                    color: '#003d82',
+                    padding: 20
+                },
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: "'Roboto', sans-serif"
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 61, 130, 0.9)',
+                    titleFont: {
+                        size: 14,
+                        family: "'Roboto', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 13,
+                        family: "'Roboto', sans-serif"
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + 'M';
+                        }
+                    }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: false,
+                    grid: {
+                        color: 'rgba(0, 61, 130, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        callback: function(value) {
+                            return value + 'M';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Students (Millions)'
+                        text: 'Students (Millions)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#003d82'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 10,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        maxRotation: 45,
+                        minRotation: 45
                     }
                 }
             }
@@ -302,30 +549,35 @@ function createStudentsChart() {
     });
 }
 
+// Enhanced Infrastructure Expansion Chart (Dual Axis)
 function createInfrastructureChart() {
-    const ctx = document.getElementById('infrastructureChart').getContext('2d');
+    const ctx = document.getElementById('infrastructureChart');
+    if (!ctx) return;
+
     const months = newsletterData.months;
 
-    charts.infrastructure = new Chart(ctx, {
-        type: 'line',
+    charts.infrastructure = new Chart(ctx.getContext('2d'), {
+        type: 'bar',
         data: {
             labels: months.map(m => m.month),
             datasets: [
                 {
-                    label: 'Schools (Thousands)',
+                    label: 'Schools',
                     data: months.map(m => m.schools / 1000),
-                    borderColor: '#17a2b8',
-                    backgroundColor: 'rgba(23, 162, 184, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y'
+                    backgroundColor: 'rgba(0, 61, 130, 0.8)',
+                    borderColor: '#003d82',
+                    borderWidth: 2,
+                    yAxisID: 'y',
+                    barPercentage: 0.7
                 },
                 {
-                    label: 'Teachers (Millions)',
+                    label: 'Teachers',
                     data: months.map(m => m.teachers / 1000000),
-                    borderColor: '#ffc107',
-                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
-                    tension: 0.4,
-                    yAxisID: 'y1'
+                    backgroundColor: 'rgba(255, 102, 0, 0.8)',
+                    borderColor: '#FF6600',
+                    borderWidth: 2,
+                    yAxisID: 'y1',
+                    barPercentage: 0.7
                 }
             ]
         },
@@ -337,9 +589,49 @@ function createInfrastructureChart() {
                 intersect: false
             },
             plugins: {
+                title: {
+                    display: true,
+                    text: 'Infrastructure Expansion: Schools & Teachers',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                        family: "'Roboto', sans-serif"
+                    },
+                    color: '#003d82',
+                    padding: 20
+                },
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: "'Roboto', sans-serif"
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 61, 130, 0.9)',
+                    titleFont: {
+                        size: 14,
+                        family: "'Roboto', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 13,
+                        family: "'Roboto', sans-serif"
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.dataset.label;
+                            const value = context.parsed.y.toFixed(1);
+                            const unit = label === 'Schools' ? 'K' : 'M';
+                            return label + ': ' + value + unit;
+                        }
+                    }
                 }
             },
             scales: {
@@ -347,21 +639,71 @@ function createInfrastructureChart() {
                     type: 'linear',
                     display: true,
                     position: 'left',
+                    grid: {
+                        color: 'rgba(0, 61, 130, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#003d82',
+                        callback: function(value) {
+                            return value + 'K';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Schools (Thousands)'
+                        text: 'Schools (Thousands)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#003d82'
                     }
                 },
                 y1: {
                     type: 'linear',
                     display: true,
                     position: 'right',
-                    title: {
-                        display: true,
-                        text: 'Teachers (Millions)'
-                    },
                     grid: {
                         drawOnChartArea: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#FF6600',
+                        callback: function(value) {
+                            return value + 'M';
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Teachers (Millions)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#FF6600'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 10,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        maxRotation: 45,
+                        minRotation: 45
                     }
                 }
             }
@@ -369,29 +711,38 @@ function createInfrastructureChart() {
     });
 }
 
+// Enhanced Top Performing States Chart
 function createStatesChart() {
-    const ctx = document.getElementById('statesChart').getContext('2d');
+    const ctx = document.getElementById('statesChart');
+    if (!ctx) return;
+
     const states = newsletterData.state_engagement.top_performing_states;
 
-    charts.states = new Chart(ctx, {
+    charts.states = new Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: {
             labels: states.map(s => s.name),
             datasets: [
                 {
-                    label: 'APAAR Coverage (%)',
+                    label: 'APAAR Coverage',
                     data: states.map(s => s.apaar_coverage),
-                    backgroundColor: '#FF9933'
+                    backgroundColor: 'rgba(255, 102, 0, 0.8)',
+                    borderColor: '#FF6600',
+                    borderWidth: 2
                 },
                 {
-                    label: 'Attendance (%)',
+                    label: 'Attendance Rate',
                     data: states.map(s => s.attendance),
-                    backgroundColor: '#138808'
+                    backgroundColor: 'rgba(40, 167, 69, 0.8)',
+                    borderColor: '#28a745',
+                    borderWidth: 2
                 },
                 {
-                    label: 'Digital Readiness (%)',
+                    label: 'Digital Readiness',
                     data: states.map(s => s.digital_readiness),
-                    backgroundColor: '#000080'
+                    backgroundColor: 'rgba(0, 61, 130, 0.8)',
+                    borderColor: '#003d82',
+                    borderWidth: 2
                 }
             ]
         },
@@ -399,9 +750,46 @@ function createStatesChart() {
             responsive: true,
             maintainAspectRatio: true,
             plugins: {
+                title: {
+                    display: true,
+                    text: 'Top Performing States - Key Metrics Comparison',
+                    font: {
+                        size: 16,
+                        weight: 'bold',
+                        family: "'Roboto', sans-serif"
+                    },
+                    color: '#003d82',
+                    padding: 20
+                },
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12,
+                            family: "'Roboto', sans-serif"
+                        },
+                        padding: 15,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 61, 130, 0.9)',
+                    titleFont: {
+                        size: 14,
+                        family: "'Roboto', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 13,
+                        family: "'Roboto', sans-serif"
+                    },
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(1) + '%';
+                        }
+                    }
                 }
             },
             scales: {
@@ -409,9 +797,41 @@ function createStatesChart() {
                     beginAtZero: false,
                     min: 85,
                     max: 100,
+                    grid: {
+                        color: 'rgba(0, 61, 130, 0.1)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666',
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Percentage (%)'
+                        text: 'Performance Metrics (%)',
+                        font: {
+                            size: 12,
+                            weight: 'bold',
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#003d82'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            size: 11,
+                            family: "'Roboto', sans-serif"
+                        },
+                        color: '#666'
                     }
                 }
             }
