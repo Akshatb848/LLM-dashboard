@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" aria-label="National Emblem of India - Satyamev Jayate">
+  <defs>
+    <style>
+      .emblem-text { font-family: 'Noto Sans', Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Ashoka Pillar - Lion Capital (stylized representation) -->
+  <g transform="translate(100, 0)" fill="#1a1a5e">
+
+    <!-- Top crown / Dharma Chakra on top -->
+    <circle cx="0" cy="18" r="6" fill="#1a1a5e"/>
+    <rect x="-2" y="10" width="4" height="8" fill="#1a1a5e"/>
+
+    <!-- Three visible lions (front view of four-lion capital) -->
+    <!-- Center lion (facing forward) -->
+    <g transform="translate(0, 30)">
+      <!-- Head -->
+      <ellipse cx="0" cy="0" rx="14" ry="12"/>
+      <!-- Mane -->
+      <path d="M -16,-5 C -18,5 -15,15 -12,18 L -8,10 C -12,8 -14,2 -16,-5 Z"/>
+      <path d="M 16,-5 C 18,5 15,15 12,18 L 8,10 C 12,8 14,2 16,-5 Z"/>
+      <!-- Face features -->
+      <ellipse cx="-5" cy="-2" rx="2.5" ry="3" fill="white"/>
+      <circle cx="-5" cy="-1.5" r="1.5" fill="#1a1a5e"/>
+      <ellipse cx="5" cy="-2" rx="2.5" ry="3" fill="white"/>
+      <circle cx="5" cy="-1.5" r="1.5" fill="#1a1a5e"/>
+      <!-- Nose -->
+      <path d="M -2,3 L 0,6 L 2,3 Z" fill="white"/>
+      <!-- Mouth -->
+      <path d="M -4,7 Q 0,10 4,7" fill="none" stroke="white" stroke-width="1"/>
+      <!-- Ears -->
+      <ellipse cx="-13" cy="-8" rx="4" ry="6"/>
+      <ellipse cx="13" cy="-8" rx="4" ry="6"/>
+    </g>
+
+    <!-- Left lion (profile, facing left) -->
+    <g transform="translate(-22, 38)">
+      <ellipse cx="0" cy="0" rx="10" ry="9"/>
+      <path d="M -8,-8 C -12,-4 -12,4 -8,8 L -4,4 C -7,2 -7,-2 -4,-4 Z"/>
+      <path d="M 2,-8 Q -2,-4 -4,0 Q -2,4 2,8" fill="none" stroke="white" stroke-width="0.8"/>
+    </g>
+
+    <!-- Right lion (profile, facing right) -->
+    <g transform="translate(22, 38)">
+      <ellipse cx="0" cy="0" rx="10" ry="9"/>
+      <path d="M 8,-8 C 12,-4 12,4 8,8 L 4,4 C 7,2 7,-2 4,-4 Z"/>
+      <path d="M -2,-8 Q 2,-4 4,0 Q 2,4 -2,8" fill="none" stroke="white" stroke-width="0.8"/>
+    </g>
+
+    <!-- Body / torso connecting lions -->
+    <path d="M -30,48 L -35,55 L -28,52 Z"/>
+    <path d="M 30,48 L 35,55 L 28,52 Z"/>
+    <rect x="-30" y="48" width="60" height="8" rx="2"/>
+
+    <!-- Abacus band with Dharma Chakra -->
+    <rect x="-35" y="56" width="70" height="14" rx="1" fill="#1a1a5e"/>
+
+    <!-- Dharma Chakra (24-spoke wheel) in center of abacus -->
+    <circle cx="0" cy="63" r="6" fill="white"/>
+    <circle cx="0" cy="63" r="5" fill="none" stroke="#1a1a5e" stroke-width="0.8"/>
+    <circle cx="0" cy="63" r="1.2" fill="#1a1a5e"/>
+    <!-- Spokes (simplified - 8 main spokes) -->
+    <g stroke="#1a1a5e" stroke-width="0.5">
+      <line x1="0" y1="58.5" x2="0" y2="67.5"/>
+      <line x1="-4.5" y1="63" x2="4.5" y2="63"/>
+      <line x1="-3.2" y1="59.8" x2="3.2" y2="66.2"/>
+      <line x1="3.2" y1="59.8" x2="-3.2" y2="66.2"/>
+    </g>
+
+    <!-- Bull (left) and Horse (right) on abacus -->
+    <!-- Simplified bull silhouette -->
+    <g transform="translate(-20, 63)">
+      <ellipse cx="0" cy="0" rx="6" ry="3.5" fill="white"/>
+      <rect x="-3" y="1" width="1.5" height="3" fill="white"/>
+      <rect x="1.5" y="1" width="1.5" height="3" fill="white"/>
+      <path d="M -5,-3 L -7,-5 M -4,-3 L -3,-6" stroke="white" stroke-width="0.8" fill="none"/>
+    </g>
+    <!-- Simplified horse silhouette -->
+    <g transform="translate(20, 63)">
+      <ellipse cx="0" cy="0" rx="6" ry="3.5" fill="white"/>
+      <rect x="-3" y="1" width="1.5" height="3" fill="white"/>
+      <rect x="1.5" y="1" width="1.5" height="3" fill="white"/>
+      <path d="M 4,-3 Q 5,-7 4,-8" stroke="white" stroke-width="0.8" fill="none"/>
+    </g>
+
+    <!-- Bell-shaped base / inverted lotus -->
+    <path d="M -35,70 Q -38,78 -30,85 L -25,80 Q -30,76 -28,72 Z" fill="#1a1a5e"/>
+    <path d="M 35,70 Q 38,78 30,85 L 25,80 Q 30,76 28,72 Z" fill="#1a1a5e"/>
+    <path d="M -30,70 C -32,80 -20,88 0,90 C 20,88 32,80 30,70 Z" fill="#1a1a5e"/>
+
+    <!-- Lotus petals at base -->
+    <path d="M -25,85 Q -20,92 -12,90 Q -15,85 -20,84 Z" fill="#1a1a5e"/>
+    <path d="M -12,88 Q -5,94 5,94 Q 0,88 -8,87 Z" fill="#1a1a5e"/>
+    <path d="M 5,94 Q 12,92 18,88 Q 12,86 5,88 Z" fill="#1a1a5e"/>
+    <path d="M 18,88 Q 22,85 25,85 Q 22,84 18,85 Z" fill="#1a1a5e"/>
+
+    <!-- Flat base -->
+    <rect x="-28" y="92" width="56" height="4" rx="1" fill="#1a1a5e"/>
+  </g>
+
+  <!-- Devanagari motto -->
+  <text x="100" y="120" text-anchor="middle" class="emblem-text" font-size="14" fill="#1a1a5e" font-weight="700">सत्यमेव जयते</text>
+
+  <!-- Ministry of Education text block -->
+  <text x="100" y="145" text-anchor="middle" class="emblem-text" font-size="12" fill="#1a1a5e" font-weight="600">शिक्षा मंत्रालय</text>
+  <text x="100" y="162" text-anchor="middle" class="emblem-text" font-size="12" fill="#1a1a5e" font-weight="600">Ministry of Education</text>
+
+  <!-- Department text -->
+  <line x1="50" y1="172" x2="150" y2="172" stroke="#1a1a5e" stroke-width="0.5"/>
+  <text x="100" y="187" text-anchor="middle" class="emblem-text" font-size="9" fill="#1a1a5e" font-weight="500">स्कूल शिक्षा और साक्षरता विभाग</text>
+  <text x="100" y="200" text-anchor="middle" class="emblem-text" font-size="9" fill="#1a1a5e" font-weight="500">Department of School Education &amp; Literacy</text>
+
+  <!-- Government of India -->
+  <text x="100" y="220" text-anchor="middle" class="emblem-text" font-size="10" fill="#1a1a5e" font-weight="600">भारत सरकार</text>
+  <text x="100" y="235" text-anchor="middle" class="emblem-text" font-size="10" fill="#1a1a5e" font-weight="600">Government of India</text>
+</svg>
