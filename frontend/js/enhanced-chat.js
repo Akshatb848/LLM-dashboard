@@ -1,130 +1,125 @@
 /**
- * Enhanced Chat Widget with Language Selection
- * Ministry of Education Newsletter AI Assistant
- * Production-grade with Hindi / English bilingual support
+ * Enhanced Chat Widget with Language Selection, Themes, Search, Help, Nav
+ * Ministry of Education — Rashtriya Vidya Samiksha Kendra
  */
 
+/* ================================================================
+   CHAT LANGUAGE STATE
+   ================================================================ */
 let chatLanguage = localStorage.getItem('chatLang') || null;
 let hasSelectedLanguage = !!chatLanguage;
 
-// ===== Language Selection =====
-function showLanguageSelect() {
-    const sel = document.getElementById('chatLangSelect');
-    const msgs = document.getElementById('chatMessages');
-    const quick = document.getElementById('quickQueries');
-    const input = document.getElementById('chatInputArea');
-    if (sel) sel.style.display = 'flex';
-    if (msgs) msgs.style.display = 'none';
-    if (quick) quick.style.display = 'none';
-    if (input) input.style.display = 'none';
+/* ================================================================
+   CHAT VIEW MANAGEMENT  (called by chat-widget.js on every open)
+   ================================================================ */
+
+/** Master function: decides whether to show language picker or chat interface.
+ *  Called every time the widget opens — guarantees correct state. */
+function _showCorrectChatView() {
+    if (hasSelectedLanguage && chatLanguage) {
+        _showChatInterface();
+    } else {
+        _showLanguageSelect();
+    }
 }
 
-function showChatInterface() {
-    const sel = document.getElementById('chatLangSelect');
+function _showLanguageSelect() {
+    const sel  = document.getElementById('chatLangSelect');
     const msgs = document.getElementById('chatMessages');
-    const quick = document.getElementById('quickQueries');
-    const input = document.getElementById('chatInputArea');
-    if (sel) { sel.style.opacity = '0'; setTimeout(() => sel.style.display = 'none', 300); }
-    if (msgs) { msgs.style.display = 'flex'; msgs.style.animation = 'fadeInUp 0.4s ease-out'; }
-    if (quick) { quick.style.display = 'flex'; quick.style.animation = 'fadeInUp 0.4s ease-out 0.1s both'; }
-    if (input) { input.style.display = 'flex'; input.style.animation = 'fadeInUp 0.4s ease-out 0.2s both'; }
-    updateChatInterfaceLanguage();
+    const qry  = document.getElementById('quickQueries');
+    const inp  = document.getElementById('chatInputArea');
+    if (sel)  { sel.style.display = 'flex';  sel.style.opacity = '1'; }
+    if (msgs) { msgs.style.display = 'none'; }
+    if (qry)  { qry.style.display  = 'none'; }
+    if (inp)  { inp.style.display  = 'none'; }
 }
 
-function selectChatLanguage(lang) {
+function _showChatInterface() {
+    const sel  = document.getElementById('chatLangSelect');
+    const msgs = document.getElementById('chatMessages');
+    const qry  = document.getElementById('quickQueries');
+    const inp  = document.getElementById('chatInputArea');
+
+    if (sel)  { sel.style.display = 'none';  sel.style.opacity = '1'; }
+    if (msgs) { msgs.style.display = 'flex'; }
+    if (qry)  { qry.style.display  = 'flex'; }
+    if (inp)  { inp.style.display  = 'flex'; }
+
+    _updateChatInterfaceLanguage();
+
+    // If no messages yet (first open after language select), add welcome
+    if (msgs && msgs.children.length === 0) {
+        _addWelcomeMessage();
+    }
+
+    // Focus input after a tiny delay for the DOM to settle
+    const chatInput = document.getElementById('chatInput');
+    if (chatInput) setTimeout(() => chatInput.focus(), 120);
+}
+
+function _addWelcomeMessage() {
+    const msg = chatLanguage === 'hi'
+        ? 'नमस्ते! मैं आपका न्यूज़लेटर AI सहायक हूँ। मैं अप्रैल 2025 से जनवरी 2026 तक शिक्षा सांख्यिकी, APAAR IDs, उपस्थिति दर, राज्य प्रदर्शन और पहलों के बारे में आपके प्रश्नों में मदद कर सकता हूँ।'
+        : 'Hello! I\'m your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026.';
+    if (typeof addChatMessage === 'function') addChatMessage(msg, 'bot');
+}
+
+function _selectChatLanguage(lang) {
     chatLanguage = lang;
     hasSelectedLanguage = true;
     localStorage.setItem('chatLang', lang);
 
-    // Clear existing messages
+    // Clear any existing messages and add fresh welcome
     const msgs = document.getElementById('chatMessages');
     if (msgs) msgs.innerHTML = '';
 
-    // Add welcome message in chosen language
-    const welcomeMsg = lang === 'hi'
-        ? 'नमस्ते! मैं आपका न्यूज़लेटर AI सहायक हूँ। मैं अप्रैल 2025 से जनवरी 2026 तक शिक्षा सांख्यिकी, APAAR IDs, उपस्थिति दर, राज्य प्रदर्शन और पहल के बारे में आपके प्रश्नों में मदद कर सकता हूँ।'
-        : 'Hello! I\'m your Newsletter AI Assistant. I can help you with questions about education statistics, APAAR IDs, attendance rates, state performance, and initiatives from April 2025 to January 2026.';
-    addChatMessage(welcomeMsg, 'bot');
-
-    showChatInterface();
+    _showChatInterface();
 
     const statusEl = document.getElementById('chatStatusText');
     if (statusEl) statusEl.textContent = lang === 'hi' ? 'ऑनलाइन' : 'Online';
 }
 
-function updateChatInterfaceLanguage() {
+function _updateChatInterfaceLanguage() {
     const lang = chatLanguage || 'en';
-    const input = document.getElementById('chatInput');
-    if (input) {
-        input.placeholder = lang === 'hi'
+    const chatInput = document.getElementById('chatInput');
+    if (chatInput) {
+        chatInput.placeholder = lang === 'hi'
             ? 'शिक्षा डेटा, सांख्यिकी या पहल के बारे में पूछें...'
             : 'Ask about education data, statistics, or initiatives...';
     }
-    // Update quick query button labels
     document.querySelectorAll('.quick-query-btn span[data-en]').forEach(span => {
         span.textContent = span.getAttribute(lang === 'hi' ? 'data-hi' : 'data-en') || span.textContent;
     });
 }
 
-// ===== Chat Widget Init Override =====
-const _origInit = window.initializeChatWidget;
+/* ================================================================
+   INIT — layers on top of chat-widget.js initializeChatWidget
+   ================================================================ */
+const _origChatInit = window.initializeChatWidget;
 
 window.initializeChatWidget = function() {
-    if (_origInit) _origInit();
+    if (_origChatInit) _origChatInit();
 
-    // Language selection button handlers
+    // Language choice buttons
     document.querySelectorAll('.lang-choice-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectChatLanguage(btn.dataset.lang));
+        btn.addEventListener('click', () => _selectChatLanguage(btn.dataset.lang));
     });
 
-    // Language switch button in header
+    // Language switch button in chat header
     const langSwitch = document.getElementById('chatLangSwitch');
     if (langSwitch) {
         langSwitch.addEventListener('click', () => {
             hasSelectedLanguage = false;
             chatLanguage = null;
             localStorage.removeItem('chatLang');
-            showLanguageSelect();
+            _showLanguageSelect();
         });
     }
 
-    // Open chat from AI Assistant section
+    // "Start Conversation" button in the AI-Assistant section
     const openFromSection = document.getElementById('openChatFromSection');
     if (openFromSection) {
-        openFromSection.addEventListener('click', () => {
-            const widget = document.getElementById('chatWidget');
-            const chatInput = document.getElementById('chatInput');
-            if (widget) {
-                widget.classList.add('active');
-                widget.setAttribute('aria-hidden', 'false');
-            }
-            if (hasSelectedLanguage) {
-                showChatInterface();
-                if (chatInput) setTimeout(() => chatInput.focus(), 300);
-            } else {
-                showLanguageSelect();
-            }
-        });
-    }
-
-    // On chat FAB click — show language select if not yet chosen
-    const chatFab = document.getElementById('chatFabButton');
-    if (chatFab) {
-        const origClick = chatFab.onclick;
-        chatFab.addEventListener('click', () => {
-            setTimeout(() => {
-                if (hasSelectedLanguage) {
-                    showChatInterface();
-                } else {
-                    showLanguageSelect();
-                }
-            }, 50);
-        });
-    }
-
-    // If language was previously selected, restore chat interface
-    if (hasSelectedLanguage && chatLanguage) {
-        // Will be shown when chat opens
+        openFromSection.addEventListener('click', () => openChatWidget());
     }
 
     // Override sendChatMessage to include chosen language
@@ -151,13 +146,13 @@ window.initializeChatWidget = function() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ query: message, language: chatLanguage || 'en' })
             });
-            if (!response.ok) throw new Error('Failed to get response');
+            if (!response.ok) throw new Error('Failed');
             const data = await response.json();
             typingIndicator.remove();
             addChatMessage(data.answer, 'bot');
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        } catch (error) {
-            console.error('Chat error:', error);
+        } catch (err) {
+            console.error('Chat error:', err);
             typingIndicator.remove();
             const errMsg = chatLanguage === 'hi'
                 ? 'क्षमा करें, एक त्रुटि हुई। कृपया पुनः प्रयास करें।'
@@ -170,7 +165,7 @@ window.initializeChatWidget = function() {
         }
     };
 
-    // Quick query buttons — use language-appropriate query
+    // Quick query buttons with language-aware queries
     document.querySelectorAll('.quick-query-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const q = (chatLanguage === 'hi' ? btn.dataset.queryHi : btn.dataset.query) || btn.dataset.query;
@@ -180,7 +175,9 @@ window.initializeChatWidget = function() {
     });
 };
 
-// ===== Enhanced message rendering =====
+/* ================================================================
+   ENHANCED MESSAGE RENDERING
+   ================================================================ */
 window.addChatMessage = function(message, type = 'bot') {
     const chatMessages = document.getElementById('chatMessages');
     if (!chatMessages) return;
@@ -197,7 +194,7 @@ window.addChatMessage = function(message, type = 'bot') {
     content.className = 'message-content enhanced-message';
 
     if (type === 'bot') {
-        content.innerHTML = enhanceChatResponse(message);
+        content.innerHTML = _enhanceBotResponse(message);
     } else {
         const p = document.createElement('p');
         p.textContent = message;
@@ -210,15 +207,11 @@ window.addChatMessage = function(message, type = 'bot') {
     chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
 };
 
-function enhanceChatResponse(rawText) {
+function _enhanceBotResponse(rawText) {
     let html = rawText;
     const hasHtmlTable = /<table[\s>]/i.test(html);
-
     if (!hasHtmlTable && typeof marked !== 'undefined' && marked.parse) {
-        try {
-            marked.setOptions({ breaks: true, gfm: true, headerIds: false, mangle: false });
-            html = marked.parse(html);
-        } catch (e) { /* fallback */ }
+        try { marked.setOptions({ breaks:true, gfm:true, headerIds:false, mangle:false }); html = marked.parse(html); } catch(e) {}
     } else if (hasHtmlTable) {
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         html = html.replace(/\n\n/g, '<br><br>');
@@ -226,72 +219,63 @@ function enhanceChatResponse(rawText) {
         html = html.replace(/<br>\s*<table/g, '<table');
         html = html.replace(/<\/table>\s*<br>/g, '</table>');
     }
-
     return `<div class="enhanced-response">${html}</div>`;
 }
 
-// ===== Theme System =====
+/* ================================================================
+   THEME SYSTEM — 4 GoI Layouts + Dark Mode
+   ================================================================ */
 function initializeThemeSystem() {
     const savedTheme = localStorage.getItem('govTheme') || 'nic-blue';
-    applyGovTheme(savedTheme);
+    document.body.setAttribute('data-theme', savedTheme);
+    document.querySelectorAll('.theme-option').forEach(b =>
+        b.classList.toggle('active', b.dataset.theme === savedTheme));
 
-    // Theme picker toggle
     const trigger = document.querySelector('.theme-trigger');
     const dropdown = document.getElementById('themeDropdown');
     if (trigger && dropdown) {
-        trigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown.classList.toggle('open');
-        });
+        trigger.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.toggle('open'); });
         document.addEventListener('click', () => dropdown.classList.remove('open'));
     }
 
-    // Theme option buttons
     document.querySelectorAll('.theme-option').forEach(btn => {
         btn.addEventListener('click', () => {
-            const theme = btn.dataset.theme;
-            applyGovTheme(theme);
-            localStorage.setItem('govTheme', theme);
+            document.body.setAttribute('data-theme', btn.dataset.theme);
+            localStorage.setItem('govTheme', btn.dataset.theme);
             document.querySelectorAll('.theme-option').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById('themeDropdown')?.classList.remove('open');
+            dropdown?.classList.remove('open');
         });
     });
 
-    // Dark mode toggle
+    // Dark mode
     const darkToggle = document.getElementById('themeToggle');
-    const savedDark = localStorage.getItem('darkMode') === 'true';
-    if (savedDark) document.body.classList.add('dark-mode');
-    updateDarkIcon(savedDark);
-
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) document.body.classList.add('dark-mode');
+    _updateDarkIcon(isDark);
     if (darkToggle) {
         darkToggle.addEventListener('click', () => {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            updateDarkIcon(isDark);
+            const d = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', d);
+            _updateDarkIcon(d);
         });
     }
 }
-
-function updateDarkIcon(isDark) {
-    const icon = document.querySelector('#themeToggle i');
-    if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+function _updateDarkIcon(d) {
+    const i = document.querySelector('#themeToggle i');
+    if (i) i.className = d ? 'fas fa-sun' : 'fas fa-moon';
 }
 
-function applyGovTheme(theme) {
-    document.body.setAttribute('data-theme', theme);
-    const mark = document.querySelector('.theme-option.active');
-    document.querySelectorAll('.theme-option').forEach(b => {
-        b.classList.toggle('active', b.dataset.theme === theme);
-    });
-}
-
-// ===== Search Modal =====
+/* ================================================================
+   SEARCH MODAL  (Ctrl+K or search button)
+   ================================================================ */
 function initializeSearchSystem() {
+    // Build the search data index from the page and from the RVSK data
+    const searchIndex = _buildSearchIndex();
+
     const btn = document.querySelector('.search-btn');
     if (!btn) return;
 
-    // Create modal if not exists
     if (!document.getElementById('searchOverlay')) {
         const overlay = document.createElement('div');
         overlay.id = 'searchOverlay';
@@ -305,122 +289,133 @@ function initializeSearchSystem() {
                 <div class="modal-panel-body">
                     <input type="text" id="searchModalInput" class="modal-search-input"
                         placeholder="Search schools, teachers, APAAR, states, initiatives..."
-                        autocomplete="off" autofocus>
+                        autocomplete="off">
                     <div id="searchModalResults" class="modal-search-results">
                         <p class="search-placeholder"><i class="fas fa-search"></i> Type to search across all newsletter data</p>
                     </div>
                 </div>
             </div>`;
         document.body.appendChild(overlay);
-
         overlay.querySelector('.modal-panel-close').addEventListener('click', () => overlay.classList.remove('active'));
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+        overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('active'); });
 
-        const searchInput = document.getElementById('searchModalInput');
+        const input = document.getElementById('searchModalInput');
         let debounce;
-        searchInput.addEventListener('input', () => {
+        input.addEventListener('input', () => {
             clearTimeout(debounce);
-            debounce = setTimeout(() => performDashboardSearch(searchInput.value), 250);
+            debounce = setTimeout(() => _performSearch(input.value, searchIndex), 200);
         });
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') overlay.classList.remove('active');
-        });
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('active'); });
     }
 
-    btn.addEventListener('click', () => {
-        const overlay = document.getElementById('searchOverlay');
-        overlay.classList.add('active');
-        setTimeout(() => document.getElementById('searchModalInput')?.focus(), 200);
+    btn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        const ov = document.getElementById('searchOverlay');
+        ov.classList.add('active');
+        setTimeout(() => document.getElementById('searchModalInput')?.focus(), 150);
     });
 
-    // Ctrl+K shortcut
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', e => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault();
             document.getElementById('searchOverlay')?.classList.add('active');
-            setTimeout(() => document.getElementById('searchModalInput')?.focus(), 200);
+            setTimeout(() => document.getElementById('searchModalInput')?.focus(), 150);
         }
     });
 }
 
-function performDashboardSearch(query) {
+function _buildSearchIndex() {
+    const items = [
+        // Core metrics
+        { title:'Total Schools', value:'948,000 schools integrated', icon:'fa-school', section:'#home' },
+        { title:'Total Teachers', value:'4.37M / 51.38 Lakh teachers linked', icon:'fa-chalkboard-teacher', section:'#home' },
+        { title:'Total Students', value:'112.5M / 13.44 Crore students tracked', icon:'fa-user-graduate', section:'#home' },
+        { title:'APAAR IDs', value:'235M registrations; 15.67 Crore APAAR IDs (RVSK)', icon:'fa-id-card', section:'#home' },
+        { title:'Attendance Rate', value:'96.8% national average', icon:'fa-clipboard-check', section:'#home' },
+        { title:'Digital Readiness', value:'87.3% schools with ICT facilities', icon:'fa-laptop', section:'#home' },
+        // RVSK data
+        { title:'RVSK Overview', value:'Rashtriya Vidya Samiksha Kendra — 37 operational VSKs, 35 States/UTs', icon:'fa-landmark', section:'#rvsk-section' },
+        { title:'6A Framework', value:'Attendance, Assessment, Administration, Accreditation, Adaptive Learning, AI', icon:'fa-layer-group', section:'#rvsk-section' },
+        { title:'13 National Programs', value:'PM SHRI, NAS, DIKSHA, NISHTHA, PM POSHAN, UDISE+, NIPUN BHARAT, APAAR...', icon:'fa-flag', section:'#rvsk-section' },
+        { title:'Capacity Building Workshop', value:'August 2025 — 5 batches, 165 participants from 36 States/UTs', icon:'fa-users-cog', section:'#rvsk-section' },
+        { title:'DPDP Act 2023 Compliance', value:'Data governance, security audits, consent forms, privacy-by-design', icon:'fa-shield-alt', section:'#rvsk-section' },
+        { title:'APAAR for Teachers', value:'12-digit teacher ID, CPD tracking, DigiLocker credentials', icon:'fa-id-badge', section:'#rvsk-section' },
+        { title:'Early Warning System', value:'Gujarat, Odisha, Telangana — 7/15/30 day absence escalation', icon:'fa-exclamation-triangle', section:'#rvsk-section' },
+        // States
+        { title:'Kerala Performance', value:'98.4% attendance, 98.6% APAAR coverage', icon:'fa-map-marker-alt', section:'#analytics' },
+        { title:'Gujarat VSK 2.0', value:'33 District VSKs, 254 Block VSKs, AI-powered EWS', icon:'fa-map-marker-alt', section:'#rvsk-section' },
+        { title:'Tamil Nadu', value:'97.4% attendance, Ennum Ezhuthum FLN tracking', icon:'fa-map-marker-alt', section:'#analytics' },
+        { title:'Odisha', value:'Early Warning System with multi-level escalation', icon:'fa-map-marker-alt', section:'#rvsk-section' },
+        { title:'DNH & DD', value:'NAS ranking improved from bottom 5 to top 5 nationally', icon:'fa-trophy', section:'#rvsk-section' },
+        { title:'Andhra Pradesh & Telangana', value:'Facial Recognition System for attendance', icon:'fa-camera', section:'#rvsk-section' },
+        { title:'Jammu & Kashmir', value:'Smart Attendance chatbot, Digital Studio', icon:'fa-map-marker-alt', section:'#rvsk-section' },
+        { title:'West Bengal', value:'Heat maps for infrastructure; became 37th VSK in July 2025', icon:'fa-map-marker-alt', section:'#rvsk-section' },
+        // Charts
+        { title:'APAAR ID Growth Chart', value:'Line chart — April 2025 to January 2026', icon:'fa-chart-line', section:'#analytics' },
+        { title:'Attendance Trend', value:'Monthly attendance rate chart', icon:'fa-chart-area', section:'#analytics' },
+        { title:'Student Enrollment', value:'Enrollment growth chart', icon:'fa-chart-bar', section:'#analytics' },
+        { title:'Top Performing States', value:'State-wise comparison chart', icon:'fa-trophy', section:'#analytics' },
+        // Other sections
+        { title:'Director\'s Message', value:'Dinesh Prasad Saklani, Director NCERT', icon:'fa-user-tie', section:'.director-message' },
+        { title:'NEP 2020', value:'National Education Policy implementation milestones', icon:'fa-book', section:'#rvsk-section' },
+        { title:'AI in Education', value:'AI chatbot for attendance, ethical safeguards, predictive analytics', icon:'fa-robot', section:'#rvsk-section' },
+    ];
+    return items;
+}
+
+function _performSearch(query, index) {
     const container = document.getElementById('searchModalResults');
     if (!container) return;
     if (!query || query.length < 2) {
         container.innerHTML = '<p class="search-placeholder"><i class="fas fa-search"></i> Type to search across all newsletter data</p>';
         return;
     }
-
     const q = query.toLowerCase();
-    const results = [];
-
-    // Search metric cards
-    document.querySelectorAll('.metric-card').forEach(card => {
-        const label = card.querySelector('.metric-label')?.textContent || '';
-        const value = card.querySelector('.metric-value')?.textContent || '';
-        if (label.toLowerCase().includes(q) || value.toLowerCase().includes(q)) {
-            results.push({ icon: 'fa-chart-bar', title: label, value, el: card });
-        }
-    });
-
-    // Search sections
-    document.querySelectorAll('section').forEach(sec => {
-        const h = sec.querySelector('h2');
-        if (h && h.textContent.toLowerCase().includes(q)) {
-            results.push({ icon: 'fa-layer-group', title: h.textContent.trim(), value: '', el: sec });
-        }
-    });
-
-    // Search newsletter data keywords
-    const dataKeywords = [
-        { term: 'apaar', title: 'APAAR ID Statistics', value: '235M registrations', section: '#analytics' },
-        { term: 'attendance', title: 'Attendance Analytics', value: '96.8% national avg', section: '#analytics' },
-        { term: 'school', title: 'School Infrastructure', value: '948,000 schools', section: '#analytics' },
-        { term: 'teacher', title: 'Teacher Data', value: '4.37M teachers', section: '#analytics' },
-        { term: 'student', title: 'Student Enrollment', value: '112.5M students', section: '#analytics' },
-        { term: 'kerala', title: 'Kerala Performance', value: '98.4% attendance', section: '#analytics' },
-        { term: 'gujarat', title: 'Gujarat Performance', value: '96.2% attendance', section: '#analytics' },
-        { term: 'nep', title: 'NEP 2020 Implementation', value: 'Policy milestones', section: '#analytics' },
-        { term: 'digital', title: 'Digital Infrastructure', value: '87.3% readiness', section: '#analytics' },
-    ];
-    dataKeywords.forEach(kw => {
-        if (kw.term.includes(q) || q.includes(kw.term)) {
-            results.push({ icon: 'fa-database', title: kw.title, value: kw.value, section: kw.section });
-        }
-    });
+    const results = index.filter(item =>
+        item.title.toLowerCase().includes(q) ||
+        item.value.toLowerCase().includes(q)
+    );
 
     if (results.length === 0) {
         container.innerHTML = `<p class="search-placeholder"><i class="fas fa-exclamation-circle"></i> No results for "<strong>${query}</strong>"</p>`;
         return;
     }
 
-    container.innerHTML = results.map((r, i) => `
-        <div class="search-result-row" data-idx="${i}">
+    container.innerHTML = results.slice(0, 12).map((r, i) => `
+        <div class="search-result-row" data-section="${r.section}">
             <div class="search-result-icon"><i class="fas ${r.icon}"></i></div>
             <div class="search-result-info">
-                <strong>${r.title}</strong>
-                ${r.value ? `<span>${r.value}</span>` : ''}
+                <strong>${_highlightMatch(r.title, q)}</strong>
+                <span>${_highlightMatch(r.value, q)}</span>
             </div>
             <i class="fas fa-arrow-right search-result-arrow"></i>
         </div>
     `).join('');
 
-    container.querySelectorAll('.search-result-row').forEach((row, i) => {
+    container.querySelectorAll('.search-result-row').forEach(row => {
         row.addEventListener('click', () => {
             document.getElementById('searchOverlay')?.classList.remove('active');
-            const r = results[i];
-            const target = r.el || document.querySelector(r.section);
+            const sel = row.dataset.section;
+            const target = document.querySelector(sel);
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                target.style.outline = '3px solid var(--gov-orange)';
-                target.style.outlineOffset = '4px';
+                target.scrollIntoView({ behavior:'smooth', block:'center' });
+                target.style.outline = '3px solid var(--gov-orange, #FF6600)';
+                target.style.outlineOffset = '6px';
                 setTimeout(() => { target.style.outline = ''; target.style.outlineOffset = ''; }, 2500);
             }
         });
     });
 }
 
-// ===== Help Modal =====
+function _highlightMatch(text, query) {
+    if (!query) return text;
+    const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return text.replace(re, '<mark style="background:#FFE082;padding:0 2px;border-radius:2px;">$1</mark>');
+}
+
+/* ================================================================
+   HELP MODAL
+   ================================================================ */
 function initializeHelpSystem() {
     const btn = document.querySelector('.help-btn');
     if (!btn) return;
@@ -436,114 +431,63 @@ function initializeHelpSystem() {
                     <button class="modal-panel-close" aria-label="Close">&times;</button>
                 </div>
                 <div class="modal-panel-body help-body">
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-info-circle"></i> About This Dashboard</h4>
-                        <p>The Vidya Samiksha Kendra (VSK) National Education Dashboard provides insights into India's school education system from <strong>April 2025 to January 2026</strong>. It covers 948,000+ schools across 36 states and UTs.</p>
-                    </div>
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-palette"></i> Theme Layouts</h4>
-                        <p>Choose from <strong>4 government-themed layouts</strong> using the palette icon in the top bar: NIC Blue, India Saffron, Digital India Green, and Parliament Maroon. Toggle dark mode with the moon/sun icon.</p>
-                    </div>
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-robot"></i> AI Assistant</h4>
-                        <p>Click the <strong>floating chat icon</strong> or the "AI Assistant" tab. Choose English or Hindi. Ask about APAAR IDs, attendance, state performance, technical developments, or KPIs.</p>
-                    </div>
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-search"></i> Search</h4>
-                        <p>Click the search icon or press <strong>Ctrl + K</strong> to search across all dashboard data including schools, states, metrics, and initiatives.</p>
-                    </div>
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-chart-line"></i> Charts & Visualizations</h4>
-                        <p>Interactive Chart.js visualizations show APAAR growth, attendance trends, enrollment, infrastructure expansion, and state-wise performance comparisons.</p>
-                    </div>
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h4>
-                        <ul>
-                            <li><strong>Ctrl + K</strong> — Open Search</li>
-                            <li><strong>Escape</strong> — Close modals</li>
-                            <li><strong>Tab</strong> — Navigate elements</li>
-                        </ul>
-                    </div>
-                    <div class="help-section-card">
-                        <h4><i class="fas fa-phone-alt"></i> Contact Support</h4>
-                        <p><strong>Email:</strong> vsk@education.gov.in<br>
-                        <strong>Phone:</strong> +91-11-23382698<br>
-                        <strong>Helpline:</strong> 1800-11-4831 (Toll-Free)</p>
-                    </div>
+                    <div class="help-section-card"><h4><i class="fas fa-info-circle"></i> About RVSK Dashboard</h4><p>The Rashtriya Vidya Samiksha Kendra (RVSK) Dashboard provides comprehensive insights into India's school education system covering <strong>948,000+ schools</strong>, <strong>4.37M teachers</strong>, and <strong>112.5M students</strong> from April 2025 to January 2026.</p></div>
+                    <div class="help-section-card"><h4><i class="fas fa-palette"></i> Theme Layouts</h4><p>Choose from <strong>4 government-themed layouts</strong> using the palette icon: NIC Blue, India Saffron, Digital India Green, and Parliament Maroon. Toggle dark mode separately.</p></div>
+                    <div class="help-section-card"><h4><i class="fas fa-robot"></i> AI Assistant</h4><p>Click the floating chat icon or "AI Assistant" tab. Choose <strong>English or Hindi</strong>. Ask about APAAR IDs, the 6A framework, state best practices, capacity building, attendance, KPIs, or any RVSK data.</p></div>
+                    <div class="help-section-card"><h4><i class="fas fa-search"></i> Search (Ctrl+K)</h4><p>Search across all dashboard data including metrics, states, RVSK programs, charts, and newsletter sections. Results highlight and scroll to the matching element.</p></div>
+                    <div class="help-section-card"><h4><i class="fas fa-chart-line"></i> Charts</h4><p>Interactive Chart.js visualizations show APAAR growth, attendance trends, enrollment, infrastructure, and state-wise comparisons.</p></div>
+                    <div class="help-section-card"><h4><i class="fas fa-keyboard"></i> Shortcuts</h4><ul><li><strong>Ctrl+K</strong> — Open Search</li><li><strong>Escape</strong> — Close modals</li></ul></div>
+                    <div class="help-section-card"><h4><i class="fas fa-phone-alt"></i> Contact</h4><p><strong>CIET-NCERT</strong>, Sri Aurobindo Marg, New Delhi 110016<br>Tel: +91-11-2696-2580 | Email: jdciet.ncert@nic.in<br>PMeVIDYA IVRS: #8800440559</p></div>
                 </div>
             </div>`;
         document.body.appendChild(overlay);
         overlay.querySelector('.modal-panel-close').addEventListener('click', () => overlay.classList.remove('active'));
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+        overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('active'); });
     }
 
-    btn.addEventListener('click', () => document.getElementById('helpOverlay')?.classList.add('active'));
+    btn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        document.getElementById('helpOverlay')?.classList.add('active');
+    });
 }
 
-// ===== Navigation Buttons =====
+/* ================================================================
+   NAVIGATION BUTTONS  (Dashboard / AI Assistant)
+   ================================================================ */
 function initializeNavButtons() {
     document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', e => {
             e.preventDefault();
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             link.classList.add('active');
-
             const href = link.getAttribute('href');
             if (href === '#ai-chat') {
-                // Open the chat widget
-                const widget = document.getElementById('chatWidget');
-                if (widget) {
-                    widget.classList.add('active');
-                    widget.setAttribute('aria-hidden', 'false');
-                    if (hasSelectedLanguage) showChatInterface();
-                    else showLanguageSelect();
-                }
-                // Also scroll to the AI section
+                openChatWidget();
                 const sec = document.getElementById('ai-chat');
-                if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (sec) sec.scrollIntoView({ behavior:'smooth', block:'start' });
             } else if (href === '#home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top:0, behavior:'smooth' });
             } else {
-                const target = document.querySelector(href);
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const t = document.querySelector(href);
+                if (t) t.scrollIntoView({ behavior:'smooth', block:'start' });
             }
         });
     });
 }
 
-// ===== Escape key for all modals =====
-document.addEventListener('keydown', (e) => {
+/* ================================================================
+   ESCAPE KEY — close all modals
+   ================================================================ */
+document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         document.getElementById('searchOverlay')?.classList.remove('active');
         document.getElementById('helpOverlay')?.classList.remove('active');
     }
 });
 
-// ===== Enhanced month-wise filtering =====
-window.filterByTimePeriod = function(period) {
-    const metricCards = document.querySelectorAll('.metric-card');
-    const metricsHeader = document.querySelector('.metrics-period span');
-    const monthData = {
-        'all': { period: 'As of January 2026', schools: '948,000', teachers: '4.37M', students: '112.5M', apaar: '235M', attendance: '96.8%', digital: '87.3%' },
-        'april-2025': { period: 'As of April 2025', schools: '915,000', teachers: '4.23M', students: '106.7M', apaar: '120M', attendance: '95.8%', digital: '74.8%' },
-        'january-2026': { period: 'As of January 2026', schools: '948,000', teachers: '4.37M', students: '112.5M', apaar: '235M', attendance: '96.8%', digital: '87.3%' }
-    };
-    const data = monthData[period] || monthData['all'];
-    if (metricsHeader) metricsHeader.textContent = data.period;
-    const setVal = (sel, val) => { const el = document.querySelector(sel); if (el) el.textContent = val; };
-    setVal('.schools-card .metric-value', data.schools);
-    setVal('.teachers-card .metric-value', data.teachers);
-    setVal('.students-card .metric-value', data.students);
-    setVal('.apaar-card .metric-value', data.apaar);
-    setVal('.attendance-card .metric-value', data.attendance);
-    setVal('.digital-card .metric-value', data.digital);
-    metricCards.forEach((card, i) => {
-        card.style.animation = 'none';
-        setTimeout(() => { card.style.animation = 'fadeInUp 0.5s ease-out'; }, i * 60);
-    });
-};
-
-// ===== Master Init =====
+/* ================================================================
+   MASTER INIT
+   ================================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     initializeThemeSystem();
     initializeSearchSystem();
