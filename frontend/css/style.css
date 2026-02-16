@@ -237,6 +237,32 @@ section {
 .director-message {
     background: linear-gradient(to bottom, #ffffff, #f8f9fa);
     animation: fadeInUp 0.8s ease-out 0.3s both;
+    border-radius: 8px;
+    padding: 30px;
+    margin: 24px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.director-message .section-header h2 {
+    color: var(--gov-blue);
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* Key Highlights Section */
+.key-highlights {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin: 24px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.key-highlights .section-header h2 {
+    color: var(--gov-blue);
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .message-content {
@@ -550,6 +576,36 @@ section {
 .states-table tr:hover {
     background: #e8f4f8;
     transform: scale(1.01);
+}
+
+/* Analytics Section Header */
+.analytics-section {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    margin: 24px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.analytics-section .section-header {
+    margin-bottom: 30px;
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--gov-orange);
+}
+
+.analytics-section .section-header h2 {
+    color: var(--gov-blue);
+    font-size: 1.8em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.analytics-section .section-header p {
+    color: var(--text-secondary);
+    margin-top: 8px;
+    font-size: 1em;
 }
 
 /* Analytics Section with Smooth Transitions */
