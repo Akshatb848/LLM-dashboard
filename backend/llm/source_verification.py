@@ -69,5 +69,4 @@ def get_footer_attribution() -> str:
     """
     return """---
 **Source:** Official Newsletter Data (April 2025 - January 2026)
-Department of School Education & Literacy, Ministry of Education, Government of India
-**Data Verification:** """ + API_ENDPOINTS['full_data']
+Department of School Education & Literacy, Ministry of Education, Government of India"""

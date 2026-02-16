@@ -100,37 +100,13 @@
                 <li role="none">
                     <a href="#home" class="nav-link active" role="menuitem" aria-current="page">
                         <i class="fas fa-home"></i>
-                        <span>Home</span>
+                        <span data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
                     </a>
                 </li>
                 <li role="none">
-                    <a href="#newsletters" class="nav-link" role="menuitem">
-                        <i class="fas fa-newspaper"></i>
-                        <span>Newsletters</span>
-                    </a>
-                </li>
-                <li role="none">
-                    <a href="#analytics" class="nav-link" role="menuitem">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Analytics</span>
-                    </a>
-                </li>
-                <li role="none">
-                    <a href="#trends" class="nav-link" role="menuitem">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Trends</span>
-                    </a>
-                </li>
-                <li role="none">
-                    <a href="#ai-assistant" class="nav-link" role="menuitem">
-                        <i class="fas fa-robot"></i>
-                        <span>AI Assistant</span>
-                    </a>
-                </li>
-                <li role="none">
-                    <a href="#documentation" class="nav-link" role="menuitem">
-                        <i class="fas fa-book"></i>
-                        <span>Documentation</span>
+                    <a href="#ai-chat" class="nav-link" role="menuitem">
+                        <i class="fas fa-comments"></i>
+                        <span data-en="AI Assistant" data-hi="AI सहायक">AI Assistant</span>
                     </a>
                 </li>
             </ul>
@@ -274,6 +250,45 @@
                 </div>
                 <div class="metric-chart">
                     <canvas id="digitalTrend"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistical Analysis & Data Visualization -->
+    <section class="analytics-section" id="analytics">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> <span data-en="Statistical Analysis & Trends" data-hi="सांख्यिकीय विश्लेषण और रुझान">Statistical Analysis & Trends</span></h2>
+                <p data-en="Interactive data visualization of education metrics from April 2025 to January 2026" data-hi="अप्रैल 2025 से जनवरी 2026 तक शिक्षा मेट्रिक्स का इंटरैक्टिव डेटा विज़ुअलाइज़ेशन">Interactive data visualization of education metrics from April 2025 to January 2026</p>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h4><i class="fas fa-id-card"></i> <span data-en="APAAR ID Generation Progress" data-hi="APAAR ID निर्माण प्रगति">APAAR ID Generation Progress</span></h4>
+                    <canvas id="apaarChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4><i class="fas fa-clipboard-check"></i> <span data-en="Monthly Attendance Trend" data-hi="मासिक उपस्थिति रुझान">Monthly Attendance Trend</span></h4>
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h4><i class="fas fa-user-graduate"></i> <span data-en="Student Enrollment Growth" data-hi="छात्र नामांकन वृद्धि">Student Enrollment Growth</span></h4>
+                    <canvas id="studentsChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4><i class="fas fa-school"></i> <span data-en="Infrastructure Expansion" data-hi="बुनियादी ढांचा विस्तार">Infrastructure Expansion</span></h4>
+                    <canvas id="infrastructureChart"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-container full-width">
+                    <h4><i class="fas fa-trophy"></i> <span data-en="Top Performing States (January 2026)" data-hi="शीर्ष प्रदर्शन करने वाले राज्य (जनवरी 2026)">Top Performing States (January 2026)</span></h4>
+                    <canvas id="statesChart"></canvas>
                 </div>
             </div>
         </div>
