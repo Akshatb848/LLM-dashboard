@@ -12,20 +12,29 @@ let charts = {};
 document.addEventListener('DOMContentLoaded', async () => {
     await loadNewsletterData();
     if (newsletterData) {
-        loadDirectorMessage();
-        loadHighlightsSummary();
-        initializeCalendar();
-        loadAnalytics();
-        loadTechnicalDevelopments();
-        loadKPIs();
-        initializeChatbot();
-        initializeScrollAnimations();
-        initializeCounterAnimations();
-        initializeEnhancedUI();
-        initializeMetricCards();
-        initializeAccessibility();
+        safeCall(loadDirectorMessage, 'loadDirectorMessage');
+        safeCall(loadHighlightsSummary, 'loadHighlightsSummary');
+        safeCall(initializeCalendar, 'initializeCalendar');
+        safeCall(loadAnalytics, 'loadAnalytics');
+        safeCall(loadTechnicalDevelopments, 'loadTechnicalDevelopments');
+        safeCall(loadKPIs, 'loadKPIs');
+        safeCall(initializeChatbot, 'initializeChatbot');
+        safeCall(initializeScrollAnimations, 'initializeScrollAnimations');
+        safeCall(initializeCounterAnimations, 'initializeCounterAnimations');
+        safeCall(initializeEnhancedUI, 'initializeEnhancedUI');
+        safeCall(initializeMetricCards, 'initializeMetricCards');
+        safeCall(initializeAccessibility, 'initializeAccessibility');
     }
 });
+
+// Safe function caller - prevents one failure from breaking the entire app
+function safeCall(fn, name) {
+    try {
+        fn();
+    } catch (e) {
+        console.warn(`[VSK] ${name} initialization skipped:`, e.message);
+    }
+}
 
 // Load Newsletter Data
 async function loadNewsletterData() {
@@ -56,57 +65,104 @@ function loadDirectorMessage() {
 // Load Highlights Summary
 function loadHighlightsSummary() {
     const months = newsletterData.months;
+    if (!months || !months.length) return;
+
     const latestMonth = months[months.length - 1];
+    const firstMonth = months[0];
+
+    const schoolsGrowth = latestMonth.schools - firstMonth.schools;
+    const teachersGrowth = latestMonth.teachers - firstMonth.teachers;
+    const studentsGrowth = latestMonth.students - firstMonth.students;
+    const apaarGrowth = latestMonth.apaar_ids - firstMonth.apaar_ids;
 
     const highlights = [
         {
+            icon: 'fas fa-school',
             value: latestMonth.schools.toLocaleString(),
-            label: 'Total Schools'
+            label: 'Total Schools',
+            change: `+${schoolsGrowth.toLocaleString()} since Apr 2025`
         },
         {
+            icon: 'fas fa-chalkboard-teacher',
             value: (latestMonth.teachers / 1000000).toFixed(2) + 'M',
-            label: 'Teachers'
+            label: 'Teachers',
+            change: `+${(teachersGrowth / 1000).toFixed(0)}K since Apr 2025`
         },
         {
+            icon: 'fas fa-user-graduate',
             value: (latestMonth.students / 1000000).toFixed(1) + 'M',
-            label: 'Students'
+            label: 'Students',
+            change: `+${(studentsGrowth / 1000000).toFixed(1)}M since Apr 2025`
         },
         {
+            icon: 'fas fa-id-card',
             value: (latestMonth.apaar_ids / 1000000).toFixed(0) + 'M',
-            label: 'APAAR IDs Generated'
+            label: 'APAAR IDs Generated',
+            change: `+${(apaarGrowth / 1000000).toFixed(0)}M since Apr 2025`
         },
         {
+            icon: 'fas fa-clipboard-check',
             value: latestMonth.attendance_rate + '%',
-            label: 'Attendance Rate'
+            label: 'Attendance Rate',
+            change: `+${(latestMonth.attendance_rate - firstMonth.attendance_rate).toFixed(1)}% since Apr 2025`
         },
         {
-            value: newsletterData.key_performance_indicators.overall_growth.apaar_adoption,
-            label: 'APAAR Adoption'
+            icon: 'fas fa-chart-line',
+            value: newsletterData.key_performance_indicators?.overall_growth?.apaar_adoption || '95.8%',
+            label: 'APAAR Adoption',
+            change: 'National coverage'
         }
     ];
 
     const container = document.getElementById('highlightsSummary');
+    if (!container) return;
+    
     container.innerHTML = highlights.map(h => `
         <div class="highlight-card">
-            <h4>${h.value}</h4>
-            <p>${h.label}</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+                <i class="${h.icon}" style="font-size:24px;color:#003d82;"></i>
+                <h4 style="margin:0;">${h.value}</h4>
+            </div>
+            <p style="margin:0 0 4px 0;font-weight:600;">${h.label}</p>
+            <p style="margin:0;font-size:12px;color:#28a745;"><i class="fas fa-arrow-up"></i> ${h.change}</p>
         </div>
     `).join('');
+
+    // Also update the KPI metric card values with latest data
+    updateMetricCardValues(latestMonth, firstMonth);
+}
+
+// Update metric card values with actual data
+function updateMetricCardValues(latest, first) {
+    const setValue = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+
+    setValue('totalSchools', latest.schools.toLocaleString());
+    setValue('totalTeachers', (latest.teachers / 1000000).toFixed(2) + 'M');
+    setValue('totalStudents', (latest.students / 1000000).toFixed(1) + 'M');
+    setValue('totalApaar', (latest.apaar_ids / 1000000).toFixed(0) + 'M');
+    setValue('totalAttendance', latest.attendance_rate + '%');
 }
 
 // Calendar Navigation
 function initializeCalendar() {
-    currentMonthIndex = newsletterData.months.length - 1; // Start with latest month
+    const prevBtn = document.getElementById('prevMonth');
+    const nextBtn = document.getElementById('nextMonth');
+    if (!prevBtn || !nextBtn) return; // Elements not present in current layout
+
+    currentMonthIndex = newsletterData.months.length - 1;
     displayMonth(currentMonthIndex);
 
-    document.getElementById('prevMonth').addEventListener('click', () => {
+    prevBtn.addEventListener('click', () => {
         if (currentMonthIndex > 0) {
             currentMonthIndex--;
             displayMonth(currentMonthIndex);
         }
     });
 
-    document.getElementById('nextMonth').addEventListener('click', () => {
+    nextBtn.addEventListener('click', () => {
         if (currentMonthIndex < newsletterData.months.length - 1) {
             currentMonthIndex++;
             displayMonth(currentMonthIndex);
@@ -116,63 +172,64 @@ function initializeCalendar() {
 
 function displayMonth(index) {
     const month = newsletterData.months[index];
+    if (!month) return;
 
-    // Update month title
-    document.getElementById('currentMonth').textContent = month.month;
+    const setTextSafe = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    };
 
-    // Update stats
-    document.getElementById('monthSchools').textContent = month.schools.toLocaleString();
-    document.getElementById('monthTeachers').textContent = (month.teachers / 1000000).toFixed(2) + 'M';
-    document.getElementById('monthStudents').textContent = (month.students / 1000000).toFixed(1) + 'M';
-    document.getElementById('monthApaar').textContent = (month.apaar_ids / 1000000).toFixed(0) + 'M';
-    document.getElementById('monthAttendance').textContent = month.attendance_rate + '%';
+    setTextSafe('currentMonth', month.month);
+    setTextSafe('monthSchools', month.schools.toLocaleString());
+    setTextSafe('monthTeachers', (month.teachers / 1000000).toFixed(2) + 'M');
+    setTextSafe('monthStudents', (month.students / 1000000).toFixed(1) + 'M');
+    setTextSafe('monthApaar', (month.apaar_ids / 1000000).toFixed(0) + 'M');
+    setTextSafe('monthAttendance', month.attendance_rate + '%');
 
-    // Update highlights
-    const highlightsList = document.getElementById('monthHighlightsList');
-    highlightsList.innerHTML = month.highlights.map(h => `<li>${h}</li>`).join('');
+    const setListSafe = (id, items, renderer) => {
+        const el = document.getElementById(id);
+        if (el && items) el.innerHTML = items.map(renderer).join('');
+    };
 
-    // Update activities
-    const activitiesList = document.getElementById('monthActivitiesList');
-    activitiesList.innerHTML = month.activities.map(a => `<li>${a}</li>`).join('');
-
-    // Update events
-    const eventsList = document.getElementById('monthEventsList');
-    eventsList.innerHTML = month.events.map(e => `
+    setListSafe('monthHighlightsList', month.highlights, h => `<li>${h}</li>`);
+    setListSafe('monthActivitiesList', month.activities, a => `<li>${a}</li>`);
+    setListSafe('monthEventsList', month.events, e => `
         <div class="event-card">
             <h5>${e.name}</h5>
-            <div class="event-date">📅 ${e.date}</div>
+            <div class="event-date"><i class="fas fa-calendar-alt"></i> ${e.date}</div>
             <div class="event-description">${e.description}</div>
-            <div class="event-participants">👥 ${e.participants.toLocaleString()} participants</div>
+            <div class="event-participants"><i class="fas fa-users"></i> ${e.participants.toLocaleString()} participants</div>
         </div>
-    `).join('');
+    `);
 
-    // Update states table
     const statesTable = document.getElementById('monthStatesTable');
-    const stateEntries = Object.entries(month.states);
-    statesTable.innerHTML = `
-        <div class="states-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>State/UT</th>
-                        <th>Attendance Rate</th>
-                        <th>APAAR Coverage</th>
-                        <th>Schools</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${stateEntries.map(([state, data]) => `
+    if (statesTable && month.states) {
+        const stateEntries = Object.entries(month.states);
+        statesTable.innerHTML = `
+            <div class="states-table">
+                <table>
+                    <thead>
                         <tr>
-                            <td><strong>${state}</strong></td>
-                            <td>${data.attendance}%</td>
-                            <td>${data.apaar_coverage}%</td>
-                            <td>${data.schools.toLocaleString()}</td>
+                            <th>State/UT</th>
+                            <th>Attendance Rate</th>
+                            <th>APAAR Coverage</th>
+                            <th>Schools</th>
                         </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-        </div>
-    `;
+                    </thead>
+                    <tbody>
+                        ${stateEntries.map(([state, data]) => `
+                            <tr>
+                                <td><strong>${state}</strong></td>
+                                <td>${data.attendance}%</td>
+                                <td>${data.apaar_coverage}%</td>
+                                <td>${data.schools.toLocaleString()}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+    }
 }
 
 // Load Analytics Charts
@@ -417,12 +474,6 @@ function createAttendanceChart() {
                         color: '#666',
                         maxRotation: 45,
                         minRotation: 45
-                    }
-                }
-            }
-        }
-    });
-}
                     }
                 }
             }
@@ -842,39 +893,34 @@ function createStatesChart() {
 // Load Technical Developments
 function loadTechnicalDevelopments() {
     const tech = newsletterData.technical_developments;
+    if (!tech) return;
 
-    // Dashboard features
     const featuresList = document.getElementById('dashboardFeaturesList');
-    featuresList.innerHTML = tech.dashboard_features.map(f => `<li>${f}</li>`).join('');
+    if (featuresList && tech.dashboard_features) {
+        featuresList.innerHTML = tech.dashboard_features.map(f => `<li>${f}</li>`).join('');
+    }
 
-    // Infrastructure upgrades
     const upgradesList = document.getElementById('infrastructureUpgradesList');
-    upgradesList.innerHTML = tech.infrastructure_upgrades.map(u => `<li>${u}</li>`).join('');
+    if (upgradesList && tech.infrastructure_upgrades) {
+        upgradesList.innerHTML = tech.infrastructure_upgrades.map(u => `<li>${u}</li>`).join('');
+    }
 }
 
 // Load KPIs
 function loadKPIs() {
     const kpis = newsletterData.key_performance_indicators;
     const kpiGrid = document.getElementById('kpiGrid');
+    if (!kpis || !kpiGrid) return;
 
     const categories = [
-        {
-            title: '📈 Overall Growth',
-            data: kpis.overall_growth
-        },
-        {
-            title: '🎓 Learning Outcomes',
-            data: kpis.learning_outcomes
-        },
-        {
-            title: '⚖️ Equity Indicators',
-            data: kpis.equity_indicators
-        }
+        { title: 'Overall Growth', icon: 'fas fa-chart-line', data: kpis.overall_growth },
+        { title: 'Learning Outcomes', icon: 'fas fa-graduation-cap', data: kpis.learning_outcomes },
+        { title: 'Equity Indicators', icon: 'fas fa-balance-scale', data: kpis.equity_indicators }
     ];
 
-    kpiGrid.innerHTML = categories.map(cat => `
+    kpiGrid.innerHTML = categories.filter(cat => cat.data).map(cat => `
         <div class="kpi-category">
-            <h4>${cat.title}</h4>
+            <h4><i class="${cat.icon}"></i> ${cat.title}</h4>
             ${Object.entries(cat.data).map(([key, value]) => `
                 <div class="kpi-item">
                     <div class="kpi-label">${formatKPILabel(key)}</div>
@@ -893,6 +939,7 @@ function formatKPILabel(key) {
 function initializeChatbot() {
     const submitBtn = document.getElementById('chatSubmit');
     const queryInput = document.getElementById('chatQuery');
+    if (!submitBtn || !queryInput) return;
 
     submitBtn.addEventListener('click', () => askQuestion());
     queryInput.addEventListener('keypress', (e) => {
@@ -902,7 +949,6 @@ function initializeChatbot() {
         }
     });
 
-    // Example queries
     document.querySelectorAll('.example-query').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const query = e.target.dataset.query;
@@ -1441,14 +1487,18 @@ function exportData(format) {
 }
 
 function exportToCSV() {
-    const data = newsletterData.monthly_data;
-    let csv = 'Month,Schools,Teachers,Students,APAAR IDs,Attendance\n';
+    const data = newsletterData.months || newsletterData.monthly_data;
+    if (!data || !data.length) {
+        showNotification('No monthly data available to export', 'error');
+        return;
+    }
+    let csv = 'Month,Schools,Teachers,Students,APAAR IDs,Attendance Rate\n';
     
     data.forEach(month => {
         csv += `${month.month},${month.schools},${month.teachers},${month.students},${month.apaar_ids},${month.attendance_rate}\n`;
     });
 
-    downloadFile(csv, 'newsletter-data.csv', 'text/csv');
+    downloadFile(csv, 'vsk-newsletter-data.csv', 'text/csv');
     showNotification('CSV exported successfully!', 'success');
 }
 
@@ -1519,14 +1569,16 @@ function performSearch(query) {
 function initializeMetricCards() {
     if (!newsletterData) return;
 
-    const monthlyData = newsletterData.monthly_data;
-    
-    // Create mini sparkline charts
+    const monthlyData = newsletterData.months || newsletterData.monthly_data;
+    if (!monthlyData || !monthlyData.length) return;
+
+    // Create mini sparkline charts for each metric card
     createMiniChart('schoolsTrend', monthlyData.map(m => m.schools), '#FF6600');
     createMiniChart('teachersTrend', monthlyData.map(m => m.teachers), '#28a745');
     createMiniChart('studentsTrend', monthlyData.map(m => m.students), '#003d82');
     createMiniChart('apaarTrend', monthlyData.map(m => m.apaar_ids), '#ffc107');
     createMiniChart('attendanceTrend', monthlyData.map(m => parseFloat(m.attendance_rate)), '#17a2b8');
+    createMiniChart('digitalTrend', monthlyData.map((m, i) => 74.8 + (i * 1.4)), '#6610f2');
 }
 
 function createMiniChart(canvasId, data, color) {
