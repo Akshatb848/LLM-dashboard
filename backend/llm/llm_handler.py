@@ -32,9 +32,10 @@ class LLMHandler:
             "structured_responses": True,
         }
 
-    def summarize(self, question: str, context: str) -> str | None:
+    def summarize(self, question: str, context: str, language: str = "en") -> str | None:
         """
         Enhanced summarization with structured responses and contextual questions
+        Supports bilingual responses (English/Hindi) based on language parameter
         """
         if not self.enabled:
             return None
@@ -43,8 +44,8 @@ class LLMHandler:
         query_type = detect_query_type(question)
         chapter = detect_chapter(question)
 
-        # Use structured prompt for better responses
-        prompt = get_structured_prompt(question, context)
+        # Use structured prompt for better responses with language specification
+        prompt = get_structured_prompt(question, context, language=language)
 
         try:
             response = requests.post(

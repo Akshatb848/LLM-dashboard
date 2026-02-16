@@ -18,6 +18,7 @@ except ImportError:
 
 class ChatRequest(BaseModel):
     query: str
+    language: str = "en"  # Default to English, can be "en" or "hi"
 
 
 class ChatHandler:
@@ -194,6 +195,7 @@ Please try asking about:
 
     async def chat(self, payload: ChatRequest) -> dict[str, Any]:
         query = payload.query.strip()
+        language = payload.language  # Extract language preference (en or hi)
         if not query:
             return {"answer": self._render_no_data(), "mode": "rag_only", "sources": []}
 
@@ -242,7 +244,7 @@ Please try asking about:
 
         # Try to get LLM enhancement if available
         context = "\n\n".join(item["text"] for item in results[:3])
-        llm_text = self.llm.summarize(query, context)
+        llm_text = self.llm.summarize(query, context, language=language)  # Pass language preference
         mode = "rag_only"
 
         if llm_text and llm_text.strip():

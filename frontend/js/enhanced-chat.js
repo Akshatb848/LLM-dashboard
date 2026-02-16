@@ -18,15 +18,72 @@ window.initializeChatWidget = function() {
     // Add language selection UI
     addLanguageSelectionToChatWidget();
 
-    // Override sendChatMessage to include language
+    // Override sendChatMessage to include language in API request
     const originalSendChatMessage = window.sendChatMessage;
-    window.sendChatMessage = function() {
+    window.sendChatMessage = async function() {
         if (!hasSelectedLanguage) {
             showNotification('Please select your preferred language first', 'info');
             return;
         }
-        if (originalSendChatMessage) {
-            originalSendChatMessage();
+
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatSendBtn = document.getElementById('chatSendBtn');
+
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Disable input while processing
+        chatInput.disabled = true;
+        chatSendBtn.disabled = true;
+
+        // Add user message to chat
+        addChatMessage(message, 'user');
+
+        // Clear input
+        chatInput.value = '';
+
+        // Show typing indicator
+        const typingIndicator = addTypingIndicator();
+
+        try {
+            // Send request to backend WITH LANGUAGE
+            const response = await fetch(`${API_BASE}/api/chat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: message,
+                    language: chatLanguage // CRITICAL: Include language preference
+                })
+            });
+
+            if (!response.ok) throw new Error('Failed to get response');
+
+            const data = await response.json();
+
+            // Remove typing indicator
+            typingIndicator.remove();
+
+            // Add bot response to chat
+            addChatMessage(data.answer, 'bot');
+
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        } catch (error) {
+            console.error('Chat error:', error);
+            typingIndicator.remove();
+            const errorMsg = chatLanguage === 'hi' ?
+                'क्षमा करें, एक त्रुटि हुई। कृपया पुनः प्रयास करें।' :
+                'Sorry, I encountered an error. Please try again.';
+            addChatMessage(errorMsg, 'bot');
+        } finally {
+            // Re-enable input
+            chatInput.disabled = false;
+            chatSendBtn.disabled = false;
+            chatInput.focus();
         }
     };
 };
