@@ -361,7 +361,27 @@ def get_structured_prompt(query: str, context: str, language: str = "en") -> str
 
     # Language instruction for the LLM
     language_name = "English" if language == "en" else "Hindi (हिंदी)"
-    language_instruction = f"\n🌐 RESPONSE LANGUAGE: {language_name}\n**CRITICAL: Respond ONLY in {language_name}. Apply this to ALL parts of your response.**\n"
+
+    # CRITICAL: Strengthen language instruction
+    if language == "hi":
+        language_instruction = f"""
+🌐 MANDATORY LANGUAGE REQUIREMENT: हिंदी (HINDI)
+**ABSOLUTE REQUIREMENT: You MUST respond ENTIRELY in Hindi (हिंदी).**
+- Write ALL text in Devanagari script (हिंदी में)
+- Translate table headers to Hindi
+- Translate all labels, summaries, and explanations to Hindi
+- Translate follow-up questions to Hindi
+- Use professional Hindi government terminology
+- Numbers can remain in standard numerals (123, 456, etc.)
+**DO NOT mix English and Hindi. Everything must be in Hindi except numbers.**
+"""
+    else:
+        language_instruction = f"""
+🌐 MANDATORY LANGUAGE REQUIREMENT: ENGLISH
+**ABSOLUTE REQUIREMENT: You MUST respond ENTIRELY in English.**
+- Write ALL text in English
+- Use proper English grammar and terminology
+"""
 
     prompt = f"""{ENHANCED_SYSTEM_PROMPT}
 {language_instruction}
