@@ -115,33 +115,45 @@ window.addChatMessage = function(message, type = 'bot') {
 };
 
 // Enhance chat responses with beautiful formatting
-function enhanceChatResponse(html) {
-    let enhanced = html;
+function enhanceChatResponse(rawText) {
+    let html = rawText;
 
-    // Add response container
-    enhanced = `<div class="enhanced-response">${enhanced}</div>`;
+    // If response contains HTML tables, render HTML directly without markdown parsing
+    const hasHtmlTable = /<table[\s>]/i.test(html);
 
-    // Enhance headers
+    if (!hasHtmlTable && typeof marked !== 'undefined' && marked.parse) {
+        // Parse markdown content (no HTML tables present)
+        try {
+            marked.setOptions({
+                breaks: true,
+                gfm: true,
+                headerIds: false,
+                mangle: false
+            });
+            html = marked.parse(html);
+        } catch (e) {
+            console.warn('[VSK] Markdown parse error in chat:', e);
+        }
+    } else if (hasHtmlTable) {
+        // For HTML table responses: convert non-HTML parts to formatted HTML
+        // Process line breaks and bold markers outside of table tags
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\n\n/g, '<br><br>');
+        html = html.replace(/\n(?!<)/g, '<br>');
+        // Clean up <br> right before/after tables
+        html = html.replace(/<br>\s*<table/g, '<table');
+        html = html.replace(/<\/table>\s*<br>/g, '</table>');
+    }
+
+    // Wrap in enhanced response container
+    let enhanced = `<div class="enhanced-response">${html}</div>`;
+
+    // Style enhancements (safe for both HTML and markdown-rendered content)
     enhanced = enhanced.replace(/<h([1-6])>(.*?)<\/h\1>/g,
-        '<h$1 style="color: #003d82; margin: 16px 0 12px 0; font-weight: 600; display: flex; align-items: center; gap: 8px;">' +
-        '<i class="fas fa-angle-double-right" style="color: #FF6600; font-size: 0.8em;"></i>$2</h$1>');
+        '<h$1 style="color:#003d82;margin:16px 0 12px 0;font-weight:600;">$2</h$1>');
 
-    // Enhance strong text
     enhanced = enhanced.replace(/<strong>(.*?)<\/strong>/g,
-        '<strong style="color: #003d82; font-weight: 700;">$1</strong>');
-
-    // Enhance lists
-    enhanced = enhanced.replace(/<ul>/g,
-        '<ul style="margin: 12px 0; padding-left: 24px;">');
-    enhanced = enhanced.replace(/<li>/g,
-        '<li style="margin: 8px 0; line-height: 1.6; color: #333;">');
-
-    // Add icons to common keywords
-    enhanced = enhanced.replace(/\b(Schools?)\b/g, '<i class="fas fa-school" style="color: #FF6600; font-size: 0.9em;"></i> $1');
-    enhanced = enhanced.replace(/\b(Teachers?)\b/g, '<i class="fas fa-chalkboard-teacher" style="color: #28a745; font-size: 0.9em;"></i> $1');
-    enhanced = enhanced.replace(/\b(Students?)\b/g, '<i class="fas fa-user-graduate" style="color: #003d82; font-size: 0.9em;"></i> $1');
-    enhanced = enhanced.replace(/\b(APAAR ID[s]?)\b/g, '<i class="fas fa-id-card" style="color: #ffc107; font-size: 0.9em;"></i> $1');
-    enhanced = enhanced.replace(/\b(Attendance)\b/g, '<i class="fas fa-clipboard-check" style="color: #17a2b8; font-size: 0.9em;"></i> $1');
+        '<strong style="color:#003d82;font-weight:700;">$1</strong>');
 
     return enhanced;
 }

@@ -36,30 +36,50 @@ function safeCall(fn, name) {
     }
 }
 
-// Load Newsletter Data
+// Load Newsletter Data with retry logic
 async function loadNewsletterData() {
-    try {
-        const response = await fetch(`${API_BASE}/api/analytics/full-data`);
-        if (!response.ok) throw new Error('Failed to load data');
-        newsletterData = await response.json();
-    } catch (error) {
-        console.error('Error loading newsletter data:', error);
-        // Fallback: Show error message
-        document.body.innerHTML = `
-            <div style="text-align: center; padding: 50px;">
-                <h2>Unable to load newsletter data</h2>
-                <p>The backend service may be unavailable. Please try again later.</p>
-            </div>
-        `;
+    const maxRetries = 3;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            const response = await fetch(`${API_BASE}/api/analytics/full-data`, {
+                signal: AbortSignal.timeout(15000)
+            });
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            newsletterData = await response.json();
+            console.log('[VSK] Newsletter data loaded successfully');
+            return;
+        } catch (error) {
+            console.warn(`[VSK] Data load attempt ${attempt}/${maxRetries} failed:`, error.message);
+            if (attempt < maxRetries) {
+                await new Promise(r => setTimeout(r, 2000 * attempt));
+            }
+        }
     }
+
+    console.error('[VSK] All data load attempts failed');
+    // Show non-destructive error banner instead of replacing entire body
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:#dc3545;color:white;padding:16px 24px;text-align:center;font-size:14px;position:fixed;top:0;left:0;right:0;z-index:10001;';
+    banner.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Unable to load newsletter data. The backend service may be starting up. <button onclick="location.reload()" style="margin-left:16px;background:white;color:#dc3545;border:none;padding:6px 16px;border-radius:4px;cursor:pointer;font-weight:600;">Retry</button>';
+    document.body.prepend(banner);
 }
 
 // Load Director's Message
 function loadDirectorMessage() {
     const message = newsletterData.director_message;
-    document.getElementById('directorName').textContent = message.name;
-    document.getElementById('directorPosition').textContent = message.position;
-    document.getElementById('directorMessage').textContent = message.message;
+    if (!message) return;
+
+    const nameEl = document.getElementById('directorName');
+    const posEl = document.getElementById('directorPosition');
+    const msgEl = document.getElementById('directorMessage');
+
+    if (nameEl) nameEl.textContent = message.name || 'Director';
+    if (posEl) posEl.textContent = message.position || '';
+    if (msgEl) {
+        // Render message with paragraph breaks
+        const paragraphs = (message.message || '').split('\n\n').filter(p => p.trim());
+        msgEl.innerHTML = paragraphs.map(p => `<p style="margin-bottom:12px;">${p.trim()}</p>`).join('');
+    }
 }
 
 // Load Highlights Summary
@@ -234,6 +254,14 @@ function displayMonth(index) {
 
 // Load Analytics Charts
 function loadAnalytics() {
+    // Destroy existing charts before recreating
+    Object.values(charts).forEach(chart => {
+        if (chart && typeof chart.destroy === 'function') {
+            chart.destroy();
+        }
+    });
+    charts = {};
+
     createAPAARChart();
     createAttendanceChart();
     createStudentsChart();
@@ -1152,81 +1180,96 @@ style.textContent = `
 document.head.appendChild(style);
 
 async function askQuestion() {
-    const query = document.getElementById('chatQuery').value.trim();
+    const queryEl = document.getElementById('chatQuery');
+    if (!queryEl) return;
+
+    const query = queryEl.value.trim();
     if (!query) return;
 
     const answerElement = document.getElementById('chatAnswer');
     const sourcesElement = document.getElementById('chatSources');
     const modeElement = document.getElementById('responseMode');
 
-    answerElement.textContent = 'Analyzing your question...';
-    sourcesElement.textContent = '';
-    modeElement.textContent = '';
+    if (answerElement) answerElement.textContent = 'Analyzing your question...';
+    if (sourcesElement) sourcesElement.textContent = '';
+    if (modeElement) modeElement.textContent = '';
 
     try {
         const response = await fetch(`${API_BASE}/api/chat`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ query })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, language: 'en' })
         });
 
         if (!response.ok) throw new Error('Failed to get response');
 
         const data = await response.json();
 
-        // CRITICAL FIX: Render answer with Markdown support for tables
-        // Check if marked.js is loaded
-        if (typeof marked !== 'undefined' && marked.parse) {
-            // Configure marked for GitHub Flavored Markdown (tables)
-            marked.setOptions({
-                breaks: true,
-                gfm: true,              // Enable GitHub Flavored Markdown
-                tables: true,           // Enable table parsing
-                headerIds: false,
-                mangle: false,
-                sanitize: false         // Allow HTML in markdown
-            });
-
-            try {
-                // Parse markdown to HTML
-                const htmlContent = marked.parse(data.answer);
-                answerElement.innerHTML = htmlContent;
-
-                // Override white-space to allow proper HTML rendering
-                answerElement.style.whiteSpace = 'normal';
-                answerElement.style.overflowX = 'auto';
-
-                // Enhance HTML tables with interactive features
-                enhanceInteractiveTables(answerElement);
-
-                console.log('Markdown parsed successfully with tables');
-            } catch (error) {
-                console.error('Markdown parsing error:', error);
-                // Fallback to plain text
-                answerElement.textContent = data.answer;
-            }
-        } else {
-            console.warn('Marked.js not loaded - tables will not render properly');
-            // Fallback to plain text
-            answerElement.textContent = data.answer;
+        if (answerElement) {
+            const rendered = renderResponseHTML(data.answer);
+            answerElement.innerHTML = rendered;
+            answerElement.style.whiteSpace = 'normal';
+            answerElement.style.overflowX = 'auto';
+            enhanceInteractiveTables(answerElement);
         }
 
-        modeElement.textContent = data.mode.toUpperCase();
-
-        if (data.sources && data.sources.length > 0) {
-            sourcesElement.textContent = `Sources: ${data.sources.join(', ')}`;
-        } else {
-            sourcesElement.textContent = 'Sources: Newsletter data from April 2025 - January 2026';
+        if (modeElement) modeElement.textContent = (data.mode || 'rag').toUpperCase();
+        if (sourcesElement) {
+            sourcesElement.textContent = data.sources && data.sources.length > 0
+                ? `Sources: ${data.sources.join(', ')}`
+                : 'Sources: Newsletter data from April 2025 - January 2026';
         }
     } catch (error) {
         console.error('Error asking question:', error);
-        answerElement.textContent = 'Unable to process your question at this time. Please try again.';
-        sourcesElement.textContent = '❌ Error: Backend service unavailable';
-        modeElement.textContent = 'ERROR';
-        modeElement.style.background = '#dc3545';
+        if (answerElement) answerElement.textContent = 'Unable to process your question at this time. Please try again.';
+        if (sourcesElement) sourcesElement.textContent = 'Error: Backend service unavailable';
+        if (modeElement) {
+            modeElement.textContent = 'ERROR';
+            modeElement.style.background = '#dc3545';
+        }
     }
+}
+
+// Unified response rendering: handles both HTML and Markdown content
+function renderResponseHTML(text) {
+    if (!text) return '<p>No response available.</p>';
+
+    // If response already contains HTML tables, render as HTML directly
+    if (text.includes('<table') && text.includes('</table>')) {
+        // Clean up any markdown remnants around the HTML
+        let html = text
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>');
+        return html;
+    }
+
+    // Try markdown parsing with marked.js
+    if (typeof marked !== 'undefined' && marked.parse) {
+        try {
+            marked.setOptions({
+                breaks: true,
+                gfm: true,
+                headerIds: false,
+                mangle: false
+            });
+            return marked.parse(text);
+        } catch (e) {
+            console.warn('[VSK] Markdown parse failed, falling back to text');
+        }
+    }
+
+    // Final fallback: basic text formatting
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^\s*•\s*/gm, '<li>')
+        .replace(/<\/p><p>/g, '</p><p>');
 }
 
 // Utility function to format numbers

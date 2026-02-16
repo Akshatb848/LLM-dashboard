@@ -195,7 +195,7 @@ Please try asking about:
 
     async def chat(self, payload: ChatRequest) -> dict[str, Any]:
         query = payload.query.strip()
-        language = payload.language  # Extract language preference (en or hi)
+        language = payload.language
         if not query:
             return {"answer": self._render_no_data(), "mode": "rag_only", "sources": []}
 
@@ -207,64 +207,65 @@ Please try asking about:
         metadata = primary["metadata"]
         chunk_type = metadata.get("type", "month")
 
-        # Format answer based on chunk type
+        # Format RAG answer based on chunk type
         if chunk_type == "month":
-            month_data = metadata.get("data", {})
-            answer = self._format_monthly_data(month_data)
+            answer = self._format_monthly_data(metadata.get("data", {}))
         elif chunk_type == "technical":
-            tech_data = metadata.get("data", {})
-            answer = self._format_technical_data(tech_data)
+            answer = self._format_technical_data(metadata.get("data", {}))
         elif chunk_type == "kpi":
-            kpi_data = metadata.get("data", {})
-            category = metadata.get("category", "general")
-            answer = self._format_kpi_data(kpi_data, category)
+            answer = self._format_kpi_data(metadata.get("data", {}), metadata.get("category", "general"))
         elif chunk_type == "director_message":
-            msg_data = metadata.get("data", {})
-            answer = self._format_director_message(msg_data)
+            answer = self._format_director_message(metadata.get("data", {}))
         elif chunk_type == "state_engagement":
-            engagement_data = metadata.get("data", {})
-            answer = self._format_state_engagement(engagement_data)
+            answer = self._format_state_engagement(metadata.get("data", {}))
         else:
             answer = self._format_generic_answer(results, query)
 
-        # Add context from other results if they provide additional value
+        # Add additional context from other search results
         additional_info = []
         for result in results[1:4]:
-            result_type = result["metadata"].get("type", "")
-            if result_type != chunk_type:
-                result_text = result.get("text", "")
-                if result_text:
-                    snippet = result_text[:250] + "..." if len(result_text) > 250 else result_text
+            if result["metadata"].get("type", "") != chunk_type:
+                text = result.get("text", "")
+                if text:
+                    snippet = text[:250] + "..." if len(text) > 250 else text
                     additional_info.append(snippet)
 
         if additional_info:
             answer += "\n\nADDITIONAL CONTEXT:"
             for info in additional_info[:2]:
-                answer += f"\n• {info}"
+                answer += f"\n- {info}"
 
-        # Try to get LLM enhancement if available
+        # Try LLM enhancement
         context = "\n\n".join(item["text"] for item in results[:3])
-        llm_text = self.llm.summarize(query, context, language=language)  # Pass language preference
+        llm_text = self.llm.summarize(query, context, language=language)
         mode = "rag_only"
 
         if llm_text and llm_text.strip():
-            # Auto-format LLM response with tables
-            llm_text = enhance_response_with_tables(llm_text, query)
-            # Apply intelligent visualization based on query
-            llm_text = intelligent_data_visualization(llm_text, query)
-            # Clean up for production (remove emojis, AI language)
-            llm_text = production_grade_cleanup(llm_text)
-            answer += "\n\nANALYSIS:\n" + llm_text
+            # LLM provides the enhanced response - use it as the primary answer
+            # The LLM is instructed to produce HTML tables, so preserve them
+            llm_cleaned = production_grade_cleanup(llm_text)
+
+            # If LLM response is short or lacks substance, augment with RAG data
+            if len(llm_cleaned) < 100:
+                answer = enhance_response_with_tables(answer, query)
+                answer = production_grade_cleanup(answer)
+            else:
+                # Use LLM response as primary, add RAG data as supplemental
+                answer = llm_cleaned
+
+                # Add table formatting if LLM didn't provide HTML tables
+                if '<table' not in answer.lower():
+                    answer = enhance_response_with_tables(answer, query)
+                    answer = intelligent_data_visualization(answer, query)
+
             mode = "hybrid"
         else:
-            # Even for RAG-only responses, apply enhancements
+            # RAG-only: enhance with tables
             answer = enhance_response_with_tables(answer, query)
             answer = intelligent_data_visualization(answer, query)
+            answer = production_grade_cleanup(answer)
 
-        # Final production cleanup for entire response
-        answer = production_grade_cleanup(answer)
-
-        # Add professional footer with verified source URLs
+        # Add professional footer
         answer += "\n\n" + get_footer_attribution()
 
         return {
