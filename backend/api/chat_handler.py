@@ -1,24 +1,64 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-# Import data formatter, production cleaner, and source verification
 try:
-    from backend.llm.data_formatter import enhance_response_with_tables
-    from backend.llm.production_cleaner import production_grade_cleanup, intelligent_data_visualization
+    from backend.llm.production_cleaner import production_grade_cleanup
     from backend.llm.source_verification import get_footer_attribution
 except ImportError:
-    from llm.data_formatter import enhance_response_with_tables
-    from llm.production_cleaner import production_grade_cleanup, intelligent_data_visualization
+    from llm.production_cleaner import production_grade_cleanup
     from llm.source_verification import get_footer_attribution
+
+# Month names for query detection
+MONTH_NAMES = [
+    "january", "february", "march", "april", "may", "june",
+    "july", "august", "september", "october", "november", "december",
+]
+
+TABLE_STYLE = (
+    'border-collapse:collapse;width:100%;margin:16px 0;'
+    'box-shadow:0 2px 8px rgba(0,61,130,0.12);border-radius:8px;overflow:hidden;'
+    "font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;"
+)
+THEAD_STYLE = 'background:linear-gradient(135deg,#003d82 0%,#0056b3 100%);color:white;'
+TH_STYLE = 'padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;'
+
+
+def _row_bg(i: int) -> str:
+    return "#ffffff" if i % 2 == 0 else "#f8f9fa"
+
+
+def _td(value: str, bold: bool = False, color: str = "#333") -> str:
+    fw = "font-weight:600;" if bold else ""
+    return f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;{fw}color:{color};">{value}</td>'
+
+
+def _html_table(headers: list[str], rows: list[list[str]], *,
+                col_styles: list[dict] | None = None) -> str:
+    """Build a fully-styled HTML table."""
+    ths = "".join(f'<th style="{TH_STYLE}">{h}</th>' for h in headers)
+    body = ""
+    for i, row in enumerate(rows):
+        bg = _row_bg(i)
+        cells = ""
+        for j, cell in enumerate(row):
+            st = (col_styles[j] if col_styles and j < len(col_styles) else {})
+            cells += _td(cell, bold=st.get("bold", False), color=st.get("color", "#333"))
+        body += f'<tr style="background:{bg};">{cells}</tr>'
+    return (
+        f'<table style="{TABLE_STYLE}">'
+        f'<thead><tr style="{THEAD_STYLE}">{ths}</tr></thead>'
+        f'<tbody>{body}</tbody></table>'
+    )
 
 
 class ChatRequest(BaseModel):
     query: str
-    language: str = "en"  # Default to English, can be "en" or "hi"
+    language: str = "en"
 
 
 class ChatHandler:
@@ -28,290 +68,349 @@ class ChatHandler:
         self.router = APIRouter(prefix="/api", tags=["chat"])
         self.router.add_api_route("/chat", self.chat, methods=["POST"])
 
-    def _format_monthly_data(self, month_data: dict[str, Any]) -> str:
-        """Format monthly newsletter data with HTML tables for production display"""
-        month = month_data.get('month', 'Unknown')
+    # ------------------------------------------------------------------
+    # Month detection helpers
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _detect_month_in_query(query: str) -> str | None:
+        """Return 'Month YYYY' if the query references a specific month."""
+        q = query.lower()
+        for m in MONTH_NAMES:
+            if m in q:
+                # Try to find a year
+                year_match = re.search(r'(202[4-9]|2030)', q)
+                year = year_match.group(1) if year_match else "2025"
+                if m == "january" and "2026" not in q:
+                    year = "2026"
+                return f"{m.capitalize()} {year}"
+        return None
 
-        # Key Statistics table
-        stats_rows = ""
+    def _find_month_data(self, month_name: str) -> dict[str, Any] | None:
+        """Lookup structured month data from the RAG system."""
+        return self.rag.get_month(month_name)
+
+    # ------------------------------------------------------------------
+    # Formatters
+    # ------------------------------------------------------------------
+    def _format_monthly_data(self, md: dict[str, Any]) -> str:
+        """Comprehensive monthly formatter with statistics, activities, events, and states."""
+        month = md.get("month", "Unknown")
+        parts: list[str] = []
+
+        # --- Title
+        parts.append(f'<h3 style="color:#003d82;margin:0 0 16px 0;">{month} — Education Intelligence Report</h3>')
+
+        # --- Key Statistics table
         stats = [
-            ("Schools", f"{month_data.get('schools', 0):,}"),
-            ("Teachers", f"{month_data.get('teachers', 0):,}"),
-            ("Students", f"{month_data.get('students', 0):,}"),
-            ("APAAR IDs Generated", f"{month_data.get('apaar_ids', 0):,}"),
-            ("Attendance Rate", f"{month_data.get('attendance_rate', 0)}%"),
+            ("Schools", f"{md.get('schools', 0):,}"),
+            ("Teachers", f"{md.get('teachers', 0):,}"),
+            ("Students", f"{md.get('students', 0):,}"),
+            ("APAAR IDs Generated", f"{md.get('apaar_ids', 0):,}"),
+            ("Attendance Rate", f"{md.get('attendance_rate', 0)}%"),
         ]
-        for i, (metric, value) in enumerate(stats):
-            bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
-            stats_rows += (
-                f'<tr style="background:{bg};">'
-                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{metric}</td>'
-                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{value}</td>'
-                f'</tr>'
-            )
+        parts.append('<p style="margin:8px 0;"><strong>Key Statistics:</strong></p>')
+        parts.append(_html_table(
+            ["Metric", "Value"],
+            [[s[0], s[1]] for s in stats],
+            col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}],
+        ))
 
-        result = f"<strong>{month} - Education Intelligence Report</strong>\n\n"
-        result += (
-            '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
-            'border-radius:8px;overflow:hidden;">'
-            '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
-            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Metric</th>'
-            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Value</th>'
-            f'</tr></thead><tbody>{stats_rows}</tbody></table>'
-        )
-
-        # Highlights
-        highlights = month_data.get("highlights", [])
+        # --- Highlights
+        highlights = md.get("highlights", [])
         if highlights:
-            result += "\n\n<strong>Key Highlights:</strong>\n<ul>"
+            parts.append('<p style="margin:20px 0 8px;"><strong>Key Highlights:</strong></p><ul style="margin:0;padding-left:24px;">')
             for h in highlights:
-                result += f"<li>{h}</li>"
-            result += "</ul>"
+                parts.append(f'<li style="margin:6px 0;line-height:1.7;">{h}</li>')
+            parts.append("</ul>")
 
-        # State performance table
-        states = month_data.get("states", {})
+        # --- Activities table
+        activities = md.get("activities", [])
+        if activities:
+            parts.append('<p style="margin:20px 0 8px;"><strong>Major Activities &amp; Initiatives:</strong></p>')
+            parts.append(_html_table(
+                ["#", "Activity / Initiative"],
+                [[str(i + 1), a] for i, a in enumerate(activities)],
+                col_styles=[{"bold": True, "color": "#003d82"}, {}],
+            ))
+
+        # --- Events table
+        events = md.get("events", [])
+        if events:
+            parts.append('<p style="margin:20px 0 8px;"><strong>Notable Events:</strong></p>')
+            rows = []
+            for e in events:
+                rows.append([
+                    e.get("name", ""),
+                    e.get("date", ""),
+                    e.get("description", ""),
+                    f'{e.get("participants", 0):,}',
+                ])
+            parts.append(_html_table(
+                ["Event", "Date", "Description", "Participants"],
+                rows,
+                col_styles=[
+                    {"bold": True, "color": "#003d82"},
+                    {"color": "#FF6600"},
+                    {},
+                    {"bold": True, "color": "#28a745"},
+                ],
+            ))
+
+        # --- State Performance table
+        states = md.get("states", {})
         if states:
-            state_rows = ""
-            for i, (state, data) in enumerate(states.items()):
-                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
-                att_color = "#28a745" if data.get('attendance', 0) >= 95 else "#333"
-                state_rows += (
-                    f'<tr style="background:{bg};">'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{state}</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:{att_color};font-weight:600;">{data.get("attendance", "N/A")}%</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{data.get("apaar_coverage", "N/A")}%</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{data.get("schools", 0):,}</td>'
-                    f'</tr>'
-                )
-            result += (
-                '\n\n<strong>State Performance:</strong>\n'
-                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
-                'border-radius:8px;overflow:hidden;">'
-                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">State</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Attendance</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">APAAR Coverage</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Schools</th>'
-                f'</tr></thead><tbody>{state_rows}</tbody></table>'
-            )
+            parts.append('<p style="margin:20px 0 8px;"><strong>State-wise Performance:</strong></p>')
+            state_rows = []
+            for state, data in states.items():
+                att = data.get("attendance", "N/A")
+                att_color = "#28a745" if isinstance(att, (int, float)) and att >= 95 else "#333"
+                state_rows.append([
+                    state,
+                    f'{att}%',
+                    f'{data.get("apaar_coverage", "N/A")}%',
+                    f'{data.get("schools", 0):,}',
+                ])
+            parts.append(_html_table(
+                ["State / UT", "Attendance", "APAAR Coverage", "Schools"],
+                state_rows,
+                col_styles=[
+                    {"bold": True, "color": "#003d82"},
+                    {"bold": True, "color": "#28a745"},
+                    {"bold": True},
+                    {},
+                ],
+            ))
 
-        return result
+        return "\n".join(parts)
 
     def _format_technical_data(self, tech_data: dict[str, Any]) -> str:
-        """Format technical developments data with HTML"""
         if not isinstance(tech_data, dict):
-            return "Technical development data is not available."
+            return "<p>Technical development data is not available.</p>"
 
-        result = "<strong>Technical Developments & Infrastructure</strong>\n\n"
+        parts = ['<h3 style="color:#003d82;margin:0 0 16px 0;">Technical Developments &amp; Infrastructure</h3>']
 
-        # Dashboard Features
         features = tech_data.get("dashboard_features", [])
         if features:
-            result += "<strong>Dashboard Features:</strong>\n<ul>"
-            for f in features[:8]:
-                result += f"<li>{f}</li>"
-            result += "</ul>\n\n"
+            parts.append('<p style="margin:12px 0 8px;"><strong>Dashboard Features:</strong></p>')
+            parts.append(_html_table(
+                ["#", "Feature"],
+                [[str(i + 1), f] for i, f in enumerate(features)],
+                col_styles=[{"bold": True, "color": "#003d82"}, {}],
+            ))
 
-        # Infrastructure Upgrades
         upgrades = tech_data.get("infrastructure_upgrades", [])
         if upgrades:
-            result += "<strong>Infrastructure Upgrades:</strong>\n<ul>"
-            for u in upgrades[:8]:
-                result += f"<li>{u}</li>"
-            result += "</ul>\n\n"
+            parts.append('<p style="margin:20px 0 8px;"><strong>Infrastructure Upgrades:</strong></p>')
+            parts.append(_html_table(
+                ["#", "Upgrade"],
+                [[str(i + 1), u] for i, u in enumerate(upgrades)],
+                col_styles=[{"bold": True, "color": "#003d82"}, {}],
+            ))
 
-        # APAAR Milestones as table
         milestones = tech_data.get("apaar_milestones", [])
         if milestones:
-            rows = ""
-            for i, m in enumerate(milestones):
-                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
-                rows += (
-                    f'<tr style="background:{bg};">'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{m.get("month", "N/A")}</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{m.get("registrations", 0):,}</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{m.get("states_active", 0)}</td>'
-                    f'</tr>'
-                )
-            result += (
-                '<strong>APAAR Registration Milestones:</strong>\n'
-                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
-                'border-radius:8px;overflow:hidden;">'
-                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Month</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Registrations</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">States Active</th>'
-                f'</tr></thead><tbody>{rows}</tbody></table>'
-            )
+            parts.append('<p style="margin:20px 0 8px;"><strong>APAAR Registration Milestones:</strong></p>')
+            rows = []
+            prev_reg = 0
+            for m in milestones:
+                reg = m.get("registrations", 0)
+                growth = ""
+                if prev_reg > 0:
+                    pct = ((reg - prev_reg) / prev_reg) * 100
+                    growth = f"+{pct:.1f}%"
+                prev_reg = reg
+                rows.append([
+                    m.get("month", "N/A"),
+                    f'{reg:,}',
+                    str(m.get("states_active", 0)),
+                    growth,
+                ])
+            parts.append(_html_table(
+                ["Month", "Registrations", "States Active", "Growth"],
+                rows,
+                col_styles=[
+                    {"bold": True, "color": "#003d82"},
+                    {"bold": True},
+                    {},
+                    {"bold": True, "color": "#28a745"},
+                ],
+            ))
 
-        return result
+        return "\n".join(parts)
 
     def _format_kpi_data(self, kpi_data: dict[str, Any], category: str) -> str:
-        """Format KPI data as HTML table"""
         category_name = category.replace("_", " ").title()
-
         if not isinstance(kpi_data, dict) or not kpi_data:
-            return f"KPI data for {category_name} is not available."
+            return f"<p>KPI data for {category_name} is not available.</p>"
 
-        rows = ""
-        for i, (key, value) in enumerate(kpi_data.items()):
-            label = key.replace("_", " ").title()
-            bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
-            rows += (
-                f'<tr style="background:{bg};">'
-                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{label}</td>'
-                f'<td style="padding:12px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{value}</td>'
-                f'</tr>'
-            )
-
+        rows = [[key.replace("_", " ").title(), str(value)] for key, value in kpi_data.items()]
         return (
-            f'<strong>Key Performance Indicators: {category_name}</strong>\n\n'
-            '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
-            'border-radius:8px;overflow:hidden;">'
-            '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
-            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Indicator</th>'
-            '<th style="padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Value</th>'
-            f'</tr></thead><tbody>{rows}</tbody></table>'
+            f'<h3 style="color:#003d82;margin:0 0 16px 0;">Key Performance Indicators: {category_name}</h3>'
+            + _html_table(["Indicator", "Value"], rows,
+                          col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}])
         )
 
-    def _format_director_message(self, msg_data: dict[str, Any]) -> str:
-        """Format director's message"""
-        name = msg_data.get('name', 'Director')
-        position = msg_data.get('position', 'Director, Department of School Education & Literacy')
-        message = msg_data.get('message', '')
-
-        # Format message paragraphs
-        paragraphs = message.split('\n\n')
-        formatted_msg = ''.join(f'<p style="margin-bottom:12px;line-height:1.8;">{p.strip()}</p>' for p in paragraphs if p.strip())
-
+    def _format_director_message(self, msg: dict[str, Any]) -> str:
+        name = msg.get("name", "Director")
+        position = msg.get("position", "Director, Dept. of School Education & Literacy")
+        message = msg.get("message", "")
+        paragraphs = "".join(
+            f'<p style="margin-bottom:12px;line-height:1.8;">{p.strip()}</p>'
+            for p in message.split("\n\n") if p.strip()
+        )
         return (
-            f'<strong>Director\'s Message</strong>\n\n'
-            f'<p><strong>From:</strong> {name}<br>'
-            f'<strong>Position:</strong> {position}</p>\n\n'
-            f'{formatted_msg}'
+            f'<h3 style="color:#003d82;margin:0 0 16px 0;">Director\'s Message</h3>'
+            f'<p><strong>{name}</strong><br><em>{position}</em></p>{paragraphs}'
         )
 
-    def _format_state_engagement(self, engagement_data: dict[str, Any]) -> str:
-        """Format state engagement data with HTML tables"""
-        if not isinstance(engagement_data, dict):
-            return "State engagement data is not available."
+    def _format_state_engagement(self, eng: dict[str, Any]) -> str:
+        if not isinstance(eng, dict):
+            return "<p>State engagement data is not available.</p>"
 
-        result = "<strong>State Engagement Overview</strong>\n\n"
+        parts = ['<h3 style="color:#003d82;margin:0 0 16px 0;">State Engagement Overview</h3>']
 
-        # Summary table
-        summary = engagement_data.get("correspondence_summary", {})
+        summary = eng.get("correspondence_summary", {})
         if summary:
-            summary_items = [
-                ("Total States/UTs", str(summary.get('total_states_uts', 0))),
-                ("Active Participants", str(summary.get('active_participants', 0))),
-                ("MOUs Signed", str(summary.get('mou_signed', 0))),
-                ("Advanced Implementation", str(summary.get('implementation_advanced', 0))),
-                ("Pilot Phase", str(summary.get('pilot_phase', 0))),
+            rows = [
+                ["Total States / UTs", str(summary.get("total_states_uts", 0))],
+                ["Active Participants", str(summary.get("active_participants", 0))],
+                ["MOUs Signed", str(summary.get("mou_signed", 0))],
+                ["Advanced Implementation", str(summary.get("implementation_advanced", 0))],
+                ["Pilot Phase", str(summary.get("pilot_phase", 0))],
             ]
-            rows = ""
-            for i, (label, val) in enumerate(summary_items):
-                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
-                rows += (
-                    f'<tr style="background:{bg};">'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{label}</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{val}</td>'
-                    f'</tr>'
-                )
-            result += (
-                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
-                'border-radius:8px;overflow:hidden;">'
-                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Parameter</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Value</th>'
-                f'</tr></thead><tbody>{rows}</tbody></table>\n\n'
-            )
+            parts.append(_html_table(["Parameter", "Value"], rows,
+                                     col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}]))
 
-        # Top performing states table
-        top_states = engagement_data.get("top_performing_states", [])
-        if top_states:
-            state_rows = ""
-            for i, state in enumerate(top_states[:5]):
-                bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
-                state_rows += (
-                    f'<tr style="background:{bg};">'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;font-weight:500;color:#003d82;">{state.get("name", "N/A")}</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{state.get("apaar_coverage", "N/A")}%</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;font-weight:600;">{state.get("attendance", "N/A")}%</td>'
-                    f'<td style="padding:10px;border-bottom:1px solid #e0e0e0;color:#333;">{state.get("digital_readiness", "N/A")}%</td>'
-                    f'</tr>'
-                )
-            result += (
-                '<strong>Top Performing States:</strong>\n'
-                '<table style="border-collapse:collapse;width:100%;margin:16px 0;box-shadow:0 2px 8px rgba(0,61,130,0.12);'
-                'border-radius:8px;overflow:hidden;">'
-                '<thead><tr style="background:linear-gradient(135deg,#003d82,#0056b3);color:white;">'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">State</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">APAAR Coverage</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Attendance</th>'
-                '<th style="padding:12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;">Digital Readiness</th>'
-                f'</tr></thead><tbody>{state_rows}</tbody></table>'
-            )
+        top = eng.get("top_performing_states", [])
+        if top:
+            parts.append('<p style="margin:20px 0 8px;"><strong>Top Performing States:</strong></p>')
+            rows = [
+                [s["name"], f'{s["apaar_coverage"]}%', f'{s["attendance"]}%', f'{s["digital_readiness"]}%']
+                for s in top[:5]
+            ]
+            parts.append(_html_table(
+                ["State", "APAAR Coverage", "Attendance", "Digital Readiness"], rows,
+                col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}, {"bold": True}, {}],
+            ))
 
-        return result
+        consent = eng.get("consent_framework", {})
+        if consent:
+            parts.append('<p style="margin:20px 0 8px;"><strong>Consent Framework:</strong></p>')
+            rows = [
+                ["Total Consents Collected", f'{consent.get("total_consents_collected", 0):,}'],
+                ["Digital Consent Rate", f'{consent.get("digital_consent_rate", 0)}%'],
+                ["Parent Awareness Programs", f'{consent.get("parent_awareness_programs", 0):,}'],
+                ["Data Privacy Compliance", str(consent.get("data_privacy_compliance", "N/A"))],
+            ]
+            parts.append(_html_table(["Parameter", "Value"], rows,
+                                     col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}]))
 
-    def _format_generic_answer(self, results: list[dict[str, Any]], query: str) -> str:
-        """Format a generic answer based on search results"""
-        result = f"<strong>Based on official newsletter data:</strong>\n\n<ul>"
-
-        for res in results[:3]:
-            text = res.get("text", "")
-            if text:
-                text = text.replace("\n", " ").strip()
-                if len(text) > 400:
-                    text = text[:397] + "..."
-                result += f"<li style='margin-bottom:12px;line-height:1.6;'>{text}</li>"
-
-        result += "</ul>"
-        return result
-
-    def _format_detailed_context(self, results: list[dict[str, Any]], query: str) -> str:
-        """Format detailed context results with proper HTML structure"""
-        result = "<strong>Based on official newsletter data:</strong>\n\n"
-
-        for res in results[:3]:
-            text = res.get("text", "").strip()
-            if not text:
-                continue
-
-            # Convert plain text to HTML, preserving structure
-            lines = text.split('\n')
-            for line in lines:
-                line = line.strip()
-                if not line:
-                    continue
-                # Detect section headers (all caps or ending with colon)
-                if line.isupper() or (line.endswith(':') and len(line) < 80):
-                    result += f"<p><strong>{line}</strong></p>\n"
-                elif line.startswith('- ') or line.startswith('• '):
-                    item = line.lstrip('- •').strip()
-                    result += f"<li style='margin:4px 0;line-height:1.6;'>{item}</li>\n"
-                else:
-                    result += f"<p style='margin:8px 0;line-height:1.6;'>{line}</p>\n"
-
-            result += "<br>\n"
-
-        return result
+        return "\n".join(parts)
 
     def _render_no_data(self) -> str:
         return (
-            "<strong>No relevant information found in the official newsletter data.</strong>\n\n"
-            "<p>Please try asking about:</p>\n"
-            "<ul>"
-            "<li>Monthly statistics and activities (April 2025 - January 2026)</li>"
-            "<li>APAAR ID generation progress and milestones</li>"
-            "<li>State performance and attendance rates</li>"
-            "<li>Technical developments and infrastructure</li>"
-            "<li>Learning outcomes and key performance indicators</li>"
-            "<li>Director's message and vision</li>"
-            "<li>Major events and initiatives</li>"
-            "</ul>"
+            '<p><strong>No relevant information found in the official newsletter data.</strong></p>'
+            '<p>Please try asking about:</p>'
+            '<ul>'
+            '<li>Monthly statistics and activities (April 2025 - January 2026)</li>'
+            '<li>APAAR ID generation progress and milestones</li>'
+            '<li>State performance and attendance rates</li>'
+            '<li>Technical developments and infrastructure</li>'
+            '<li>Learning outcomes and key performance indicators</li>'
+            '</ul>'
         )
 
+    # ------------------------------------------------------------------
+    # Intelligent response assembly
+    # ------------------------------------------------------------------
+    def _try_structured_format(self, results: list[dict], query: str) -> str | None:
+        """
+        Walk through ALL search results and pick the best structured
+        data source.  Prioritise structured types over detailed_context.
+        If no structured type is found in search results, use keyword
+        detection to explicitly fetch structured data.
+        """
+        # --- Step A: Check if the query is about a specific month ---
+        target_month = self._detect_month_in_query(query)
+        if target_month:
+            month_data = self._find_month_data(target_month)
+            if month_data:
+                return self._format_monthly_data(month_data)
+
+        # --- Step B: Search results for a structured type ---
+        priority = {
+            "month": 1,
+            "kpi": 2,
+            "state_engagement": 3,
+            "technical": 4,
+            "director_message": 5,
+            "detailed_context": 99,
+        }
+
+        best = None
+        best_pri = 999
+        for r in results:
+            t = r["metadata"].get("type", "")
+            pri = priority.get(t, 100)
+            if pri < best_pri:
+                best = r
+                best_pri = pri
+
+        # If we found a structured type, use it
+        if best and best_pri < 99:
+            chunk_type = best["metadata"].get("type", "")
+            data = best["metadata"].get("data", {})
+
+            if chunk_type == "month":
+                return self._format_monthly_data(data)
+            elif chunk_type == "technical":
+                return self._format_technical_data(data)
+            elif chunk_type == "kpi":
+                return self._format_kpi_data(data, best["metadata"].get("category", "general"))
+            elif chunk_type == "director_message":
+                return self._format_director_message(data)
+            elif chunk_type == "state_engagement":
+                return self._format_state_engagement(data)
+
+        # --- Step C: Keyword-based fallback to structured data ---
+        q_lower = query.lower()
+
+        # Technical query: fetch structured tech data from RAG
+        tech_keywords = ["technical", "dashboard", "infrastructure", "upgrade", "feature", "system", "platform"]
+        if any(kw in q_lower for kw in tech_keywords):
+            tech_data = self.rag.data.get("technical_developments")
+            if tech_data:
+                return self._format_technical_data(tech_data)
+
+        # KPI query: fetch structured KPI data
+        kpi_keywords = ["kpi", "performance indicator", "learning outcome", "equity", "growth metric"]
+        if any(kw in q_lower for kw in kpi_keywords):
+            kpis = self.rag.data.get("key_performance_indicators", {})
+            if kpis:
+                parts = []
+                for cat, data in kpis.items():
+                    parts.append(self._format_kpi_data(data, cat))
+                return "\n".join(parts)
+
+        # State engagement query
+        state_keywords = ["state engagement", "state performance", "top state", "top performing"]
+        if any(kw in q_lower for kw in state_keywords):
+            eng_data = self.rag.data.get("state_engagement")
+            if eng_data:
+                return self._format_state_engagement(eng_data)
+
+        # Director message query
+        director_keywords = ["director", "message", "vision"]
+        if all(kw in q_lower for kw in ["director"]):
+            msg_data = self.rag.data.get("director_message")
+            if msg_data:
+                return self._format_director_message(msg_data)
+
+        return None
+
+    # ------------------------------------------------------------------
+    # Main chat endpoint
+    # ------------------------------------------------------------------
     async def chat(self, payload: ChatRequest) -> dict[str, Any]:
         query = payload.query.strip()
         language = payload.language
@@ -322,72 +421,43 @@ class ChatHandler:
         if not results or results[0]["score"] <= 0:
             return {"answer": self._render_no_data(), "mode": "rag_only", "sources": []}
 
-        primary = results[0]
-        metadata = primary["metadata"]
-        chunk_type = metadata.get("type", "month")
+        # ---- Step 1: Build a structured answer from the best data ----
+        answer = self._try_structured_format(results, query)
 
-        # Format RAG answer based on chunk type
-        if chunk_type == "month":
-            answer = self._format_monthly_data(metadata.get("data", {}))
-        elif chunk_type == "technical":
-            answer = self._format_technical_data(metadata.get("data", {}))
-        elif chunk_type == "kpi":
-            answer = self._format_kpi_data(metadata.get("data", {}), metadata.get("category", "general"))
-        elif chunk_type == "director_message":
-            answer = self._format_director_message(metadata.get("data", {}))
-        elif chunk_type == "state_engagement":
-            answer = self._format_state_engagement(metadata.get("data", {}))
-        elif chunk_type == "detailed_context":
-            answer = self._format_detailed_context(results, query)
-        else:
-            answer = self._format_generic_answer(results, query)
+        if not answer:
+            # Fallback: basic formatted list from search results
+            answer = '<p><strong>Based on official newsletter data:</strong></p><ul>'
+            for r in results[:3]:
+                txt = r.get("text", "").replace("\n", " ").strip()
+                if txt:
+                    if len(txt) > 350:
+                        txt = txt[:347] + "..."
+                    answer += f'<li style="margin:8px 0;line-height:1.7;">{txt}</li>'
+            answer += "</ul>"
 
-        # Add additional context from other search results
-        additional_info = []
-        for result in results[1:4]:
-            if result["metadata"].get("type", "") != chunk_type:
-                text = result.get("text", "")
-                if text:
-                    snippet = text[:250] + "..." if len(text) > 250 else text
-                    additional_info.append(snippet)
-
-        if additional_info:
-            answer += "\n\nADDITIONAL CONTEXT:"
-            for info in additional_info[:2]:
-                answer += f"\n- {info}"
-
-        # Try LLM enhancement
+        # ---- Step 2: Try LLM enhancement ----
         context = "\n\n".join(item["text"] for item in results[:3])
         llm_text = self.llm.summarize(query, context, language=language)
         mode = "rag_only"
 
         if llm_text and llm_text.strip():
-            # LLM provides the enhanced response - use it as the primary answer
-            # The LLM is instructed to produce HTML tables, so preserve them
             llm_cleaned = production_grade_cleanup(llm_text)
-
-            # If LLM response is short or lacks substance, augment with RAG data
-            if len(llm_cleaned) < 100:
-                answer = enhance_response_with_tables(answer, query)
-                answer = production_grade_cleanup(answer)
-            else:
-                # Use LLM response as primary, add RAG data as supplemental
-                answer = llm_cleaned
-
-                # Add table formatting if LLM didn't provide HTML tables
-                if '<table' not in answer.lower():
-                    answer = enhance_response_with_tables(answer, query)
-                    answer = intelligent_data_visualization(answer, query)
-
+            if len(llm_cleaned) > 150:
+                # If LLM produced HTML tables, use its response
+                if "<table" in llm_cleaned.lower():
+                    answer = llm_cleaned
+                else:
+                    # Append LLM analysis as a supplementary insight section
+                    answer += (
+                        '\n<hr style="border:none;border-top:1px solid #e0e0e0;margin:24px 0;">'
+                        '\n<p style="margin:12px 0 8px;"><strong>Analysis &amp; Insights:</strong></p>'
+                        f'\n<div style="padding:12px 16px;background:#f8f9fa;border-left:4px solid #003d82;'
+                        f'border-radius:4px;line-height:1.7;">{llm_cleaned}</div>'
+                    )
             mode = "hybrid"
-        else:
-            # RAG-only: enhance with tables
-            answer = enhance_response_with_tables(answer, query)
-            answer = intelligent_data_visualization(answer, query)
-            answer = production_grade_cleanup(answer)
 
-        # Add professional footer
-        answer += "\n\n" + get_footer_attribution()
+        # ---- Step 3: Professional footer ----
+        answer += '\n\n' + get_footer_attribution()
 
         return {
             "answer": answer,
