@@ -307,6 +307,62 @@ class ChatHandler:
 
         return "\n".join(parts)
 
+    def _format_rvsk_data(self, rvsk: dict[str, Any]) -> str:
+        """Format RVSK-specific data with comprehensive HTML tables."""
+        parts = ['<h3 style="color:#003d82;margin:0 0 16px 0;">Rashtriya Vidya Samiksha Kendra (RVSK)</h3>']
+
+        # Current progress
+        progress = rvsk.get("current_progress", {})
+        if progress:
+            rows = [
+                ["States/UTs Operationalized", str(progress.get("states_uts_operationalized", ""))],
+                ["CABs Operational", str(progress.get("cabs_operational", ""))],
+                ["Total Operational VSKs", str(progress.get("total_operational_vsks", ""))],
+                ["Schools Connected", str(progress.get("schools_connected", ""))],
+                ["Teachers Linked", str(progress.get("teachers_linked", ""))],
+                ["Students Tracked", str(progress.get("students_tracked", ""))],
+                ["Schools Integrated (RVSK)", str(progress.get("schools_integrated_rvsk", ""))],
+                ["Total APAAR IDs Generated", str(progress.get("total_apaar_ids", ""))],
+                ["Attendance Integration", f'{progress.get("states_attendance_integrated", "")} States/UTs'],
+                ["Assessment Integration", f'{progress.get("states_assessment_integrated", "")} States/UTs'],
+            ]
+            parts.append('<p style="margin:8px 0;"><strong>Current Progress (As of January 31, 2026):</strong></p>')
+            parts.append(_html_table(["Parameter", "Value"], rows,
+                                     col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}]))
+
+        # 6A Framework
+        six_a = rvsk.get("six_a_framework", {})
+        if six_a:
+            rows = [[k.replace("_", " ").title(), v.get("status", ""), v.get("coverage", "—")]
+                    for k, v in six_a.items()]
+            parts.append('<p style="margin:20px 0 8px;"><strong>6A Educational Data Framework:</strong></p>')
+            parts.append(_html_table(["Pillar", "Integration Status", "Coverage"], rows,
+                                     col_styles=[{"bold": True, "color": "#003d82"}, {}, {"bold": True}]))
+
+        # Key highlights
+        highlights = rvsk.get("key_highlights", [])
+        if highlights:
+            parts.append('<p style="margin:20px 0 8px;"><strong>Key Highlights:</strong></p><ul style="margin:0;padding-left:24px;">')
+            for h in highlights:
+                parts.append(f'<li style="margin:6px 0;line-height:1.7;">{h}</li>')
+            parts.append("</ul>")
+
+        # National programs
+        programs = rvsk.get("national_programs", [])
+        if programs:
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>13 National Programs Supported:</strong></p>')
+            parts.append(f'<p style="line-height:1.8;">{", ".join(programs)}</p>')
+
+        # Leadership
+        leaders = rvsk.get("leadership", {})
+        if leaders:
+            rows = [[v.get("name", ""), v.get("title", "")] for v in leaders.values()]
+            parts.append('<p style="margin:20px 0 8px;"><strong>RVSK Leadership:</strong></p>')
+            parts.append(_html_table(["Name", "Designation"], rows,
+                                     col_styles=[{"bold": True, "color": "#003d82"}, {}]))
+
+        return "\n".join(parts)
+
     def _render_no_data(self) -> str:
         return (
             '<p><strong>No relevant information found in the official newsletter data.</strong></p>'
@@ -340,10 +396,11 @@ class ChatHandler:
         # --- Step B: Search results for a structured type ---
         priority = {
             "month": 1,
-            "kpi": 2,
-            "state_engagement": 3,
-            "technical": 4,
-            "director_message": 5,
+            "rvsk": 2,
+            "kpi": 3,
+            "state_engagement": 4,
+            "technical": 5,
+            "director_message": 6,
             "detailed_context": 99,
         }
 
@@ -363,6 +420,8 @@ class ChatHandler:
 
             if chunk_type == "month":
                 return self._format_monthly_data(data)
+            elif chunk_type == "rvsk":
+                return self._format_rvsk_data(data)
             elif chunk_type == "technical":
                 return self._format_technical_data(data)
             elif chunk_type == "kpi":
@@ -374,6 +433,15 @@ class ChatHandler:
 
         # --- Step C: Keyword-based fallback to structured data ---
         q_lower = query.lower()
+
+        # RVSK query: fetch structured RVSK data
+        rvsk_keywords = ["rvsk", "rashtriya vidya samiksha", "6a framework", "capacity building workshop",
+                         "dpdp", "data protection", "best practice", "early warning system",
+                         "facial recognition", "apaar for teacher", "institutionaliz"]
+        if any(kw in q_lower for kw in rvsk_keywords):
+            rvsk_data = self.rag.data.get("rvsk_data")
+            if rvsk_data:
+                return self._format_rvsk_data(rvsk_data)
 
         # Technical query: fetch structured tech data from RAG
         tech_keywords = ["technical", "dashboard", "infrastructure", "upgrade", "feature", "system", "platform"]

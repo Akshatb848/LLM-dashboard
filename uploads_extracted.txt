@@ -1,0 +1,1154 @@
+=== PAGE 1 ===
+Ran Harera pecan
+
+eae Rr she aera fart
+
+MINISTRY OF
+
+ED! wmtdonet
+it of School Education & Literacy "“taenr
+
+RASHTRIYA VIDYA SAMIKSHA KENDRA
+
+NEWSLETTER
+
+1* April 2025 - 31* January 2026
+
+Accreditation tonne
+
+=== PAGE 2 ===
+FROM THE Cee
+
+DIRECTOR’S DESK
+
+A Message to Our Readers
+
+It is with immense pride and a deep sense of purpose
+
+that | release the second edition of our newsletter. This
+
+platform aims to highlight and share the vibrant
+
+lod advancements occurring in school education, driven by
+
+A data-informed decision-making, with the Rashtriya
+Vidya Samiksha Kendra at its heart.
+
+m-
+
+RVSK signifies a transformative shift in our approach to educational planning,
+monitoring, and implementation. It has been established as a centralized
+platform dedicated to the performance monitoring of education-related
+schemes under the Ministry of Education. By harnessing advanced data analytics
+and real-time insights, RVSK aims to enhance accountability, transparency, and
+responsiveness within the education system.
+
+Through its robust dashboards and analytical tools, RVSK empowers stakeholders
+at every level—from national and state/UT authorities to district and school
+personnel—to make informed, evidence-based decisions. It plays a vital role in
+tracking essential indicators, including:
+
+Student learning outcomes
+« Teacher attendance
+Infrastructure development
+Digital adoption
+
+These insights represent more than mere data points; they serve as the
+foundation for impactful educational interventions and reforms.
+
+This newsletter will act as a platform to showcase key developments, best
+practices, success stories, and collaborative initiatives driven by RVSK. It is also a
+space to celebrate the contributions of educators, administrators, and partners
+who are making a tangible difference on the ground.
+
+Dinesh Prasad Saklani
+
+Director
+National Council of Educational Research and Training
+(NCERT)
+
+=== PAGE 3 ===
+FROM THE SSS,
+
+JOINT DIRECTOR’S DESK
+
+Dear Readers,
+
+Welcome to the second edition of our newsletter! From
+April 1, 2025, to January 31, 2026, we have embarked on
+an incredible journey marked by growth, collaboration,
+and innovation. Join us as we showcase the significant
+moments and achievements that are transforming
+school education in India through data-driven
+decision-making.
+
+We are thrilled to share the latest developments from the Rashtriya Vidya
+Samiksha Kendra (RVSK), situated at the Central Institute of Educational
+Technology, NCERT. Since its launch on March 9, 2023, RVSK has made
+remarkable progress by effectively integrating data from state VSKs through APIs.
+As of March 31, 2025, RVSK has successfully connected with 33 States/UTs,
+encompassing approximately 11.51 lakh schools, 51.38 lakh teachers, and 13.44
+crore students, This integration also facilitates the implementation of the
+Automated Permanent Academic Account Registry (APAAR) ID, streamlining and
+enhancing the tracking of attendance for both students and teachers.
+
+RVSK facilitates integrated and shared “insight* to enhance data-based
+decision-making across six key areas; Attendance, Assessment, Administration,
+Accreditation, Adaptive Learning and Artificial Intelligence. Additionally, it supports
+13 National Programs, including: PM SHRI, NAS, DIKSHA, Micro improvements,
+NISHTHA, PGI, PM POSHAN, UDISE+, NIPUN BHARAT, NCERT Quizzes, NCF, PRASHAST
+and APAAR.
+
+Beyond data analytics, RVSK is dedicated to developing the skills of state-level
+functionaries through *Capacity Building Initiatives*. In August 2025, we hosted
+two-day national workshops for VSK functionaries from all 36 States/UTs and four
+Central Autonomous Bodies (CABs) in five phases, further enhancing the
+operational efficiency of Vidya Samiksha Kendras.
+
+Prof. Amarendra Behera
+
+Joint Director
+CIET-NCERT
+
+=== PAGE 4 ===
+FROM THE
+HEAD DICT DESK
+
+Dear Readers,
+
+It is with immense excitement that | welcome you to
+the second edition of our newsletter. This platform is
+devoted to showcasing the transformative initiatives
+taking place in school education, driven by the power
+of data, digital tools, and collaborative innovation.
+
+The Rashtriya Vidya Samiksha Kendra (RVSK) is a key initiative by the Ministry of
+Education, India, aimed at monitoring educational policies in real time. It utilizes
+data-driven insights for informed decision-making among stakeholders,
+focusing on indicators like student outcomes and teacher attendance. The
+Central Institute of Educational Technology (CIET) collaborates with RVSK to
+promote an inclusive and future-ready education system. This newsletter will
+highlight developments and practices driving change, acknowledging the efforts
+of educators and partners. Stakeholders are encouraged to engage, share
+insights, and contribute to the vision of Viksit Bharat @2047.
+
+Dr. Indu Kumar
+
+Head, Department of ICT and Training Division
+CIET National Council of Educational
+Research and Training (NCERT)
+
+=== PAGE 5 ===
+CURRENT PROGRESS
+
+Operational and Integration Status of VSK with RVSK
+
+95% } > (91.7%) > (19.4
+
+Attendance
+
+33 States/UTs incograted
+through
+APT to VEK
+
+Operational
+
+38 VSKs across
+StaewUTHABS
+
+The establishment of Vidya Samiksha Kendras
+(vsks) and their integration with the Rashtriya
+Vidya Samiksha Kendra (RVSK) signify pivotal
+advancements in the creation of a national IT-
+based monitoring system that aligns closely with
+the comprehensive framework proposed by the
+National Education Policy (NEP) 2020. This
+innovative system, equipped with sophisticated
+multi-tier dashboards, is designed to facilitate
+comprehensive data analysis, enabling
+policymakers and educators to make informed
+decisions. By ensuring universal access to
+education and resources, as specified in SARTHAQ
+Task 38, this initiative supports the NEP 2020's
+overarching goal of fostering an inclusive and
+equitable education system.
+
+The NEP 2020 emphasizes the importance of
+Integrating technology in educational
+governance, and the VSKs play a crucial role in
+
+realizing this vision by improving transparency,
+accountability, and efficiency in the educational
+
+(Gee Ratu: son 2008)
+
+i
+
+42+ Lakh
+Teachers Linked
+10.67+ Crore 377
+Students Tracked Operational VSKs
+
+%
+
+2 ~ ’
+
+Assessment
+
+7 Stacew/UTs integrated
+
+through
+APT 10 RVSK
+
+y ~  -™ '
+»> (166% > ‘3.3% }
+
+Administration Accreditation
+
+3 States/UTs integrated
+
+through
+APT to RVEK
+
+6 StatewUTs integrates
+
+15,67,37,923 7
+
+Total IDs Generated (Jan 31, 2026)
+
+Through this alignment, the system not only
+addresses the immediate needs of monitoring
+and evaluation but also lays a robust
+foundation for future educational reforms,
+ensuring that every student across the country
+receives quality education that is accessible,
+affordable, and adaptable to the changing
+global context.
+
+The data integration process is being rolled out
+in phases across critical areas, with the first
+phase concentrating on prioritizing attendance
+data. The RVSK Project Management team has
+been assisting states and Union Territories
+(UTs) by providing technical support,
+facilitating API integration, and implementing
+capacity-building initiatives to ensure a near
+real-time flow of data from these regions.
+
+As of January 31, 2026, these collaborative
+efforts have led to the operationalization of:
+
+* 35 States/UTs
+
+* 3 Central Advisory Bodies (CABs)
+Additionally, attendance data has been
+successfully integrated for: 33 States/UTs,
+covering approximately 11.51 Lakh schools,
+51.38 Lakh teachers and 13.44 Crore students.
+
+=== PAGE 6 ===
+RVSK: Transforming Education Through the 6A Framework
+
+‘The Rashtriya Vidye Samiksha Kenda (34'S) ia o centralized national platform that integrates data torn 37 Vidya Sarnikshe Kendras
+‘across States and UTs, empowering real-time monitoring and evidence-besed inerventions in indic’s schoo! systam,
+
+8A Pillars of ADMINISTRATION &
+Educational
+cms AE
+
+10.04 LAKH
+‘SCHOOLS INTEGRATED
+Canvaceng necry rian se
+
+KEY HIGHLIGHTS
+
+|
+
+Nationwide Expansion: West Bengal became fully operational in July 2025, bringing the
+total number of operational VSKs to 37. Chhattisgarh and Bihar also successfully
+operationalized their VSK’s during this period.
+
+APAAR Milestone: Generated a total of 15,67,37,923 APAAR IDs as of January 31, 2026 , up
+from 13.93 crore in July 2025.
+
+Integrated Attendance; Completed student and teacher attendance integration for the UT
+of Ladakh and commenced teacher data sharing for Madhya Pradesh.
+
+Dashboard Revamp: Successfully updated and launched revamped dashboards for PM
+SHRI, NISHTHA, and NAS (2017 & 2021) with refined datasets.
+
+Portal Readiness: The internal RVSK portal for streamlined State/UT coordination
+completed User Acceptance Testing (UAT) with all States/UTs.
+
+Connectivity Progress: Monitored BharatNet connectivity implementation across rural
+secondary schools nationwide.
+
+CONTINUOUS PROFESSIONAL DEVELOPMENT 2.0 Samarthx En
+Govermmen, 2h
+| State 4 tee
+
+reer Extucation-Hegen
+
+NEP 2020 Ay
+
+UDISE*, 0: a * de eta oui One wear ant
+
+Corrgnanc
+
+snchanark vs, Mater!
+
+=== PAGE 7 ===
+DPDP 2023: A COMPLIANCE ROADMAP e=u==
+FOR VIDYA SAMIKSHA KENDRAS
+
+With the enactment of the Digital Personal Data Protection (DPDP)
+Act 2023, the landscape of educational data management in India
+has entered a new era of accountability. For Vidya Samiksha
+Kendras (VSKs), which handle vast volumes of student and
+teacher data, compliance is not merely a legal requirement but a
+foundational pillar of trust.
+
+The Rashtriya Vidya Samiksha Kendra (RVSK) has already initiated
+several strategic measures to align national educational datasets
+with these new privacy standards. Below is a high-priority checklist
+for State and UT education authorities to ensure their VSK
+operations remain compliant and secure.
+
+The DPDP Compliance Checklist
+
+1.Data Governance & Nomenclature Alignment
+a.Standardization: States must ensure that school and location names in the UDISE+ database
+strictly align with the Local Goverment Directory (LGD) nomenclature of the Ministry of
+Panchayati Raj.
+b.Correction Cycles: Authorities in 28 States and UTs have already been issued instructions to
+rectify name mismatches to ensure uniformity across national datasets.
+2.Technical Security & Auditing
+a.Security Audit Certificates: It is mandatory for State VSKs to obtain and submit a valid Security
+Audit Certificate to resume or continue data sharing with the national portal.
+b.API Security: Data integration, particularly for attendance and assessment, must be conducted
+via secure APIs. Support is currently being extended to states like Manipur and Meghalaya to
+troubleshoot and secure these influx channels.
+c.VPN Usage: Access to sensitive dashboards and backend data collation should be restricted
+through Virtual Private Networks (VPNs) to protect against unauthorized access,
+3.Consent & Transparency
+a.Revised Consent Forms: Consent remains a cornerstone of the DPDP Act. The Ministry is currently
+considering revised Consent Forms to ensure that parent/guardian awareness is accurately
+reflected before data processing.
+b.Purpose Limitation: Data collected for initiatives like PM SHRI or NIPUN Bharat must be used strictly
+for the educational outcomes intended.
+4.The "6A" Frarmework Security
+a.When managing the 6A Educational Data Framework, VSKs must apply privacy-by-design:
+b.Attendance & Assessment Dota fields such as Class, Gender, and Social Category must be
+handled with heightened sensitivity during pilot testing and national integration.
+c.Read-Only Access; Granting “Read-Only Access” to programs/schemes data prevents
+accidental modification and maintains the integrity of national monitoring.
+
+As RVSK continues to act as a “force multiplier" for the Indian
+education system, adhering to this checklist ensures that our
+digital infrastructure remains interoperable, evolvable, and,
+most importantly, responsible.
+
+=== PAGE 8 ===
+CAPACITY BUILDING —_—_——
+WORKSHOP 2.0
+
+In August 2025, the Rashtriya Vidya Samiksha Kendra (RVSK) at CIET-NCERT hosted the
+second edition of the landmark Capacity Building Workshop conducted in five batches from
+August 4 to August 29. This intensive two-day program trained 165 participants from all 36
+States/UTs and various Autonomous Bodies.
+
+Each state delegation included a VSK Nodal Officer, an MIS in-Charge, a State Education
+Board representative, and a Government school teacher. The curriculum focused on critical
+technical domains:
+* Data Governance: Strategies for data management, sharing, retention, and server
+security.
+* Technical integration: Hands-on demonstrations of data capturing tools and API-based
+integration with RVSK.
+* 6A Framework: Implementation of the 6A Educational Data Framework (Attendance,
+Assessment, Administration, Accreditation, Adaptive Learning, and Al).
+
+The workshop concluded with roadmap presentations, ensuring all states are equipped to
+leverage real-time analytics for improved educational governance.
+
+Batch 1
+
+1-5 AUGUST
+
+Batch 3
+
+21-22 AUGUST
+
+Batch 2
+
+7-8 AUGUST
+
+"Batch 5
+
+24-29 AUGUST
+
+24-26 AUGUST
+
+=== PAGE 9 ===
+ETHICAL SAFEGUARDS FOR
+
+USING Al IN MONITORING
+
+As the Rashtriya Vidya Samiksha Kendra
+(RVSK) moves toward integrating Artificial
+Intelligence to enhance educational
+governance, establishing robust data
+safeguards is a non-negotiable prerequisite,
+While Al offers transformative potential—such
+as the Al Chatbot for Attendance —its
+implementation must be grounded in the
+principles of the National Digital Education
+Architecture (NDEAR) and the DPDP Act 2023.
+
+Core Safeguards for Al Integration
+
+To ensure responsible and effective monitoring, the following safeguards must be
+
+institutionalized across all VSK operations:
+
+* Privacy by Design: integration with national platforms must utilize secure APIs and VPNs to
+protect sensitive student and teacher data from unauthorized access.
+
+* Data Accuracy and Standardization: Al-driven insights are only as reliable as the
+underlying data. States must ensure strict alignment between UDISE+ and LGD
+nomenclature to prevent algorithmic bias caused by inconsistent datasets.
+
+* Purpose Limitation: Under the 6A Educational Data Framework, Al should be used strictly for
+its intended educational outcomes, such as identifying early warning signs for student
+
+dropout or personalizing learning pathways.
+
++ Transparency and Security Audits: Continuous monitoring through User Acceptance
+Testing (UAT) and mandatory Security Audit Certificates ensures that Al systems remain
+
+transparent and resilient against cyber threats.
+
+Implementing these safeguards before full-
+scale Al deployment ensures that the ‘force
+multiplier” effect of RVSK leads to equitable
+quality education. By prioritizing Responsible
+Data Management, the Ministry of Education
+can foster an environment where technology
+empowers educators and protects the digital
+identities of students and teachers.
+
+Al Privacy Impact Assessment (PIA):
+Short Checklist for Nodal Officers
+
+Before launching new Al pilots, such as
+attendance chatbots, State Nodal Officers
+must verify these four pillars of data privacy:
+
+6A Framework Alignment: Map pilots to
+
+one or more core parameters:
+Attendance, Assessment, Administration,
+Accreditation, Adaptive Learning, or Al.
+Data integrity: Strictly align all datasets
+with UDISE+ and LGD nomenciature to
+ensure consistency and prevent bias.
+legal Compliance: Verify updated
+parental/guardian consent and adhere to
+the DPDP Act 2023 transparency
+requirements.
+
+Infrastructure Security: Use secure
+APis/VPNs for data influx and maintain a
+current Security Audit Certificate.
+
+=== PAGE 10 ===
+INSTITUTIONALIZING VSK’S:
+STEP-BY-STEP ROADMAP
+
+Institutionalizing a Vidya Samiksha Kendra (VSK) is a transformative process that aligns state
+education systems with the vision of NEP 2020. By establishing a national-level IT-based
+monitoring system, RVSK enables aggregated data analysis to ensure universal access and
+
+educational excellence.
+A Step-by-Step Implementation Roadmap
+
+Step Focus Area Key Objectives
+
+1 Universal School
+Onboarding
+
+2 Reporting
+Saturation
+
+Administrative
+Insights
+
+Actionable
+Governance
+
+Step I: Comprehensive School Integration
+The foundation of a robust VSK is the
+integration of every school management
+type. Official directives emphasize that all
+school management systems must be
+mapped to their respective State/UT VSKs to
+provide a unified national view. This
+federated approach ensures that data from
+diverse sources is collated into a single,
+reliable analytics center.
+
+Step 3: Shared ‘Seeing’ for Administrators
+Dashboards and analytic tools are the
+primary vehicles for sharing information
+with stakeholders at all levels—from
+national and state authorities to district
+functionaries. By providing access to these
+“powerful dashboards,” RVSK ensures that
+key developments and best practices are
+celebrated and disseminated effectively.
+
+Integrating all management types (Government, Aided, Private, and
+Others) into the VSK and RVSK architecture.
+
+Ensuring regular, high-frequency data submission across student and
+teacher attendance, as well as academic performance.
+
+Sharing findings regularly with education administrators through real-
+time dashboards and comprehensive reports.
+
+Utilizing data for evidence-based decisions and providing timely
+interventions for systemic concerns and grievances.
+
+Step 2: Strengthening Data Reporting
+Institutionalization requires shifting from
+sporadic data entry to a culture of regular
+reporting. States are encouraged to provide
+regular teacher and student attendance data
+to maintain the vitality of the national
+monitoring system. Compliance and status
+reports are essential tools for ensuring data
+alignment across all participating regions.
+
+Step 4: Data-Driven Interventions and
+
+Accountability
+The ultimate goal of RVSK is to drive a
+paradigm = shift toward data-driven
+
+decision-making. This system brings greater
+accountability and responsiveness into the
+education system, allowing administrators
+to address grievances and educational
+gaps with precision. These real-time insights
+serve as the foundation for meaningful
+interventions and long-term reforms.
+
+=== PAGE 11 ===
+HOW DATA IS RE-IMAGINING cae
+
+INDIA’S CLASSROOM
+
+We are witnessing the death of the delayed
+report and the birth of the real-time
+classroom. For decades, managing India’s
+vast school network relied on manual
+registries that often arrived too late to
+trigger meaningful change. The transition
+toward the Vidya Samiksha Kendra (VSK)
+model marks a fundamental shift from
+static data collection to a visionary “data to
+action” framework.
+
+This is not a top-down mandate but a
+sophisticated, three-tier architecture
+designed for “last-mile” accountability. As
+established in the Gujarat model, the
+hierarchy flows from the State VSK
+(strategic planning) to 33 District VSKs
+(hand-holding and training) and down to
+254 Block VSKs (real-time monitoring of
+attendance and learning). By decentralizing
+visibility, the progress of millions of students
+is no longer a mystery, but a visible,
+actionable metric for every educator.
+
+The Ultimate Comeback: From Bottom 5 to
+Top 5
+
+The UT of Dadra and Nagar Haveli and
+Daman and Diu (DNH & DD) provides a
+powerful case study for the effectiveness of
+“precision governance." In 2021, the territory's
+National Achievement Survey (NAS)
+rankings were languishing in the bottom five
+nationally. By 2024, through a rigorous cycle
+of OMR-based mock tests and student-level
+performance monitoring, they achieved a
+stunning turnaround.
+
+“UT improved its NAS ranking from bottom 5
+(2021) to top 5 nationally (2024) through
+focused, data-informed interventions &
+continuous monitoring and support.”
+
+The territory moved from generic policies to a
+granular analysis of learning gaps across
+specific subjects and grades. This success
+story proves that targeted data can empower
+teachers to identify exactly where a student is
+stumbling. By shifting the focus from
+“teaching” to “learning outcomes,” DNH & DD
+has set a national benchmark for rapid
+education reform.
+
+identifying a student who has already left
+school is reactive; identifying a student before
+they leave is the hallmark of predictive
+governance. States like Gujarat, Odisha, and
+Telangana are deploying Early Warning
+Systems (EWS) that flag at-risk students
+based on absenteeism, academic
+performance, and socio-economic profiles.
+This system ensures that a student's struggle
+is visible long before it leads to a dropout.
+Odisha's model features a strict escalation
+ladder that turns data into immediate physical
+intervention:
+
+* 7 Days Continuous Absence: Flagged to the
+Headmaster (HM) for immediate action.
+
+« 15 Days Continuous Absence: Escalated to
+the Block Education Officer (BEO).
+
+* 30 Days Continuous Absence: Escalated to
+the District Education Officer (DEO) for
+high-level intervention.
+
+The End of Proxy Attendance: Facial
+Recognition at Scale
+
+Digital attendance systems are creating a
+“single source of truth” that eliminates the era
+of proxy entries and zero-enroliment schools.
+Andhra Pradesh and Telangana have
+implemented Facial Recognition Systems
+(FRS), while Jammu & Kashmir utilizes a
+chatbot-based model for high-fidelity
+tracking. These tools are not just
+administrative; they are receiving praise from
+local school visitors for their transparency.
+
+=== PAGE 12 ===
+BEST PRACTICES OBSERVED euue========
+
+IN STATE/UT VSK’S
+
+We are witnessing the death of the delayed
+report and the birth of the real-time
+classroom. For decades, managing India’s
+vast school network relied on manual
+registries that often arrived too late to
+trigger meaningful change. The transition
+toward the Vidya Samiksha Kendra (VSK)
+model marks a fundamental shift from
+static data collection to a visionary “data to
+action” framework.
+
+This is not a top-down mandate but a
+sophisticated, three-tier architecture
+designed for “last-mile” accountability. As
+established in the Gujarat model, the
+hierarchy flows from the State VSK
+(strategic planning) to 33 District VSKs
+(hand-holding and training) and down to
+254 Block VSKs (real-time monitoring of
+attendance and learning). By decentralizing
+visibility, the progress of millions of students
+is no longer a mystery, but a visible,
+actionable metric for every educator.
+
+The Ultimate Comeback: From Bottom 5 to
+Top 5
+
+The UT of Dadra and Nagar Haveli and
+Daman and Diu (DNH & DD) provides a
+powerful case study for the effectiveness of
+"precision governance.” In 2021, the territory's
+National Achievement Survey (NAS)
+rankings were languishing in the bottom five
+nationally. By 2024, through a rigorous cycle
+of OMR-based mock tests and student-level
+performance monitoring, they achieved a
+stunning turnaround.
+
+"UT improved its NAS ranking from bottom 5
+(2021) to top 5 nationally (2024) through
+focused, data-informed interventions &
+continuous monitoring and support.”
+
+The territory moved from generic policies to a
+granular analysis of learning gaps across
+specific subjects and grades. This success
+story proves that targeted data can empower
+teachers to identify exactly where a student is
+stumbling. By shifting the focus from
+“teaching” to “learning outcomes,” DNH & DD
+has set a national benchmark for rapid
+education reform.
+
+Identifying a student who has already left
+school is reactive; identifying a student before
+they leave is the hallmark of predictive
+governance. States like Gujarat, Odisha, and
+Telangana are deploying Early Warning
+Systems (EWS) that flag at-risk students
+based on absenteeism, academic
+performance, and socio-economic profiles.
+This system ensures that a student's struggle
+is visible long before it leads to a dropout.
+Odisha's model features a strict escalation
+ladder that turns data into immediate physical
+intervention:
+* 7 Days Continuous Absence: Flagged to the
+Headmaster (HM) for immediate action.
+« 15 Days Continuous Absence: Escalated to
+the Block Education Officer (BEO).
+* 30 Days Continuous Absence: Escalated to
+the District Education Officer (DEO) for
+high-level intervention.
+
+The End of Proxy Attendance: Facial
+Recognition at Scale
+
+Digital attendance systems are creating a
+“single source of truth” that eliminates the era
+of proxy entries and zero-enroliment schools.
+Andhra Pradesh and Telangana have
+implemented Facial Recognition Systems
+(FRS), while Jammu & Kashmir utilizes a
+chatbot-based model for high-fidelity
+tracking. These tools are not just
+administrative; they are receiving praise from
+local school visitors for their transparency.
+
+=== PAGE 13 ===
+BEST PRACTICES OBSERVED eu ue
+
+IN STATE/UT VSK’S
+
+This edition of the newsletter highlights the
+innovative best practices reported by States
+and UTs, showcasing their commitment to
+
+improving learning outcomes, teacher
+accountability, and administrative
+efficiency.
+
+Region wise best practices at a glance
+
+Northern Region
+
+Dethi: Has successfully integrated student
+and teacher attendance monitoring across
+Government, Government-Aided, and MCD
+schools, leading to a noticeable increase in
+overall attendance.
+
+Jammu and Kashmir: Pioneered “Smart
+Attendance” through a_ chatbot-based
+system and established a Digital Studio to
+create state-aligned educational content in
+regional languages.
+
+Himachal Pradesh: Implemented “Smart
+Upasthiti” for digitized attendance and uses
+the Smart Classroom Dashboard to monitor
+the usage and syncing of devices.
+Integrated 6A datasets with RVSK.
+
+Punjab: Utilizes an in-house developed
+software tool that provides role-based
+access to dashboards and reports for
+seamless MIS monitoring.
+
+Uttarakhand: Highlights include Teacher
+Professional Development on ICT tools, an
+Integrated Dashboard Platform (IDP) for
+decentralised tracking, and the Pragati
+Chatbot for large-scale NIPUN surveys.
+Chandigarh: integrated school CCTV
+cameras with the VSK and achieved over
+90% APAAR ID generation through focused
+
+monitoring.
+Uttar Pradesh: Implemented a multi-
+pronged supportive supervision and
+
+training approach, utilizing the NIPUN Plus
+app for Al-based ORF assessments and
+Prerna Aadhaar-based enrollment tracking.
+
+swum DIGITAL ATTENDANCE
+“alt Moore TAKES CENTER STAGE IM
+HIMACHAL PRADESH SCHOOLS
+
+© Stusere Amenctinnce Maarten
+
+acter atsovcunee Maines
+
+»
+
+oo
+
+“
+
+Western and Central Region
+
+Gujarat: Leading the way with VSK 2.0
+(District VSKs), an Al-based Oral Reading
+Fluency (Vachan Samiksha) tool, and an Al-
+powered Early Warning System (EWS) to
+prevent student dropouts.
+
+Rajasthan: Features a School Leaderboard
+for ranking schools on key performance
+indicators, the “Shala Samblan" app for
+school inspections, and the Prabandh
+Dashboard for real-time fund tracking.
+
+DNH & DD: Successfully improved NAS
+rankings through OMR-based mock tests
+and extended the ‘Ramta Ramta Sikho
+Abhiyaan” (RRSA) for FLN up to Class Vill.
+Chhattisgarh: Operates a comprehensive
+Textbook Distribution Monitoring System
+and utilizes Al and call center data for
+classroom observation verification.
+
+=== PAGE 14 ===
+BEST PRACTICES OBSERVED coe
+
+IN STATE/UT VSK’S
+
+Southern Region
+
+Andhra Pradesh: Implemented a Facial
+Recognition System (FRS) for student and
+teacher attendance and conducted data-
+driven school reorganization under GO 117.
+Karnataka: Leverages real-time
+dashboards for SSK program planning, RTE
+monitoring, and mapping NGO activities to
+identify service gaps.
+
+Telangana: Pioneers digital governance
+with FRS-based attendance tracking for
+every stakeholder and ensures accurate
+delivery of student entitlements.
+
+Tamil Nadu: Uses specialized dashboards
+for tracking academic performance in
+Board exams and monitoring FLN progress
+through the “Ennum Ezhuthum’ initiative.
+Puducherry: Developed a mobile
+application for tracking  school-level
+receipts and expenditures and uses PAS
+(Puducherry Achievement Survey) data for
+custom remediation strategies.
+
+<
+
+eeeee
+Login to Your Account
+- zz:
+: aD
+4
+
+Eastern and North-Eastern Region
+
+Assam: Developed an Integrated
+Dashboard Platform (IDP) based on a 6A
+framework and utilizes the VSK Call Center
+for Gunotsav follow-ups and sanitary pad
+distribution verification.
+
+Odisha: Features an Early Warning System
+for dropouts with a multi-level escalation
+matrix and a Ticketing Tool for centralized
+grievance redressal.
+
+West Bengal: Utilizes heat maps to provide
+a district-wise overview of school
+infrastructure availability for quick decision-
+making.
+
+Jharkhand: Focuses on ensuring syllabus
+coverage via monthly schedules and uses
+assessment score analysis to identify
+pockets for remedial work.
+
+Meghalaya: Conducts school clustering
+surveys via Google Earth and provides
+gamified learning through MLENS for PM Shri
+school students.
+
+Nagaland: Implemented an IDP solution for
+data visualization at the admin, state, and
+district levels to identify gaps and plan
+interventions.
+
+Manipur: Actively engaged in school
+reorganization, including the amalgamation
+of schools and abolishment of zero-
+enrollment institutions.
+
+Mizoram: Uses geo-fencing for teacher
+attendance and an SMS-based marking
+system for schools in poor network areas.
+Sikkim: Highlights include real-time
+attendance monitoring and a Centralized
+Service Order Module for transparent
+processing of employee transfers and
+retirements.
+
+Tripura: Ensures accountability through
+geo-tagging and  geo-fencing for
+attendance and uses “Smart Assessment
+Tripura” for year-on-year tracking of
+student learning journeys.
+
+=== PAGE 15 ===
+APAAR: TRACKING THE "ONE
+NATION, ONE STUDENT ID"
+DIGITAL MILESTONE
+
+The Automated Permanent Academic Account Registry (APAAR) is a transformative 12-digit
+unique academic identity designed for every student in India. As a cornerstone of the National
+Education Policy (NEP) 2020, it streamlines student mobility across institutions and states while
+providing a secure digital storage for academic credentials via DigiLocker.
+
+APAAR eum
+=
+
+APAAR GENERATION TREND
+Wreaa seo
+
+© =
+@ ---
+:.
+
+Total IDs Generated
+
+{ABAAR Ee meee at oewraten curry Acti 35 Sue whe wren pe papeenes actety an UEEE + porta
+
++The ram inches of ADAG Dn Gerirmwe wee ka me eethy Sect. Dh clad
+
+Regional Leadership and Saturation
++ Top Performers: Several Union Territories
+and autonomous bodies have achieved
+near-total saturation, providing a
+blueprint for successful rollout across
+
+Since its launch in late 2024, the Automated
+Permanent Academic Account Registry (APAAR)
+has transitioned from a foundational pilot into a
+critical national infrastructure. The latest status
+report indicates robust momentum in the
+
+' ar, P diverse geographies.
+creation of wae digital identities for students | Institutional: : The Jawahar
+eR NES UE Navodaya vidyalayas (NVS) and
+Notioned Adontion Trencde Kendriya Vidyalayas (KVS) continue to
+
+maintain high completion rates, ensuring
+that students in central systems are at
+the forefront of this digital shift.
+
+* Geographic Reach: Adoption remains
+strong across both highly urbanized
+areas and island territories, reflecting the
+versatility of the onboarding process.
+
+* Substantial Reach: A significant portion of
+the active student population for the current
+academic year has successfully generated
+their IDs, representing a major step toward a
+unified digital educational ecosystem.
+
+* Daily Momentum: High levels of daily activity
+continue to drive the registry’s growth, with
+hundreds of thousands of new registrations
+occurring even in single-day reporting
+periods.
+
+* Leading States: Large states such as Bihar,
+Maharashtra, and Chhattisgarh are
+contributing heavily to the national figures,
+
+The adoption rate within secondary and
+higher secondary classes Is particularly
+strong, with a majority of students in these
+critical grade levels already onboarded.
+Similarly, private schools have shown
+significant engagement, particularly in their
+
+demonstrating effective implementation at
+scale.
+
+senior classes, mirroring the positive trends
+seen in government institutions.
+
+=== PAGE 16 ===
+APAAR ID FOR TEACHERS
+
+As the Automated Permanent Academic
+Account Registry (APAAR) scales across the
+nation, its role is expanding beyond student
+tracking to become a foundational tool for the
+teaching fraternity. Under the “One Nation, One
+Student ID" vision, extending this digital identity to
+educators creates a seamless, data-driven
+ecosystem that values and verifies professional
+excellence.
+
+Key Benefits and Use Cases
+
+|, Unified Professional identity
+
+APAAR provides teachers with a 12-digit unique
+academic identity that stays with them
+throughout their career. By linking this ID with
+Aadhaar through secure UIDAI verification,
+teachers gain a globally recognized, tamper-
+proof professional persona.
+
+Use Case: During recruitment or inter-state
+transfers, a teacher can instantly share their
+verified credentials through _ Digilocker,
+eliminating the need for physical document
+verification.
+
+2. Continuous Professional Davelopment (CPD)
+Tracking
+
+Under the RVSK framework, APAAR serves as a
+digital ledger for all training sessions and
+workshops. Every credit earned through
+programs like NISHTHA or specialized Capacity
+Building Workshops is automatically recorded
+against the teacher's unique ID.
+
+Use Case. A teacher can present a
+comprehensive, real-time ‘skill profile” that
+showcases their expertise in niche areas like Al
+integration, 6A Framework management, or
+vocational pedagogy.
+
+PARE 1D - TEACHER
+.
+
+RVSK: Empoweri
+Through Digital Ildentit
+
+APAAR @™
+S Seeeeennrn Ty
+
+3. Data-Driven Classroom Insights
+
+By integrating with the RVSK Attendance
+and Assessment Dashboards, APAAR
+allows teachers to move away from
+manual paperwork. Real-time feedback on
+student performance enables teachers to
+identify learning gaps and implement early
+interventions precisely where they are
+needed.
+
+Use Case: A teacher can use the NIPUN
+Assessment Dashboard to identify specific
+students who require foundational literacy
+support, backed by longitudinal data
+integrated through the student-teacher ID
+link.
+
+4. Streamlined Administrative Integration
+
+APAAR simplifies a teacher's day-to-day
+administrative load by automating data
+collation across national programs like PM
+SHRI, PM POSHAN, and UDISE+. This allows
+educators to spend less time on manual
+
+reporting and more time on pedagogical
+innovation.
+
+Use Case: When reporting attendance via
+the Al Chatbot, the system automatically
+maps the data to the correct class and
+school management type, ensuring
+accuracy without multiple entries.
+
+The generation of APAAR IDs for teachers is
+a pivotal step in creating an education
+system that is inclusive and equitable. By
+institutionalizing this digital registry, the
+Ministry of Education ensures that every
+educator is supported by an evolvable
+infrastructure that promotes transparency
+and lifelong professional tracking.
+
+g Educators
+& Insights
+
+=== PAGE 17 ===
+THANK YOU FOR READING!
+
+As we bring you the second edition of the RVSK newsletter, | extend my
+sincere gratitude to all stakeholders—educators, administrators,
+partners, and team members—whose dedication and collaboration
+have brought this vision to life. This newsletter marks a new step in our
+collective journey toward fostering transparency, data-driven
+governance, and continuous improvement throughout the entire
+education ecosystem. We are also deeply grateful to you, our readers,
+for your interest and engagement. Your support inspires us to continue
+striving for excellence and meaningful impact. We look forward to your
+continued support and active participation in strengthening the reach
+and effectiveness of RVSK across the nation.
+
+With warm regards,
+Dr. Rajesh D.
+Associate Professor, CIET-NCERT
+National Coordinator, VSK
+
+=== PAGE 18 ===
+RVSK as a game changer in Educational Landscape
+
+— Students —
+improved Students
+learning Outcomes
+
+Timety/ Early
+interventions
+
+Enhanced Educational
+Quality
+
+yy Data Protection
+! &
+Privacy
+
+For More Information
+
+Visit
+https://vsk.ndear.gov.in | https://www.ndear.go'
+
+Central Institute of Educational Technology (CIET),
+
+National Council of Educational Research and Training (NCERT)
+
+Sri Aurobindo Marg, New Delhi, 110016
+
+Tel: +91 11 2696 2580, Fax : +91 11 2686 4141, Email : jdciet.ncert@nic.in,
+neert.nic.in | ciet.nic.in
+
+PMeVIDYA IVRS : #8800440559, Manodarpan IVRS : #8448440632

@@ -413,5 +413,131 @@
       "differently_abled_inclusion": "88.5%",
       "dropout_rate_reduction": "42% decrease"
     }
+  },
+  "rvsk_data": {
+    "name": "Rashtriya Vidya Samiksha Kendra",
+    "abbreviation": "RVSK",
+    "location": "Central Institute of Educational Technology (CIET), NCERT",
+    "launch_date": "March 9, 2023",
+    "newsletter_edition": "2nd Edition",
+    "period": "1st April 2025 - 31st January 2026",
+    "leadership": {
+      "director": {"name": "Dinesh Prasad Saklani", "title": "Director, NCERT"},
+      "joint_director": {"name": "Prof. Amarendra Behera", "title": "Joint Director, CIET-NCERT"},
+      "head_dict": {"name": "Dr. Indu Kumar", "title": "Head, Department of ICT and Training Division, CIET-NCERT"},
+      "national_coordinator": {"name": "Dr. Rajesh D.", "title": "Associate Professor, CIET-NCERT, National Coordinator VSK"}
+    },
+    "current_progress": {
+      "states_uts_operationalized": 35,
+      "cabs_operational": 3,
+      "total_operational_vsks": 37,
+      "states_attendance_integrated": 33,
+      "states_assessment_integrated": 7,
+      "states_administration_integrated": 3,
+      "states_accreditation_integrated": 6,
+      "schools_connected": "11.51 Lakh",
+      "teachers_linked": "51.38 Lakh",
+      "students_tracked": "13.44 Crore",
+      "schools_integrated_rvsk": "10.04 Lakh",
+      "total_apaar_ids": "15,67,37,923",
+      "apaar_ids_previous": "13.93 Crore (July 2025)"
+    },
+    "six_a_framework": {
+      "attendance": {"status": "33 States/UTs integrated", "coverage": "95%"},
+      "assessment": {"status": "7 States/UTs integrated", "coverage": "91.7%"},
+      "administration": {"status": "3 States/UTs integrated"},
+      "accreditation": {"status": "6 States/UTs integrated"},
+      "adaptive_learning": {"status": "In development"},
+      "artificial_intelligence": {"status": "AI Chatbot for Attendance deployed"}
+    },
+    "national_programs": [
+      "PM SHRI", "NAS", "DIKSHA", "Micro Improvements", "NISHTHA",
+      "PGI", "PM POSHAN", "UDISE+", "NIPUN BHARAT", "NCERT Quizzes",
+      "NCF", "PRASHAST", "APAAR"
+    ],
+    "capacity_building_2025": {
+      "event": "Capacity Building Workshop 2.0",
+      "date": "August 4-29, 2025",
+      "batches": 5,
+      "participants": 165,
+      "states_uts_covered": 36,
+      "curriculum": ["Data Governance", "Technical Integration", "6A Framework Implementation"]
+    },
+    "key_highlights": [
+      "West Bengal became fully operational in July 2025 (37th VSK)",
+      "Chhattisgarh and Bihar operationalized their VSKs",
+      "Generated 15,67,37,923 APAAR IDs as of January 31, 2026",
+      "Completed attendance integration for UT of Ladakh",
+      "Commenced teacher data sharing for Madhya Pradesh",
+      "Revamped dashboards for PM SHRI, NISHTHA, and NAS (2017 & 2021)",
+      "Internal RVSK portal completed UAT with all States/UTs",
+      "Monitored BharatNet connectivity across rural secondary schools"
+    ],
+    "best_practices_by_region": {
+      "northern": {
+        "Delhi": "Integrated attendance across Government, Government-Aided, and MCD schools",
+        "Jammu_Kashmir": "Smart Attendance chatbot-based system; Digital Studio for regional content",
+        "Himachal_Pradesh": "Smart Upasthiti digitized attendance; Smart Classroom Dashboard",
+        "Punjab": "In-house role-based dashboard software for MIS monitoring",
+        "Uttarakhand": "ICT training; Integrated Dashboard Platform; Pragati Chatbot for NIPUN surveys",
+        "Chandigarh": "CCTV integration with VSK; 90%+ APAAR ID generation",
+        "Uttar_Pradesh": "NIPUN Plus app for AI-based ORF assessments; Prerna Aadhaar tracking"
+      },
+      "western_central": {
+        "Gujarat": "VSK 2.0 with 33 District + 254 Block VSKs; AI Vachan Samiksha; AI-powered EWS",
+        "Rajasthan": "School Leaderboard; Shala Samblan inspection app; Prabandh fund tracking dashboard",
+        "DNH_DD": "NAS ranking improved from bottom 5 to top 5; RRSA extended to Class VIII",
+        "Chhattisgarh": "Textbook Distribution Monitoring; AI and call center for classroom verification"
+      },
+      "southern": {
+        "Andhra_Pradesh": "Facial Recognition System for attendance; school reorganization under GO 117",
+        "Karnataka": "Real-time dashboards for SSK, RTE, NGO mapping",
+        "Telangana": "FRS-based attendance for all stakeholders; student entitlement delivery",
+        "Tamil_Nadu": "Board exam dashboards; Ennum Ezhuthum FLN tracking",
+        "Puducherry": "Mobile app for school receipts; PAS data for remediation"
+      },
+      "eastern_northeastern": {
+        "Assam": "IDP on 6A framework; VSK Call Center for Gunotsav follow-ups",
+        "Odisha": "EWS with 7/15/30 day escalation; Ticketing Tool for grievances",
+        "West_Bengal": "Heat maps for district-wise infrastructure overview",
+        "Jharkhand": "Monthly syllabus coverage; assessment score analysis for remedial work",
+        "Meghalaya": "Google Earth school clustering; MLENS gamified learning for PM Shri schools",
+        "Nagaland": "IDP for multi-level data visualization",
+        "Manipur": "School reorganization; zero-enrollment institution abolishment",
+        "Mizoram": "Geo-fencing attendance; SMS-based marking for poor network areas",
+        "Sikkim": "Real-time attendance; Centralized Service Order Module for transfers",
+        "Tripura": "Geo-tagging/geo-fencing attendance; Smart Assessment Tripura"
+      }
+    },
+    "dpdp_compliance": {
+      "act": "Digital Personal Data Protection (DPDP) Act 2023",
+      "areas": [
+        "Data Governance & Nomenclature Alignment with UDISE+ and LGD",
+        "Security Audit Certificates mandatory for State VSKs",
+        "API Security and VPN usage for sensitive data access",
+        "Revised Consent Forms for parent/guardian awareness",
+        "Purpose Limitation for program-specific data",
+        "Privacy-by-design for 6A Framework data",
+        "28 States/UTs issued instructions for name mismatch rectification"
+      ]
+    },
+    "apaar_for_teachers": {
+      "description": "12-digit unique academic identity for teachers linked with Aadhaar via UIDAI",
+      "benefits": [
+        "Unified Professional Identity verified via DigiLocker",
+        "Continuous Professional Development (CPD) tracking through NISHTHA and workshops",
+        "Data-Driven Classroom Insights via RVSK Attendance/Assessment Dashboards",
+        "Streamlined Administrative Integration with PM SHRI, PM POSHAN, UDISE+"
+      ]
+    },
+    "contact": {
+      "address": "CIET-NCERT, Sri Aurobindo Marg, New Delhi 110016",
+      "tel": "+91 11 2696 2580",
+      "fax": "+91 11 2686 4141",
+      "email": "jdciet.ncert@nic.in",
+      "websites": ["vsk.ndear.gov.in", "www.ndear.gov.in", "ncert.nic.in", "ciet.nic.in"],
+      "pmevidya_ivrs": "#8800440559",
+      "manodarpan_ivrs": "#8448440632"
+    }
   }
 }

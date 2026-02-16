@@ -128,6 +128,82 @@ class RagSystem:
             )
             chunks.append({"text": top_states_text, "metadata": {"type": "state_engagement", "data": engagement}})
 
+        # Add RVSK data chunks
+        if "rvsk_data" in data:
+            rvsk = data["rvsk_data"]
+
+            # RVSK overview
+            progress = rvsk.get("current_progress", {})
+            rvsk_overview = (
+                f"Rashtriya Vidya Samiksha Kendra (RVSK) is the centralized national platform at CIET-NCERT, "
+                f"launched on {rvsk.get('launch_date', 'March 9, 2023')}. "
+                f"As of January 31, 2026: {progress.get('states_uts_operationalized', 35)} States/UTs operationalized, "
+                f"{progress.get('total_operational_vsks', 37)} operational VSKs, "
+                f"{progress.get('schools_connected', '11.51 Lakh')} schools connected, "
+                f"{progress.get('teachers_linked', '51.38 Lakh')} teachers linked, "
+                f"{progress.get('students_tracked', '13.44 Crore')} students tracked, "
+                f"{progress.get('total_apaar_ids', '15,67,37,923')} total APAAR IDs generated."
+            )
+            chunks.append({"text": rvsk_overview, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # 6A Framework
+            six_a = rvsk.get("six_a_framework", {})
+            six_a_text = "RVSK 6A Educational Data Framework: " + "; ".join(
+                f"{k.replace('_', ' ').title()}: {v.get('status', '')}" for k, v in six_a.items()
+            )
+            chunks.append({"text": six_a_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # National programs
+            programs = rvsk.get("national_programs", [])
+            if programs:
+                prog_text = f"RVSK supports 13 National Programs: {', '.join(programs)}"
+                chunks.append({"text": prog_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # Key highlights
+            highlights = rvsk.get("key_highlights", [])
+            if highlights:
+                hl_text = "RVSK key highlights April 2025 to January 2026: " + "; ".join(highlights)
+                chunks.append({"text": hl_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # RVSK Capacity Building
+            cb = rvsk.get("capacity_building_2025", {})
+            if cb:
+                cb_text = (
+                    f"RVSK Capacity Building Workshop 2.0, {cb.get('date', 'August 2025')}: "
+                    f"{cb.get('batches', 5)} batches, {cb.get('participants', 165)} participants from "
+                    f"{cb.get('states_uts_covered', 36)} States/UTs. Curriculum: {', '.join(cb.get('curriculum', []))}"
+                )
+                chunks.append({"text": cb_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # Best practices
+            bp = rvsk.get("best_practices_by_region", {})
+            for region, states in bp.items():
+                if isinstance(states, dict):
+                    bp_text = f"RVSK best practices in {region.replace('_', ' ').title()} region: " + "; ".join(
+                        f"{s.replace('_', ' ')}: {practice}" for s, practice in states.items()
+                    )
+                    chunks.append({"text": bp_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # DPDP compliance
+            dpdp = rvsk.get("dpdp_compliance", {})
+            if dpdp:
+                dpdp_text = f"DPDP Act 2023 compliance for VSKs: " + "; ".join(dpdp.get("areas", []))
+                chunks.append({"text": dpdp_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # APAAR for teachers
+            apt = rvsk.get("apaar_for_teachers", {})
+            if apt:
+                apt_text = f"APAAR for Teachers: {apt.get('description', '')}. Benefits: " + "; ".join(apt.get("benefits", []))
+                chunks.append({"text": apt_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            # Leadership
+            leaders = rvsk.get("leadership", {})
+            if leaders:
+                leader_text = "RVSK Leadership: " + "; ".join(
+                    f"{v.get('name', '')} ({v.get('title', '')})" for v in leaders.values()
+                )
+                chunks.append({"text": leader_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
         return chunks
 
     def search(self, query: str, top_k: int = 3) -> list[dict[str, Any]]:
