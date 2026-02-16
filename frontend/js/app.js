@@ -1588,24 +1588,9 @@ function scrollToSection(id) {
     }
 }
 
-// Search Functionality
+// Search Functionality — delegated to enhanced-chat.js modal (initializeSearchSystem)
 function initializeSearchFunctionality() {
-    const searchBtn = document.querySelector('.search-btn');
-    
-    if (searchBtn) {
-        searchBtn.addEventListener('click', () => {
-            const query = prompt('Search the dashboard:');
-            if (query) {
-                performSearch(query);
-            }
-        });
-    }
-}
-
-function performSearch(query) {
-    // Simplified search - would be enhanced with proper search implementation
-    console.log('Searching for:', query);
-    showNotification(`Searching for "${query}"...`, 'info');
+    // No-op: search is handled by the modal in enhanced-chat.js
 }
 
 // Initialize Metric Cards with Mini Charts

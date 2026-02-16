@@ -284,16 +284,9 @@ function generatePDFContent() {
 }
 
 // ========== SEARCH MODAL ==========
-
+// Search is now handled by enhanced-chat.js initializeSearchSystem()
 function initializeSearchModal() {
-    const searchBtn = document.querySelector('.search-btn');
-
-    if (searchBtn) {
-        searchBtn.addEventListener('click', openSearchModal);
-    }
-
-    // Create search modal if it doesn't exist
-    createSearchModal();
+    // No-op: delegated to enhanced-chat.js
 }
 
 function createSearchModal() {
@@ -505,16 +498,9 @@ function displaySearchResults(results, query, isInstant = false) {
 }
 
 // ========== HELP PANEL ==========
-
+// Help is now handled by enhanced-chat.js initializeHelpSystem()
 function initializeHelpPanel() {
-    const helpBtn = document.querySelector('.help-btn');
-
-    if (helpBtn) {
-        helpBtn.addEventListener('click', openHelpPanel);
-    }
-
-    // Create help panel if it doesn't exist
-    createHelpPanel();
+    // No-op: delegated to enhanced-chat.js
 }
 
 function createHelpPanel() {
@@ -629,26 +615,6 @@ function closeHelpPanel() {
     }
 }
 
-// ========== KEYBOARD SHORTCUTS ==========
-
-document.addEventListener('keydown', (e) => {
-    // Ctrl + K: Open search
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        openSearchModal();
-    }
-
-    // Ctrl + /: Open help
-    if ((e.ctrlKey || e.metaKey) && e.key === '/') {
-        e.preventDefault();
-        openHelpPanel();
-    }
-
-    // Escape: Close all modals
-    if (e.key === 'Escape') {
-        closeSearchModal();
-        closeHelpPanel();
-    }
-});
+// Keyboard shortcuts now handled by enhanced-chat.js
 
 console.log('✅ Sidebar functionality initialized');
