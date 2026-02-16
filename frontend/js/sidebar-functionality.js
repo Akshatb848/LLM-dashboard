@@ -218,7 +218,7 @@ async function exportToCSV() {
         showNotification('Preparing CSV export...', 'info');
 
         // Get data from API or newsletterData
-        const data = newsletterData?.monthly_data || [];
+        const data = newsletterData?.months || newsletterData?.monthly_data || [];
 
         if (data.length === 0) {
             showNotification('No data available to export', 'error');
