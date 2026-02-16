@@ -80,11 +80,23 @@
     <header class="main-header" role="banner">
         <div class="container">
             <div class="header-content">
-                <!-- Left: National Emblem / Ministry of Education Logo -->
-                <div class="header-logo-left">
-                    <a href="https://www.education.gov.in" target="_blank" rel="noopener noreferrer" class="emblem-link" aria-label="Ministry of Education, Government of India">
-                        <img src="assets/national-emblem.svg" alt="National Emblem of India - Satyamev Jayate - Ministry of Education" class="national-emblem-img" width="80" height="100">
-                    </a>
+                <div class="header-logo">
+                    <div class="emblem-container">
+                        <!-- Government of India Emblem -->
+                        <svg class="gov-emblem" viewBox="0 0 100 100" aria-label="Government of India Emblem">
+                            <circle cx="50" cy="50" r="48" fill="#003d82" stroke="#FF6600" stroke-width="2"/>
+                            <text x="50" y="40" font-size="16" fill="white" text-anchor="middle" font-weight="bold">सत्यमेव</text>
+                            <text x="50" y="60" font-size="16" fill="white" text-anchor="middle" font-weight="bold">जयते</text>
+                            <circle cx="50" cy="70" r="3" fill="#FF6600"/>
+                            <circle cx="40" cy="70" r="3" fill="#FF6600"/>
+                            <circle cx="60" cy="70" r="3" fill="#FF6600"/>
+                        </svg>
+                    </div>
+                    <div class="ministry-logo" aria-label="Ministry of Education, Government of India">
+                        <p class="ministry-logo-hi">स्कूल शिक्षा और साक्षरता विभाग</p>
+                        <p class="ministry-logo-en">Department of School Education &amp; Literacy</p>
+                        <p class="ministry-logo-goi">Ministry of Education | Government of India</p>
+                    </div>
                 </div>
 
                 <!-- Center: Title block (Hindi above English per GIGW norms) -->
