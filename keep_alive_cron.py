@@ -18,7 +18,7 @@ from datetime import datetime
 
 def ping_service():
     """Ping the service to keep it alive"""
-    service_url = os.getenv("SERVICE_URL", "https://moe-education-dashboard-backend.onrender.com")
+    service_url = os.getenv("SERVICE_URL", "https://vsk-newsletter.in")
 
     print(f"{'='*60}")
     print(f"🕐 VSK Dashboard Keep-Alive Cron Job")

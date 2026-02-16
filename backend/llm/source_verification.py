@@ -4,15 +4,15 @@ Provides correct, verifiable URLs for data sources
 """
 
 # Official source URLs
-RENDER_API_BASE = "https://llm-dashboard-backend-8gb0.onrender.com"
+API_BASE = "https://vsk-newsletter.in"
 GOV_WEBSITE_BASE = "https://www.education.gov.in"
 
 # API Endpoints
 API_ENDPOINTS = {
-    "full_data": f"{RENDER_API_BASE}/api/analytics/full-data",
-    "overview": f"{RENDER_API_BASE}/api/analytics/overview",
-    "health": f"{RENDER_API_BASE}/api/health",
-    "chat": f"{RENDER_API_BASE}/api/chat",
+    "full_data": f"{API_BASE}/api/analytics/full-data",
+    "overview": f"{API_BASE}/api/analytics/overview",
+    "health": f"{API_BASE}/api/health",
+    "chat": f"{API_BASE}/api/chat",
 }
 
 # Government Website URLs

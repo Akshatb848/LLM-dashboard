@@ -442,20 +442,27 @@ function searchDashboard(query) {
     return results;
 }
 
+function _sidebarEscapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 function displaySearchResults(results, query, isInstant = false) {
     const resultsDiv = document.getElementById('searchResults');
+    const safeQuery = _sidebarEscapeHtml(query);
 
     if (results.length === 0) {
         resultsDiv.innerHTML = `
             <p class="search-no-results">
                 <i class="fas fa-search-minus"></i>
-                No results found for "<strong>${query}</strong>"
+                No results found for "<strong>${safeQuery}</strong>"
             </p>
         `;
         return;
     }
 
-    let html = `<h4 class="search-results-title">${results.length} result(s) for "<strong>${query}</strong>"</h4>`;
+    let html = `<h4 class="search-results-title">${results.length} result(s) for "<strong>${safeQuery}</strong>"</h4>`;
     html += '<div class="search-results-list">';
 
     results.forEach(result => {
@@ -617,4 +624,4 @@ function closeHelpPanel() {
 
 // Keyboard shortcuts now handled by enhanced-chat.js
 
-console.log('✅ Sidebar functionality initialized');
+// Sidebar functionality initialized

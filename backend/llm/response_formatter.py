@@ -7,7 +7,7 @@ def add_source_urls(response: str, newsletter_month: str = None) -> str:
     """
     Enhance response with source URLs for verification
     """
-    base_url = "https://llm-dashboard-backend-8gb0.onrender.com"
+    base_url = "https://vsk-newsletter.in"
     gov_url = "https://www.education.gov.in"
 
     # If response doesn't have source section, add it
@@ -107,7 +107,8 @@ def ensure_structured_format(response: str, query: str, query_type: str, chapter
 
     # Add summary if missing
     if not has_summary:
-        structured_response = f"**Summary:**\n{response.split('\n')[0]}\n\n{response}"
+        first_line = response.split('\n')[0]
+        structured_response = f"**Summary:**\n{first_line}\n\n{response}"
 
     # Add source URLs
     structured_response = add_source_urls(structured_response)

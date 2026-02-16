@@ -37,15 +37,39 @@ def remove_all_emojis(text: str) -> str:
     return text
 
 
+def _sanitize_html(text: str) -> str:
+    """
+    Remove dangerous HTML tags and attributes to prevent XSS.
+    Preserves safe tags like <table>, <tr>, <td>, <th>, <p>, <strong>, etc.
+    """
+    # Remove script tags and their content
+    text = re.sub(r'<script[^>]*>.*?</script>', '', text, flags=re.DOTALL | re.IGNORECASE)
+    # Remove iframe tags
+    text = re.sub(r'<iframe[^>]*>.*?</iframe>', '', text, flags=re.DOTALL | re.IGNORECASE)
+    # Remove object/embed tags
+    text = re.sub(r'<(object|embed)[^>]*>.*?</\1>', '', text, flags=re.DOTALL | re.IGNORECASE)
+    # Remove event handler attributes (onclick, onerror, onload, etc.)
+    text = re.sub(r'\s+on\w+\s*=\s*["\'][^"\']*["\']', '', text, flags=re.IGNORECASE)
+    text = re.sub(r'\s+on\w+\s*=\s*\S+', '', text, flags=re.IGNORECASE)
+    # Remove javascript: URLs
+    text = re.sub(r'href\s*=\s*["\']javascript:[^"\']*["\']', 'href="#"', text, flags=re.IGNORECASE)
+    text = re.sub(r'src\s*=\s*["\']javascript:[^"\']*["\']', '', text, flags=re.IGNORECASE)
+    return text
+
+
 def production_grade_cleanup(response: str) -> str:
     """
     Clean up response for production-grade government output
+    - Sanitizes dangerous HTML
     - Removes emojis
     - Removes AI/chatbot language
-    - Preserves HTML tables intact
+    - Preserves safe HTML tables intact
     """
+    # Step 0: Sanitize dangerous HTML tags and attributes
+    cleaned = _sanitize_html(response)
+
     # Step 1: Remove all emojis
-    cleaned = remove_all_emojis(response)
+    cleaned = remove_all_emojis(cleaned)
 
     # Step 2: Remove chatbot/AI self-references
     ai_phrases = [

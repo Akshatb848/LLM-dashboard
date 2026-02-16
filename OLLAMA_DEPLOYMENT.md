@@ -94,7 +94,7 @@ Total schools in January 2026: 948,000 (+3.6% from April 2025)
 
 **Data Source:**
 Newsletter: January 2026, Section: Infrastructure Statistics
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 ✅ Verification: Users can access the live API or official Ministry website to verify this information
 
@@ -238,7 +238,7 @@ By January 2026, 235 million APAAR IDs were generated, achieving 95.8% coverage.
 
 **Data Source:**
 Newsletter: January 2026, Section: Digital Initiatives
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 ✅ Verification: Users can access the live API or official Ministry website
 
@@ -278,7 +278,7 @@ Kerala leads with 98.6% APAAR coverage and 98.4% attendance, while Gujarat shows
 
 **Data Source:**
 Newsletter: January 2026, Section: State Performance
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 
 **Related Questions You Might Ask:**
@@ -322,7 +322,7 @@ Attendance rates improved from 94.2% (April 2025) to 96.8% (January 2026), showi
 
 **Data Source:**
 Newsletter: Monthly data (April 2025 - January 2026), Section: Attendance
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 
 **Related Questions You Might Ask:**
@@ -481,7 +481,7 @@ def generate_contextual_questions(query, query_type, chapter):
 
 **GitHub Issues:** https://github.com/Akshatb848/LLM-dashboard/issues
 **Documentation:** `/NEWSLETTER_FEATURES.md`
-**API Docs:** https://llm-dashboard-backend-8gb0.onrender.com/docs
+**API Docs:** https://vsk-newsletter.in/docs
 
 ---
 

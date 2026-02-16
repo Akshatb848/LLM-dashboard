@@ -122,7 +122,7 @@ Output: [{'text': '...', 'metrics': {'Schools': '945,000', 'Teachers': '4,350,00
 ```
 **Data Source:**
 Newsletter: [Month Year], Section: [Section Name]
-Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 Verification: Users can access the live API or official Ministry website
 ```
@@ -259,7 +259,7 @@ December 2025 focused on NEP 2020 comprehensive review and winter learning enhan
 
 **Data Source:**
 Newsletter: December 2025, Section: Monthly Activities
-Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 Verification: Users can access the live API or official Ministry website to verify this information
 
@@ -271,7 +271,7 @@ Verification: Users can access the live API or official Ministry website to veri
 ---
 **Source:** Official Newsletter Data (April 2025 - January 2026)
 Department of School Education & Literacy, Ministry of Education, Government of India
-**Data Verification:** https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+**Data Verification:** https://vsk-newsletter.in/api/analytics/full-data
 ```
 
 ---

@@ -181,7 +181,7 @@ December 2025 showed significant growth with 945,000 schools, 4.35M teachers, an
 
 **Data Source:**
 Newsletter: December 2025, Section: Monthly Statistics
-📊 Live Data API: https://llm-dashboard-backend-8gb0.onrender.com/api/analytics/full-data
+📊 Live Data API: https://vsk-newsletter.in/api/analytics/full-data
 🏛️ Official Website: https://www.education.gov.in/en/documents-reports-category/newsletter
 ✅ Verification: Users can access the live API or official Ministry website
 ```

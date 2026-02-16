@@ -377,7 +377,7 @@ function _performSearch(query, index) {
     );
 
     if (results.length === 0) {
-        container.innerHTML = `<p class="search-placeholder"><i class="fas fa-exclamation-circle"></i> No results for "<strong>${query}</strong>"</p>`;
+        container.innerHTML = `<p class="search-placeholder"><i class="fas fa-exclamation-circle"></i> No results for "<strong>${_escapeHtml(query)}</strong>"</p>`;
         return;
     }
 
@@ -407,10 +407,18 @@ function _performSearch(query, index) {
     });
 }
 
+function _escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+}
+
 function _highlightMatch(text, query) {
-    if (!query) return text;
-    const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    return text.replace(re, '<mark style="background:#FFE082;padding:0 2px;border-radius:2px;">$1</mark>');
+    if (!query) return _escapeHtml(text);
+    const safeText = _escapeHtml(text);
+    const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(${safeQuery})`, 'gi');
+    return safeText.replace(re, '<mark style="background:#FFE082;padding:0 2px;border-radius:2px;">$1</mark>');
 }
 
 /* ================================================================

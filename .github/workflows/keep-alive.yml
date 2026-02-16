@@ -15,9 +15,9 @@ jobs:
         run: |
           echo "🏥 Checking VSK Dashboard health..."
 
-          # Replace with your actual Render URL
-          # Format: https://your-service-name.onrender.com
-          SERVICE_URL="${{ secrets.SERVICE_URL || 'https://moe-education-dashboard-backend.onrender.com' }}"
+          # Custom domain for VSK Newsletter Dashboard
+          # Deployed on Render with custom domain: vsk-newsletter.in
+          SERVICE_URL="${{ secrets.SERVICE_URL || 'https://vsk-newsletter.in' }}"
 
           # Ping the health endpoint
           RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "${SERVICE_URL}/api/health" || echo "000")
@@ -50,7 +50,7 @@ jobs:
 
       - name: Ping Root Endpoint
         run: |
-          SERVICE_URL="${{ secrets.SERVICE_URL || 'https://moe-education-dashboard-backend.onrender.com' }}"
+          SERVICE_URL="${{ secrets.SERVICE_URL || 'https://vsk-newsletter.in' }}"
           echo "🌐 Pinging root endpoint..."
           curl -s -o /dev/null -w "Status: %{http_code}\n" "${SERVICE_URL}/" || true
 
