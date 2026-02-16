@@ -155,69 +155,8 @@
         </div>
     </div>
 
-    <!-- Main Layout with Sidebar -->
-    <div class="layout-container">
-        <!-- Sidebar -->
-        <aside class="sidebar" role="complementary" aria-label="Filter and navigation sidebar">
-            <div class="sidebar-section">
-                <h3 class="sidebar-title">
-                    <i class="fas fa-filter"></i> Filters
-                </h3>
-                <div class="filter-group">
-                    <label for="timeFilter">Time Period</label>
-                    <select id="timeFilter" class="filter-select">
-                        <option value="all">All Months (Apr 2025 - Jan 2026)</option>
-                        <option value="april-2025">April 2025</option>
-                        <option value="may-2025">May 2025</option>
-                        <option value="june-2025">June 2025</option>
-                        <option value="july-2025">July 2025</option>
-                        <option value="august-2025">August 2025</option>
-                        <option value="september-2025">September 2025</option>
-                        <option value="october-2025">October 2025</option>
-                        <option value="november-2025">November 2025</option>
-                        <option value="december-2025">December 2025</option>
-                        <option value="january-2026">January 2026</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="metricFilter">Metric Type</label>
-                    <select id="metricFilter" class="filter-select">
-                        <option value="all">All Metrics</option>
-                        <option value="schools">Schools</option>
-                        <option value="teachers">Teachers</option>
-                        <option value="students">Students</option>
-                        <option value="apaar">APAAR IDs</option>
-                        <option value="attendance">Attendance</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="sidebar-section">
-                <h3 class="sidebar-title">
-                    <i class="fas fa-bookmark"></i> Quick Links
-                </h3>
-                <ul class="quick-links">
-                    <li><a href="#key-metrics"><i class="fas fa-tachometer-alt"></i> Key Metrics</a></li>
-                    <li><a href="#monthly-data"><i class="fas fa-calendar-alt"></i> Monthly Data</a></li>
-                    <li><a href="#state-wise"><i class="fas fa-map-marked-alt"></i> State-wise Analysis</a></li>
-                    <li><a href="#charts"><i class="fas fa-chart-pie"></i> Visual Charts</a></li>
-                    <li><a href="#ai-chat"><i class="fas fa-comments"></i> AI Chat</a></li>
-                </ul>
-            </div>
-
-            <div class="sidebar-section">
-                <h3 class="sidebar-title">
-                    <i class="fas fa-download"></i> Export Data
-                </h3>
-                <div class="export-buttons">
-                    <button class="export-btn" id="exportCSV">
-                        <i class="fas fa-file-csv"></i> Export CSV
-                    </button>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
+    <!-- Main Content Area -->
+    <div class="container">
         <main id="main-content" class="main-content" role="main">
 
     <!-- Dashboard Metric Cards -->
@@ -370,77 +309,8 @@
         </div>
     </section>
 
-    <!-- Analytics & Visualizations -->
-    <section class="analytics-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Statistical Analysis & Trends</h2>
-            </div>
-
-            <div class="charts-row">
-                <div class="chart-container">
-                    <h4>APAAR ID Generation Progress</h4>
-                    <canvas id="apaarChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h4>Attendance Trend Analysis</h4>
-                    <canvas id="attendanceChart"></canvas>
-                </div>
-            </div>
-
-            <div class="charts-row">
-                <div class="chart-container">
-                    <h4>Student Enrollment Growth</h4>
-                    <canvas id="studentsChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h4>Schools & Teachers Expansion</h4>
-                    <canvas id="infrastructureChart"></canvas>
-                </div>
-            </div>
-
-            <div class="charts-row">
-                <div class="chart-container full-width">
-                    <h4>Top Performing States (January 2026)</h4>
-                    <canvas id="statesChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Technical Developments -->
-    <section class="technical-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Technical Developments & Infrastructure</h2>
-            </div>
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <h4>Dashboard Features</h4>
-                    <ul id="dashboardFeaturesList"></ul>
-                </div>
-                <div class="tech-card">
-                    <h4>Infrastructure Upgrades</h4>
-                    <ul id="infrastructureUpgradesList"></ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- KPIs Section -->
-    <section class="kpi-section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Key Performance Indicators</h2>
-            </div>
-            <div class="kpi-grid" id="kpiGrid">
-                <!-- Dynamically populated -->
-            </div>
-        </div>
-    </section>
-
-    </div> <!-- End layout-container -->
-    </main> <!-- End main-content -->
+        </main> <!-- End main-content -->
+    </div> <!-- End container -->
 
     <!-- Professional Footer with GIGW Compliance -->
     <footer class="main-footer" role="contentinfo">
@@ -665,9 +535,6 @@
     <!-- Enhanced Chat with Language Selection -->
     <script src="js/enhanced-chat.js"></script>
 
-    <!-- Sidebar Functionality -->
-    <script src="js/sidebar-functionality.js"></script>
-
     <!-- Main App -->
     <script src="js/app.js"></script>
 
@@ -679,9 +546,6 @@
 
             // Initialize chat widget
             initializeChatWidget();
-
-            // Initialize sidebar features
-            initializeSidebarFeatures();
         });
     </script>
 </body>
