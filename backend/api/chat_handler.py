@@ -269,6 +269,34 @@ class ChatHandler:
         result += "</ul>"
         return result
 
+    def _format_detailed_context(self, results: list[dict[str, Any]], query: str) -> str:
+        """Format detailed context results with proper HTML structure"""
+        result = "<strong>Based on official newsletter data:</strong>\n\n"
+
+        for res in results[:3]:
+            text = res.get("text", "").strip()
+            if not text:
+                continue
+
+            # Convert plain text to HTML, preserving structure
+            lines = text.split('\n')
+            for line in lines:
+                line = line.strip()
+                if not line:
+                    continue
+                # Detect section headers (all caps or ending with colon)
+                if line.isupper() or (line.endswith(':') and len(line) < 80):
+                    result += f"<p><strong>{line}</strong></p>\n"
+                elif line.startswith('- ') or line.startswith('• '):
+                    item = line.lstrip('- •').strip()
+                    result += f"<li style='margin:4px 0;line-height:1.6;'>{item}</li>\n"
+                else:
+                    result += f"<p style='margin:8px 0;line-height:1.6;'>{line}</p>\n"
+
+            result += "<br>\n"
+
+        return result
+
     def _render_no_data(self) -> str:
         return (
             "<strong>No relevant information found in the official newsletter data.</strong>\n\n"
@@ -309,6 +337,8 @@ class ChatHandler:
             answer = self._format_director_message(metadata.get("data", {}))
         elif chunk_type == "state_engagement":
             answer = self._format_state_engagement(metadata.get("data", {}))
+        elif chunk_type == "detailed_context":
+            answer = self._format_detailed_context(results, query)
         else:
             answer = self._format_generic_answer(results, query)
 
