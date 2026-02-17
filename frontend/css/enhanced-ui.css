@@ -26,8 +26,42 @@
     font-weight: 500;
 }
 
-.gov-identity i {
-    font-size: 16px;
+.gov-identity-text {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+.gov-bar-separator {
+    color: rgba(255,255,255,0.4);
+    font-size: 14px;
+}
+
+/* GIGW: Font size accessibility controls */
+.font-size-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.font-size-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    line-height: 1.4;
+}
+
+.font-size-btn:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.5);
+}
+
+.font-size-btn sup {
+    font-size: 9px;
 }
 
 .gov-actions {
@@ -87,27 +121,131 @@
     z-index: 100;
 }
 
-.gov-composite-header .header-content {
+/* GIGW Compliant Header: Three-column layout */
+.header-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 20px;
 }
 
-.dsel-banner-img {
-    width: min(100%, 862px);
-    height: auto;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
-}
-
-.ncert-side-logo {
-    width: 88px;
-    height: 88px;
-    object-fit: contain;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
+/* Left: National Emblem / Ministry of Education */
+.header-logo-left {
     flex-shrink: 0;
+}
+
+.emblem-link {
+    display: block;
+    text-decoration: none;
+}
+
+.national-emblem-img {
+    width: 80px;
+    height: auto;
+    max-height: 100px;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15));
+    transition: transform 0.2s ease;
+}
+
+.ministry-logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-height: 80px;
+    padding: 10px 14px;
+    background: #fff;
+    border-left: 3px solid var(--gov-orange);
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 61, 130, 0.15);
+}
+
+.ministry-logo-hi {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gov-blue);
+    line-height: 1.2;
+}
+
+.ministry-logo-en {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1.2;
+}
+
+.ministry-logo-goi {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    color: #4b5563;
+    line-height: 1.2;
+}
+
+/* Center: Title block (Hindi above English per GIGW norms) */
+.header-title {
+    flex: 1;
+    text-align: center;
+}
+
+.subtitle-hindi {
+    font-size: 26px;
+    color: var(--gov-orange);
+    font-weight: 700;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.main-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gov-blue);
+    margin-bottom: 6px;
+    line-height: 1.2;
+}
+
+.department-name {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 2px 0;
+}
+
+.ministry-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 2px 0;
+    font-weight: 500;
+}
+
+/* Right: NCERT Logo + Actions */
+.header-logo-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.ncert-link {
+    display: block;
+    text-decoration: none;
+}
+
+.ncert-logo-img {
+    width: 75px;
+    height: 75px;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15));
+    transition: transform 0.2s ease;
+}
+
+.ncert-logo-img:hover {
+    transform: scale(1.05);
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
 }
 
 @media (max-width: 900px) {
@@ -909,14 +1047,50 @@
     .header-content {
         flex-direction: column;
         text-align: center;
+        gap: 12px;
+    }
+
+    .header-logo-left,
+    .header-logo-right {
+        justify-content: center;
+    }
+
+    .header-logo-right {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .national-emblem-img {
+        width: 60px;
+    }
+
+    .ncert-logo-img {
+        width: 60px;
+        height: 60px;
     }
 
     .main-title {
-        font-size: 24px;
+        font-size: 20px;
     }
 
-    .subtitle-orange {
-        font-size: 18px;
+    .subtitle-hindi {
+        font-size: 20px;
+    }
+
+    .department-name {
+        font-size: 11px;
+    }
+
+    .ministry-name {
+        font-size: 11px;
+    }
+
+    .font-size-controls {
+        display: none;
+    }
+
+    .gov-bar-separator {
+        display: none;
     }
 
     .nav-menu {
@@ -957,6 +1131,24 @@ body.dark-mode .metrics-dashboard {
 
 body.dark-mode .main-header {
     background: #0f3460;
+}
+
+body.dark-mode .national-emblem-img,
+body.dark-mode .ncert-logo-img {
+    filter: brightness(0) invert(1) drop-shadow(0 1px 3px rgba(0,0,0,0.3));
+}
+
+body.dark-mode .main-title {
+    color: #e0e0e0;
+}
+
+body.dark-mode .subtitle-hindi {
+    color: var(--gov-orange);
+}
+
+body.dark-mode .department-name,
+body.dark-mode .ministry-name {
+    color: #b0b0b0;
 }
 
 /* ========== HIGH CONTRAST MODE ========== */
@@ -1630,7 +1822,7 @@ body.high-contrast * {
 [data-theme] .gov-top-bar { background: var(--theme-gradient); }
 [data-theme] .main-nav { background: var(--theme-nav-bg); }
 [data-theme] .main-title { color: var(--theme-primary); }
-[data-theme] .subtitle-orange { color: var(--theme-accent); }
+[data-theme] .subtitle-hindi { color: var(--theme-accent); }
 [data-theme] .section-header h2 { color: var(--theme-primary); }
 [data-theme] .metric-value { color: var(--theme-primary); }
 [data-theme] .nav-link.active { border-bottom-color: var(--theme-accent); }
