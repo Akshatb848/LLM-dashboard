@@ -1400,6 +1400,41 @@ function initializeEnhancedUI() {
     initializeExportButtons();
     initializeNavigationHighlight();
     initializeSearchFunctionality();
+    initializeFontSizeControls();
+}
+
+// GIGW: Font Size Accessibility Controls
+function initializeFontSizeControls() {
+    const root = document.documentElement;
+    const savedSize = localStorage.getItem('fontSize') || '100';
+    root.style.fontSize = savedSize + '%';
+
+    const decreaseBtn = document.getElementById('fontDecrease');
+    const defaultBtn = document.getElementById('fontDefault');
+    const increaseBtn = document.getElementById('fontIncrease');
+
+    if (decreaseBtn) {
+        decreaseBtn.addEventListener('click', () => {
+            const current = parseInt(localStorage.getItem('fontSize') || '100');
+            const newSize = Math.max(80, current - 10);
+            root.style.fontSize = newSize + '%';
+            localStorage.setItem('fontSize', String(newSize));
+        });
+    }
+    if (defaultBtn) {
+        defaultBtn.addEventListener('click', () => {
+            root.style.fontSize = '100%';
+            localStorage.setItem('fontSize', '100');
+        });
+    }
+    if (increaseBtn) {
+        increaseBtn.addEventListener('click', () => {
+            const current = parseInt(localStorage.getItem('fontSize') || '100');
+            const newSize = Math.min(150, current + 10);
+            root.style.fontSize = newSize + '%';
+            localStorage.setItem('fontSize', String(newSize));
+        });
+    }
 }
 
 // Theme Toggle (Dark/Light Mode)
