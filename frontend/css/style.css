@@ -138,23 +138,34 @@ body {
     text-align: center;
 }
 
-/* Header */
+/* Header Banner Styling */
+.header-banner-wrapper {
+    width: 100%;
+/* Header Banner Styling */
+.header-banner-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.header-banner-img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
 .main-header {
     background: white;
-    padding: 20px 0;
+    padding: 5px 0;
     border-bottom: 3px solid var(--gov-orange);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: slideInLeft 0.6s ease-out;
 }
-
-.header-content {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-/* GIGW: Left emblem */
-.header-logo-left {
     flex-shrink: 0;
     animation: scaleIn 0.8s ease-out;
 }
