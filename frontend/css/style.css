@@ -141,35 +141,36 @@ body {
 /* Header Banner Styling */
 .header-banner-wrapper {
     width: 100%;
-/* Header Banner Styling */
-.header-banner-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 0;
+    padding: 10px 0;
 }
 
-.header-banner-img {
-    max-width: 100%;
-    height: auto;
+.header-flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.gov-logo-img {
+    height: 70px;
+    width: auto;
     object-fit: contain;
-    display: block;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 8px;
+}
+
+.ncert-logo-header {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
 }
 
 .main-header {
     background: white;
-    padding: 5px 0;
+    padding: 10px 0;
     border-bottom: 3px solid var(--gov-orange);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     animation: slideInLeft 0.6s ease-out;
 }
-    flex-shrink: 0;
-    animation: scaleIn 0.8s ease-out;
-}
-
 /* GIGW: Right logo area */
 .header-logo-right {
     flex-shrink: 0;
