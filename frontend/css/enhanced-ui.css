@@ -113,9 +113,9 @@
 
 /* ========== ENHANCED HEADER ========== */
 .main-header {
-    background: white;
-    padding: 20px 0;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: #ffffff;
+    padding: 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -248,24 +248,16 @@
     gap: 8px;
 }
 
-.search-btn,
-.help-btn {
-    background: var(--gov-blue);
-    color: white;
-    border: none;
-    padding: 12px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+@media (max-width: 900px) {
+    .gov-composite-header .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-.search-btn:hover,
-.help-btn:hover {
-    background: var(--gov-orange);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    .ncert-side-logo {
+        width: 72px;
+        height: 72px;
+    }
 }
 
 /* ========== NAVIGATION MENU ========== */
@@ -273,7 +265,7 @@
     background: linear-gradient(135deg, #003d82 0%, #0056b3 100%);
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     position: sticky;
-    top: 120px;
+    top: 100px;
     z-index: 99;
 }
 
