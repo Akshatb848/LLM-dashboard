@@ -31,6 +31,6 @@ services:
     startCommand: python keep_alive_cron.py
     envVars:
       - key: SERVICE_URL
-        value: https://vsk-newsletter.in
+        sync: false
       - key: PYTHON_VERSION
         value: 3.14.3

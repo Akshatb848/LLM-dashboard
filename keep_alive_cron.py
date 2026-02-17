@@ -18,7 +18,11 @@ from datetime import datetime
 
 def ping_service():
     """Ping the service to keep it alive"""
-    service_url = os.getenv("SERVICE_URL", "https://vsk-newsletter.in")
+    service_url = os.getenv("SERVICE_URL")
+
+    if not service_url:
+        print("❌ ERROR - SERVICE_URL environment variable is not set")
+        return 1
 
     print(f"{'='*60}")
     print(f"🕐 VSK Dashboard Keep-Alive Cron Job")

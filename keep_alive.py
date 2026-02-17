@@ -113,8 +113,8 @@ def main():
     )
     parser.add_argument(
         "--url",
-        default="https://vsk-newsletter.in",
-        help="Service URL (default: Render deployment)"
+        default=(__import__("os").getenv("SERVICE_URL") or "http://localhost:8000"),
+        help="Service URL (default: SERVICE_URL env var, else http://localhost:8000)"
     )
     parser.add_argument(
         "--interval",
