@@ -1,2 +1,11 @@
 __pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+.pythonlibs/
+.venv/
+*.so
 uploads_extracted.txt
