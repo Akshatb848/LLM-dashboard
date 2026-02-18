@@ -6,12 +6,14 @@ Ministry of Education, Government of India
 ENHANCED_SYSTEM_PROMPT = """You are an AI assistant for the Ministry of Education, Government of India's Vidya Samiksha Kendra (VSK) Newsletter Platform. You provide precise, data-driven insights from monthly newsletters (April 2025 - January 2026).
 
 **COMMUNICATION STANDARDS:**
-- **CRITICAL: ALWAYS respond in professional English (India)**
+- **CRITICAL: Respond in the language specified in the LANGUAGE INSTRUCTION section below**
+- If no language instruction is given, default to professional English (India)
 - Use formal, government-appropriate language
 - Be precise, factual, and concise
 - Focus on data accuracy and clarity
 - Avoid casual expressions or unnecessary embellishments
 - Use proper units (millions, thousands, %, etc.)
+- For Hindi responses: use formal Hindi (सरकारी शैली), keep English acronyms as-is (RVSK, NCERT, APAAR, DICT, VSK, UDISE+)
 
 CORE RESPONSIBILITIES:
 
@@ -352,11 +354,37 @@ def detect_chapter(query: str) -> str:
     return "general"
 
 def get_structured_prompt(query: str, context: str, language: str = "en") -> str:
-    """Generate a structured prompt for VSK Newsletter queries"""
+    """Generate a structured prompt for VSK Newsletter queries with bilingual support"""
     query_type = detect_query_type(query)
     chapter = detect_chapter(query)
 
+    lang_instruction = ""
+    if language == "hi":
+        lang_instruction = (
+            "\n\nLANGUAGE INSTRUCTION: Respond in formal Hindi (सरकारी / शैक्षणिक शैली). "
+            "Keep English acronyms as-is (RVSK, NCERT, APAAR, DICT, CIET, VSK, UDISE+, PM SHRI, DIKSHA, NISHTHA, NAS). "
+            "Maintain all numerical and statistical accuracy. "
+            "Do not translate proper nouns, program names, or technical acronyms. "
+            "Use Devanagari script for explanatory text.\n"
+        )
+    else:
+        lang_instruction = (
+            "\n\nLANGUAGE INSTRUCTION: Respond in clear, formal, professional English (India). "
+            "Use short paragraphs and bullet points for clarity. "
+            "Prefer structured responses with headings and tables.\n"
+        )
+
+    leadership_context = (
+        "\n\nRVSK LEADERSHIP (use these exact names and designations):\n"
+        "- Prof. Dinesh Prasad Saklani — Director, NCERT\n"
+        "- Prof. Amarendra Behera — Joint Director, CIET-NCERT\n"
+        "- Prof. Indu Kumar — Head, DICT & TD, CIET-NCERT\n"
+        "- Dr. Rajesh D. — Associate Professor, CIET-NCERT, National Coordinator VSK\n"
+    )
+
     prompt = f"""{ENHANCED_SYSTEM_PROMPT}
+{lang_instruction}
+{leadership_context}
 
 QUERY ANALYSIS:
 Query Type: {query_type.upper().replace('_', ' ')}
@@ -368,7 +396,7 @@ NEWSLETTER CONTEXT:
 USER QUERY:
 {query}
 
-YOUR RESPONSE (Professional English, Data-Focused, HTML Tables for all numerical data):
+YOUR RESPONSE:
 """
 
     return prompt

@@ -41,6 +41,17 @@ frontend/
 - `OLLAMA_URL` - URL for Ollama LLM server (if empty, runs in RAG-only mode)
 - `OLLAMA_MODEL` - Ollama model name (default: llama3.1)
 
+## Chatbot Features
+- **Bilingual**: Full English and Hindi response support with auto-language detection
+- **Hinglish Support**: Detects Latin-script Hindi (e.g., "RVSK mein kitne schools hain?")
+- **Language Detection**: Devanagari detection + Hinglish keyword matching (25% threshold)
+- **Leadership Accuracy**: Canonical names used — Prof. Dinesh Prasad Saklani, Prof. Amarendra Behera, Prof. Indu Kumar
+- **Hallucination Control**: Only indexed newsletter data; explicit "not available" messages in both languages
+- **Structured Responses**: HTML tables with VSK styling, bullet points, headings
+- **RAG-only mode**: Works without external LLM; optional Ollama integration for enhanced analysis
+
 ## Recent Changes
+- 2026-02-18: Chatbot bilingual fine-tuning — added Hindi response labels, auto language detection (Devanagari + Hinglish), leadership query handling with canonical names, 6A Framework dedicated handler, Hindi RAG chunks, bilingual system prompt, hallucination guardrails
+- 2026-02-18: Header branding update — MoE and NCERT logos, leadership name/designation attribution
 - 2026-02-18: Restructured dashboard into 7-layer architecture with newsletter carousel, leadership cards, 6A framework band, VSK statistics, best practices grid, national programs band, and AI assistant section. Created dashboard-layers.css and dashboard-layers.js.
 - 2026-02-17: Initial Replit setup, configured for port 5000, fixed API_BASE for proxy compatibility

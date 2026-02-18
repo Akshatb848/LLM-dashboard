@@ -199,10 +199,40 @@ class RagSystem:
             # Leadership
             leaders = rvsk.get("leadership", {})
             if leaders:
-                leader_text = "RVSK Leadership: " + "; ".join(
-                    f"{v.get('name', '')} ({v.get('title', '')})" for v in leaders.values()
+                leader_text = (
+                    "RVSK Leadership: "
+                    "Prof. Dinesh Prasad Saklani (Director, NCERT); "
+                    "Prof. Amarendra Behera (Joint Director, CIET-NCERT); "
+                    "Prof. Indu Kumar (Head, DICT & TD, CIET-NCERT); "
+                    "Dr. Rajesh D. (Associate Professor, CIET-NCERT, National Coordinator VSK)"
                 )
                 chunks.append({"text": leader_text, "metadata": {"type": "rvsk", "data": rvsk}})
+
+                leader_text_hi = (
+                    "RVSK नेतृत्व leadership निदेशक director संयुक्त निदेशक joint director: "
+                    "Prof. Dinesh Prasad Saklani (निदेशक, NCERT); "
+                    "Prof. Amarendra Behera (संयुक्त निदेशक, CIET-NCERT); "
+                    "Prof. Indu Kumar (प्रमुख, DICT & TD, CIET-NCERT); "
+                    "Dr. Rajesh D. (सहयोगी प्रोफेसर, CIET-NCERT, राष्ट्रीय समन्वयक VSK)"
+                )
+                chunks.append({"text": leader_text_hi, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            six_a_hi = (
+                "6A Framework 6A फ्रेमवर्क छह स्तंभ: "
+                "Attendance उपस्थिति, Assessment मूल्यांकन, Administration प्रशासन, "
+                "Accreditation मान्यता, Adaptive Learning अनुकूली शिक्षा, "
+                "Artificial Intelligence कृत्रिम बुद्धिमत्ता"
+            )
+            chunks.append({"text": six_a_hi, "metadata": {"type": "rvsk", "data": rvsk}})
+
+            rvsk_hi = (
+                "राष्ट्रीय विद्या समीक्षा केंद्र RVSK VSK विद्या समीक्षा: "
+                f"{progress.get('states_uts_operationalized', 35)} राज्य/केंद्र शासित प्रदेश, "
+                f"{progress.get('total_operational_vsks', 37)} VSK संचालित, "
+                f"APAAR IDs: {progress.get('total_apaar_ids', '')}. "
+                "स्कूल शिक्षा school education शिक्षा मंत्रालय ministry of education"
+            )
+            chunks.append({"text": rvsk_hi, "metadata": {"type": "rvsk", "data": rvsk}})
 
         return chunks
 
