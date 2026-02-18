@@ -7,17 +7,15 @@
     <meta name="description" content="Smart Education Newsletter Platform - Ministry of Education, Government of India">
     <meta name="keywords" content="Education, Newsletter, India, Ministry, VSK, APAAR, Schools, Teachers">
 
-    <!-- UX4G Compliance -->
     <meta name="accessibility" content="WCAG 2.1 Level AA">
     <meta name="language" content="English, Hindi">
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/enhanced-ui.css">
+    <link rel="stylesheet" href="css/dashboard-layers.css">
 
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Google Fonts - Roboto & Noto Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -25,10 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-    <!-- Skip to Main Content (Accessibility) -->
     <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
 
-    <!-- GIGW Compliant: Top Government Identity Bar -->
     <div class="gov-top-bar" role="banner">
         <div class="container">
             <div class="gov-bar-content">
@@ -36,29 +32,27 @@
                     <span class="gov-identity-text">भारत सरकार | Government of India</span>
                 </div>
                 <div class="gov-actions">
-                    <!-- Accessibility: Font Size Controls (GIGW requirement) -->
                     <div class="font-size-controls" role="group" aria-label="Font size controls">
                         <button class="font-size-btn" id="fontDecrease" aria-label="Decrease font size" title="Decrease Text Size">A<sup>-</sup></button>
                         <button class="font-size-btn" id="fontDefault" aria-label="Default font size" title="Default Text Size">A</button>
                         <button class="font-size-btn" id="fontIncrease" aria-label="Increase font size" title="Increase Text Size">A<sup>+</sup></button>
                     </div>
                     <span class="gov-bar-separator" aria-hidden="true">|</span>
-                    <!-- Theme Picker -->
                     <div class="theme-picker" id="themePicker">
                         <button class="icon-btn theme-trigger" aria-label="Choose Theme" title="Choose Theme Layout">
                             <i class="fas fa-palette"></i>
                         </button>
                         <div class="theme-dropdown" id="themeDropdown">
                             <div class="theme-dropdown-title">Government Themes</div>
-                            <button class="theme-option active" data-theme="nic-blue" title="NIC Blue — Default">
+                            <button class="theme-option active" data-theme="nic-blue" title="NIC Blue">
                                 <span class="theme-swatch" style="background:linear-gradient(135deg,#003d82,#0056b3);"></span>
                                 <span>NIC Blue</span>
                             </button>
-                            <button class="theme-option" data-theme="india-saffron" title="India Saffron — india.gov.in">
+                            <button class="theme-option" data-theme="india-saffron" title="India Saffron">
                                 <span class="theme-swatch" style="background:linear-gradient(135deg,#FF6B00,#FF9933);"></span>
                                 <span>India Saffron</span>
                             </button>
-                            <button class="theme-option" data-theme="digital-green" title="Digital Green — Digital India">
+                            <button class="theme-option" data-theme="digital-green" title="Digital Green">
                                 <span class="theme-swatch" style="background:linear-gradient(135deg,#00695C,#26A69A);"></span>
                                 <span>Digital India</span>
                             </button>
@@ -76,8 +70,6 @@
         </div>
     </div>
 
-    <!-- GIGW Compliant: Main Header — National Emblem (left) | Title (center) | NCERT Logo (right) -->
-    <!-- Main Header Panel -->
     <header class="main-header" role="banner">
         <div class="container">
             <div class="header-banner-wrapper">
@@ -89,353 +81,199 @@
         </div>
     </header>
 
-    <!-- Navigation Menu -->
     <nav class="main-nav" role="navigation" aria-label="Main navigation">
         <div class="container">
             <ul class="nav-menu" role="menubar">
-                <li role="none">
-                    <a href="#home" class="nav-link active" role="menuitem" aria-current="page">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li role="none">
-                    <a href="#ai-chat" class="nav-link" role="menuitem">
-                        <i class="fas fa-comments"></i>
-                        <span>AI Assistant</span>
-                    </a>
-                </li>
+                <li role="none"><a href="#home" class="nav-link active" role="menuitem">Dashboard</a></li>
+                <li role="none"><a href="#newsletter-highlights" class="nav-link" role="menuitem">Highlights</a></li>
+                <li role="none"><a href="#leadership" class="nav-link" role="menuitem">Leadership</a></li>
+                <li role="none"><a href="#framework-6a" class="nav-link" role="menuitem">6A Framework</a></li>
+                <li role="none"><a href="#ai-chat" class="nav-link" role="menuitem">AI Assistant</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb-container" aria-label="Breadcrumb navigation">
-        <div class="container">
-            <nav aria-label="Breadcrumb">
-                <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <a href="#home" itemprop="item"><span itemprop="name">Home</span></a>
-                        <meta itemprop="position" content="1" />
-                    </li>
-                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <span itemprop="name">Dashboard</span>
-                        <meta itemprop="position" content="2" />
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+    <main id="main-content" class="main-content" role="main">
+        <div id="home"></div>
 
-    <!-- Main Content Area -->
-    <div class="container">
-        <main id="main-content" class="main-content" role="main">
-
-    <!-- Dashboard Section Anchor -->
-    <div id="home"></div>
-
-    <!-- Dashboard Metric Cards -->
-    <section class="metrics-dashboard" aria-label="Key Performance Indicators">
-        <div class="metrics-header">
-            <h2><i class="fas fa-tachometer-alt"></i> Key Performance Indicators</h2>
-            <div class="metrics-period">
-                <i class="fas fa-calendar-alt"></i>
-                <span>As of January 2026</span>
-            </div>
-        </div>
-        <div class="metrics-grid">
-            <div class="metric-card schools-card" role="region" aria-label="Total Schools">
-                <div class="metric-icon">
-                    <i class="fas fa-school"></i>
+        <!-- Layer 1: Newsletter Highlights Carousel -->
+        <section id="newsletter-highlights" class="dashboard-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-newspaper"></i> RVSK / VSK Newsletter Highlights</h2>
                 </div>
-                <div class="metric-content">
-                    <h3 class="metric-label">Total Schools</h3>
-                    <div class="metric-value" id="totalSchools">948,000</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>+33,000 (3.6%)</span>
+                <div class="carousel-container" id="newsletterCarousel">
+                    <div class="carousel-track" id="newsletterTrack"></div>
+                    <button class="carousel-btn prev" id="newsPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" id="newsNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layer 2: Leadership Messages -->
+        <section id="leadership" class="dashboard-layer leadership-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-users-cog"></i> Leadership Messages</h2>
+                </div>
+                <div class="leadership-grid" id="leadershipGrid">
+                    <div class="leader-card">
+                        <div class="leader-image">
+                            <img src="assets/leadership/director.jpg" alt="Director" onerror="this.src='https://ui-avatars.com/api/?name=Director&background=003d82&color=fff&size=120'">
+                        </div>
+                        <div class="leader-info">
+                            <h3>Director, DSEL</h3>
+                            <p class="leader-title">Department of School Education & Literacy</p>
+                            <div class="leader-message">"RVSK is the cornerstone of our data-driven transformation in Indian education, enabling real-time insights for every student."</div>
+                        </div>
                     </div>
-                    <div class="metric-subtitle">Since April 2025</div>
-                </div>
-                <div class="metric-chart">
-                    <canvas id="schoolsTrend"></canvas>
-                </div>
-            </div>
-
-            <div class="metric-card teachers-card" role="region" aria-label="Total Teachers">
-                <div class="metric-icon">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                </div>
-                <div class="metric-content">
-                    <h3 class="metric-label">Total Teachers</h3>
-                    <div class="metric-value" id="totalTeachers">4.37M</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>+140K (3.3%)</span>
+                    <div class="leader-card">
+                        <div class="leader-image">
+                            <img src="assets/leadership/jd.jpg" alt="Joint Director" onerror="this.src='https://ui-avatars.com/api/?name=Joint+Director&background=003d82&color=fff&size=120'">
+                        </div>
+                        <div class="leader-info">
+                            <h3>Joint Director, CIET</h3>
+                            <p class="leader-title">Central Institute of Educational Technology</p>
+                            <div class="leader-message">"Through digital integration and the 6A framework, we are bridging the gap between data and classroom excellence."</div>
+                        </div>
                     </div>
-                    <div class="metric-subtitle">Since April 2025</div>
-                </div>
-                <div class="metric-chart">
-                    <canvas id="teachersTrend"></canvas>
-                </div>
-            </div>
-
-            <div class="metric-card students-card" role="region" aria-label="Total Students">
-                <div class="metric-icon">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
-                <div class="metric-content">
-                    <h3 class="metric-label">Total Students</h3>
-                    <div class="metric-value" id="totalStudents">112.5M</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>+5.8M (5.4%)</span>
+                    <div class="leader-card">
+                        <div class="leader-image">
+                            <img src="assets/leadership/head_ict.jpg" alt="Head ICT" onerror="this.src='https://ui-avatars.com/api/?name=Head+ICT&background=003d82&color=fff&size=120'">
+                        </div>
+                        <div class="leader-info">
+                            <h3>Head, ICT & Training</h3>
+                            <p class="leader-title">CIET - NCERT</p>
+                            <div class="leader-message">"RVSK's technological backbone ensures that innovative practices from one state can be scaled across the entire nation."</div>
+                        </div>
                     </div>
-                    <div class="metric-subtitle">Since April 2025</div>
-                </div>
-                <div class="metric-chart">
-                    <canvas id="studentsTrend"></canvas>
                 </div>
             </div>
+        </section>
 
-            <div class="metric-card apaar-card" role="region" aria-label="APAAR ID Registrations">
-                <div class="metric-icon">
-                    <i class="fas fa-id-card"></i>
+        <!-- Layer 3: 6A Framework (Full-width dark band) -->
+        <section id="framework-6a" class="framework-6a-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="text-white"><i class="fas fa-layer-group"></i> RVSK – 6A Framework</h2>
                 </div>
-                <div class="metric-content">
-                    <h3 class="metric-label">APAAR IDs</h3>
-                    <div class="metric-value" id="totalApaar">235M</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>+115M (95.8%)</span>
+                <div class="framework-6a-grid">
+                    <div class="framework-6a-item">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span>Attendance</span>
+                        <p>Real-time monitoring across 33 States/UTs.</p>
                     </div>
-                    <div class="metric-subtitle">Since April 2025</div>
-                </div>
-                <div class="metric-chart">
-                    <canvas id="apaarTrend"></canvas>
-                </div>
-            </div>
-
-            <div class="metric-card attendance-card" role="region" aria-label="Attendance Rate">
-                <div class="metric-icon">
-                    <i class="fas fa-clipboard-check"></i>
-                </div>
-                <div class="metric-content">
-                    <h3 class="metric-label">Attendance Rate</h3>
-                    <div class="metric-value" id="totalAttendance">96.8%</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>+1.0% points</span>
+                    <div class="framework-6a-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Assessment</span>
+                        <p>Competency-based evaluation in 7 States/UTs.</p>
                     </div>
-                    <div class="metric-subtitle">Since April 2025</div>
-                </div>
-                <div class="metric-chart">
-                    <canvas id="attendanceTrend"></canvas>
-                </div>
-            </div>
-
-            <div class="metric-card digital-card" role="region" aria-label="Digital Readiness">
-                <div class="metric-icon">
-                    <i class="fas fa-laptop"></i>
-                </div>
-                <div class="metric-content">
-                    <h3 class="metric-label">Digital Readiness</h3>
-                    <div class="metric-value" id="digitalReadiness">87.3%</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>+12.5% points</span>
+                    <div class="framework-6a-item">
+                        <i class="fas fa-cogs"></i>
+                        <span>Administration</span>
+                        <p>Digital governance and school management.</p>
                     </div>
-                    <div class="metric-subtitle">Schools with ICT facilities</div>
-                </div>
-                <div class="metric-chart">
-                    <canvas id="digitalTrend"></canvas>
+                    <div class="framework-6a-item">
+                        <i class="fas fa-award"></i>
+                        <span>Accreditation</span>
+                        <p>Quality assurance across 6 States/UTs.</p>
+                    </div>
+                    <div class="framework-6a-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Adaptive Learning</span>
+                        <p>Personalized learning pathways.</p>
+                    </div>
+                    <div class="framework-6a-item">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Enablement</span>
+                        <p>Predictive analytics and chatbots.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Statistical Analysis & Data Visualization -->
-    <section class="analytics-section" id="analytics">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-chart-line"></i> Statistical Analysis & Trends</h2>
-                <p>Interactive data visualization of education metrics from April 2025 to January 2026</p>
+        <!-- Layer 4: VSK Key Statistics -->
+        <section id="vsk-stats" class="dashboard-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> VSK Key Statistics</h2>
+                </div>
+                <div class="vsk-stats-grid">
+                    <div class="vsk-stat-card">
+                        <div class="vsk-stat-icon blue"><i class="fas fa-map-marked-alt"></i></div>
+                        <div class="vsk-stat-value">37</div>
+                        <div class="vsk-stat-label">Operational VSKs</div>
+                        <div class="vsk-stat-sub">35 States/UTs + 3 CABs</div>
+                    </div>
+                    <div class="vsk-stat-card">
+                        <div class="vsk-stat-icon orange"><i class="fas fa-school"></i></div>
+                        <div class="vsk-stat-value">11.51L</div>
+                        <div class="vsk-stat-label">Schools Connected</div>
+                        <div class="vsk-stat-sub">Attendance data integrated</div>
+                    </div>
+                    <div class="vsk-stat-card">
+                        <div class="vsk-stat-icon green"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div class="vsk-stat-value">51.38L</div>
+                        <div class="vsk-stat-label">Teachers Linked</div>
+                        <div class="vsk-stat-sub">Real-time tracking</div>
+                    </div>
+                    <div class="vsk-stat-card">
+                        <div class="vsk-stat-icon purple"><i class="fas fa-user-graduate"></i></div>
+                        <div class="vsk-stat-value">13.44Cr</div>
+                        <div class="vsk-stat-label">Students Tracked</div>
+                        <div class="vsk-stat-sub">Across all States/UTs</div>
+                    </div>
+                    <div class="vsk-stat-card">
+                        <div class="vsk-stat-icon red"><i class="fas fa-id-card"></i></div>
+                        <div class="vsk-stat-value">15.67Cr</div>
+                        <div class="vsk-stat-label">APAAR IDs Generated</div>
+                        <div class="vsk-stat-sub">As of Jan 31, 2026</div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <div class="charts-row">
-                <div class="chart-container">
-                    <h4><i class="fas fa-id-card"></i> APAAR ID Generation Progress</h4>
-                    <canvas id="apaarChart"></canvas>
+        <!-- Layer 5: Best Practices -->
+        <section id="best-practices" class="dashboard-layer best-practices-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-trophy"></i> Best Practices from State/UT VSKs</h2>
                 </div>
-                <div class="chart-container">
-                    <h4><i class="fas fa-clipboard-check"></i> Monthly Attendance Trend</h4>
-                    <canvas id="attendanceChart"></canvas>
-                </div>
-            </div>
-
-            <div class="charts-row">
-                <div class="chart-container">
-                    <h4><i class="fas fa-user-graduate"></i> Student Enrollment Growth</h4>
-                    <canvas id="studentsChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h4><i class="fas fa-school"></i> Infrastructure Expansion</h4>
-                    <canvas id="infrastructureChart"></canvas>
-                </div>
-            </div>
-
-            <div class="charts-row">
-                <div class="chart-container full-width">
-                    <h4><i class="fas fa-trophy"></i> Top Performing States (January 2026)</h4>
-                    <canvas id="statesChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Director's Message Section -->
-    <section class="director-message">
-        <div class="container">
-            <div class="section-header">
-                <h2>Director's Message</h2>
-            </div>
-            <div class="message-content">
-                <div class="message-author">
-                    <h3 id="directorName">Loading...</h3>
-                    <p id="directorPosition">Director, Department of School Education & Literacy</p>
-                </div>
-                <div class="message-text" id="directorMessage">
-                    <p>Loading message...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Key Highlights Summary -->
-    <section class="key-highlights">
-        <div class="container">
-            <div class="section-header">
-                <h2>At a Glance: Our Journey (April 2025 - January 2026)</h2>
-            </div>
-            <div class="highlights-grid" id="highlightsSummary">
-                <!-- Dynamically populated -->
-            </div>
-        </div>
-    </section>
-
-    <!-- RVSK Newsletter Data Section -->
-    <section class="rvsk-newsletter-section" id="rvsk-section">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-landmark"></i> RVSK: Rashtriya Vidya Samiksha Kendra</h2>
-                <p>Official Newsletter Data — 2nd Edition (April 2025 – January 2026)</p>
-            </div>
-
-            <!-- RVSK Progress Cards -->
-            <div class="rvsk-progress-grid">
-                <div class="rvsk-stat-card">
-                    <div class="rvsk-stat-icon" style="background:linear-gradient(135deg,#003d82,#0056b3);"><i class="fas fa-map-marked-alt"></i></div>
-                    <div class="rvsk-stat-value">37</div>
-                    <div class="rvsk-stat-label">Operational VSKs</div>
-                    <div class="rvsk-stat-sub">35 States/UTs + 3 CABs</div>
-                </div>
-                <div class="rvsk-stat-card">
-                    <div class="rvsk-stat-icon" style="background:linear-gradient(135deg,#FF6600,#ff8533);"><i class="fas fa-school"></i></div>
-                    <div class="rvsk-stat-value">11.51L</div>
-                    <div class="rvsk-stat-label">Schools Connected</div>
-                    <div class="rvsk-stat-sub">Attendance data integrated</div>
-                </div>
-                <div class="rvsk-stat-card">
-                    <div class="rvsk-stat-icon" style="background:linear-gradient(135deg,#28a745,#34ce57);"><i class="fas fa-chalkboard-teacher"></i></div>
-                    <div class="rvsk-stat-value">51.38L</div>
-                    <div class="rvsk-stat-label">Teachers Linked</div>
-                    <div class="rvsk-stat-sub">Real-time tracking</div>
-                </div>
-                <div class="rvsk-stat-card">
-                    <div class="rvsk-stat-icon" style="background:linear-gradient(135deg,#7B1FA2,#9C27B0);"><i class="fas fa-user-graduate"></i></div>
-                    <div class="rvsk-stat-value">13.44Cr</div>
-                    <div class="rvsk-stat-label">Students Tracked</div>
-                    <div class="rvsk-stat-sub">Across all States/UTs</div>
-                </div>
-                <div class="rvsk-stat-card">
-                    <div class="rvsk-stat-icon" style="background:linear-gradient(135deg,#D84315,#FF6F00);"><i class="fas fa-id-card"></i></div>
-                    <div class="rvsk-stat-value">15.67Cr</div>
-                    <div class="rvsk-stat-label">APAAR IDs Generated</div>
-                    <div class="rvsk-stat-sub">As of Jan 31, 2026</div>
-                </div>
-            </div>
-
-            <!-- 6A Framework -->
-            <div class="rvsk-framework-section">
-                <h3><i class="fas fa-layer-group"></i> 6A Educational Data Framework</h3>
-                <div class="framework-grid">
-                    <div class="framework-card"><div class="fw-icon"><i class="fas fa-clipboard-check"></i></div><h4>Attendance</h4><p>33 States/UTs integrated<br><strong>95% operational</strong></p></div>
-                    <div class="framework-card"><div class="fw-icon"><i class="fas fa-file-alt"></i></div><h4>Assessment</h4><p>7 States/UTs integrated<br><strong>91.7% data quality</strong></p></div>
-                    <div class="framework-card"><div class="fw-icon"><i class="fas fa-cogs"></i></div><h4>Administration</h4><p>3 States/UTs integrated<br>School governance</p></div>
-                    <div class="framework-card"><div class="fw-icon"><i class="fas fa-award"></i></div><h4>Accreditation</h4><p>6 States/UTs integrated<br>Quality assurance</p></div>
-                    <div class="framework-card"><div class="fw-icon"><i class="fas fa-brain"></i></div><h4>Adaptive Learning</h4><p>Personalized pathways<br>In development</p></div>
-                    <div class="framework-card"><div class="fw-icon"><i class="fas fa-robot"></i></div><h4>Artificial Intelligence</h4><p>AI Chatbot deployed<br>Predictive analytics</p></div>
-                </div>
-            </div>
-
-            <!-- Best Practices Highlights -->
-            <div class="rvsk-bestpractices-section">
-                <h3><i class="fas fa-trophy"></i> Best Practices from State/UT VSKs</h3>
-                <div class="bestpractice-grid">
+                <div class="best-practices-grid">
                     <div class="bp-card">
                         <h4><i class="fas fa-map-marker-alt"></i> Gujarat — VSK 2.0</h4>
-                        <p>Three-tier architecture: State VSK &rarr; 33 District VSKs &rarr; 254 Block VSKs. AI-based Oral Reading Fluency tool (Vachan Samiksha) and AI-powered Early Warning System for dropout prevention.</p>
+                        <p>Three-tier architecture: State VSK &rarr; 33 District VSKs &rarr; 254 Block VSKs. AI-based Oral Reading Fluency tool and Early Warning System for dropout prevention.</p>
                     </div>
                     <div class="bp-card">
-                        <h4><i class="fas fa-exclamation-triangle"></i> Odisha — Early Warning System</h4>
-                        <p>Multi-level escalation: 7 days absence &rarr; Headmaster, 15 days &rarr; Block Education Officer, 30 days &rarr; District Education Officer. Ticketing tool for centralized grievance redressal.</p>
+                        <h4><i class="fas fa-exclamation-triangle"></i> Odisha — Early Warning</h4>
+                        <p>Multi-level escalation: 7 days &rarr; Headmaster, 15 days &rarr; BEO, 30 days &rarr; DEO. Ticketing tool for centralized grievance redressal.</p>
                     </div>
                     <div class="bp-card">
                         <h4><i class="fas fa-trophy"></i> DNH &amp; DD — NAS Turnaround</h4>
-                        <p>Improved NAS ranking from bottom 5 (2021) to top 5 nationally (2024) through OMR-based mock tests and student-level performance monitoring.</p>
+                        <p>Improved NAS ranking from bottom 5 (2021) to top 5 nationally (2024) through OMR-based mock tests and student-level monitoring.</p>
                     </div>
                     <div class="bp-card">
-                        <h4><i class="fas fa-camera"></i> AP &amp; Telangana — Facial Recognition</h4>
-                        <p>Deployed Facial Recognition Systems (FRS) for student and teacher attendance — creating a single source of truth eliminating proxy entries.</p>
+                        <h4><i class="fas fa-camera"></i> AP &amp; Telangana — FRS</h4>
+                        <p>Facial Recognition Systems for student and teacher attendance — single source of truth eliminating proxy entries.</p>
                     </div>
                     <div class="bp-card">
                         <h4><i class="fas fa-comment-dots"></i> J&amp;K — Smart Attendance</h4>
-                        <p>Pioneered chatbot-based "Smart Attendance" system and established a Digital Studio to create state-aligned educational content in regional languages.</p>
+                        <p>Chatbot-based attendance system and Digital Studio for state-aligned educational content in regional languages.</p>
                     </div>
                     <div class="bp-card">
                         <h4><i class="fas fa-users-cog"></i> Capacity Building 2.0</h4>
-                        <p>August 2025: 5 batches, 165 participants from 36 States/UTs. Curriculum: Data Governance, Technical Integration, 6A Framework Implementation.</p>
+                        <p>August 2025: 5 batches, 165 participants from 36 States/UTs. Curriculum: Data Governance, Technical Integration, 6A Framework.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- DPDP & APAAR Teachers Row -->
-            <div class="rvsk-info-row">
-                <div class="rvsk-info-card">
-                    <h4><i class="fas fa-shield-alt"></i> DPDP Act 2023 Compliance</h4>
-                    <ul>
-                        <li>UDISE+ and LGD nomenclature alignment across 28 States/UTs</li>
-                        <li>Mandatory Security Audit Certificates for State VSKs</li>
-                        <li>Secure API and VPN usage for sensitive data access</li>
-                        <li>Revised consent forms for parent/guardian awareness</li>
-                        <li>Privacy-by-design for 6A Framework data handling</li>
-                    </ul>
+        <!-- Layer 6: 13 National Programs -->
+        <section id="national-programs" class="programs-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="text-white"><i class="fas fa-flag"></i> 13 National Programs Supported by RVSK</h2>
                 </div>
-                <div class="rvsk-info-card">
-                    <h4><i class="fas fa-id-badge"></i> APAAR for Teachers</h4>
-                    <ul>
-                        <li>12-digit unique academic identity linked with Aadhaar (UIDAI)</li>
-                        <li>CPD tracking: NISHTHA credits auto-recorded via DigiLocker</li>
-                        <li>Real-time classroom insights via RVSK dashboards</li>
-                        <li>Streamlined integration with PM SHRI, PM POSHAN, UDISE+</li>
-                        <li>AI Chatbot attendance auto-maps to correct class/school</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 13 National Programs -->
-            <div class="rvsk-programs">
-                <h4><i class="fas fa-flag"></i> 13 National Programs Supported by RVSK</h4>
                 <div class="program-tags">
                     <span class="program-tag">PM SHRI</span>
                     <span class="program-tag">NAS</span>
@@ -452,75 +290,62 @@
                     <span class="program-tag">APAAR</span>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- AI Assistant Inline Section -->
-    <section class="ai-assistant-section" id="ai-chat">
-        <div class="container">
-            <div class="section-header">
-                <h2><i class="fas fa-robot"></i> AI Newsletter Assistant</h2>
-                <p>Ask questions about education data, statistics, state performance, and initiatives</p>
-            </div>
-            <div class="ai-assistant-prompt">
-                <div class="ai-prompt-icon"><i class="fas fa-comments"></i></div>
-                <div class="ai-prompt-text">
-                    <h3>Need quick insights from the newsletter?</h3>
-                    <p>Click the chat button below or the floating assistant icon to start a conversation with our AI-powered newsletter assistant.</p>
+        <!-- Layer 7: AI Assistant -->
+        <section id="ai-chat" class="dashboard-layer ai-chat-layer">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="fas fa-robot"></i> AI Newsletter Assistant</h2>
+                    <p>Ask questions about education data, statistics, state performance, and initiatives</p>
                 </div>
-                <button class="ai-prompt-btn" id="openChatFromSection" aria-label="Open AI Assistant">
-                    <i class="fas fa-paper-plane"></i> Start Conversation
-                </button>
+                <div class="ai-assistant-prompt">
+                    <div class="ai-prompt-icon"><i class="fas fa-comments"></i></div>
+                    <div class="ai-prompt-text">
+                        <h3>Need quick insights from the newsletter?</h3>
+                        <p>Click the chat button below or the floating assistant icon to start a conversation with our AI-powered newsletter assistant.</p>
+                    </div>
+                    <button class="ai-prompt-btn" id="openChatFromSection" aria-label="Open AI Assistant">
+                        <i class="fas fa-paper-plane"></i> Start Conversation
+                    </button>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-        </main> <!-- End main-content -->
-    </div> <!-- End container -->
-
-    <!-- Professional Footer with GIGW Compliance -->
     <footer class="main-footer" role="contentinfo">
         <div class="container">
-            <!-- Footer Top Section -->
             <div class="footer-top">
                 <div class="footer-grid">
                     <div class="footer-section">
                         <h4><i class="fas fa-info-circle"></i> About VSK</h4>
-                        <p>Vidya Samiksha Kendra (विद्या समीक्षा केंद्र) is a centralized dashboard for monitoring and analyzing the school education system in India.</p>
-                        <p>This platform provides real-time insights into educational metrics across all states and union territories.</p>
+                        <p>Vidya Samiksha Kendra is a centralized dashboard for monitoring and analyzing the school education system in India.</p>
                         <div class="social-links">
-                            <a href="#" aria-label="Twitter" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
-                            <a href="#" aria-label="Facebook" title="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
-                            <a href="#" aria-label="YouTube" title="Subscribe on YouTube"><i class="fab fa-youtube"></i></a>
-                            <a href="#" aria-label="LinkedIn" title="Connect on LinkedIn"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
-
                     <div class="footer-section">
                         <h4><i class="fas fa-link"></i> Quick Links</h4>
                         <ul class="footer-links">
                             <li><a href="https://www.education.gov.in" target="_blank" rel="noopener">Ministry of Education</a></li>
                             <li><a href="https://www.ndear.gov.in" target="_blank" rel="noopener">NDEAR Portal</a></li>
                             <li><a href="https://www.india.gov.in" target="_blank" rel="noopener">National Portal of India</a></li>
-                            <li><a href="#privacy-policy">Privacy Policy</a></li>
-                            <li><a href="#terms">Terms & Conditions</a></li>
-                            <li><a href="#sitemap">Sitemap</a></li>
                         </ul>
                     </div>
-
                     <div class="footer-section">
                         <h4><i class="fas fa-address-book"></i> Contact Us</h4>
                         <address>
                             <p><strong>Department of School Education & Literacy</strong></p>
                             <p>Ministry of Education, Government of India</p>
                             <p><i class="fas fa-map-marker-alt"></i> Shastri Bhawan, New Delhi - 110001</p>
-                            <p><i class="fas fa-phone"></i> <a href="tel:+911123382698">+91-11-23382698</a></p>
                             <p><i class="fas fa-envelope"></i> <a href="mailto:vsk@education.gov.in">vsk@education.gov.in</a></p>
                         </address>
                     </div>
-
                     <div class="footer-section">
-                        <h4><i class="fas fa-certificate"></i> Compliance & Standards</h4>
+                        <h4><i class="fas fa-certificate"></i> Compliance</h4>
                         <div class="compliance-badges">
                             <div class="badge gigw-badge" title="GIGW Compliant">
                                 <i class="fas fa-check-circle"></i>
@@ -530,60 +355,16 @@
                                 <i class="fas fa-universal-access"></i>
                                 <span>WCAG 2.1<br>Level AA</span>
                             </div>
-                            <div class="badge ssl-badge" title="SSL Secured">
-                                <i class="fas fa-lock"></i>
-                                <span>SSL<br>Secured</span>
-                            </div>
-                        </div>
-                        <div class="footer-links">
-                            <a href="#accessibility-statement">
-                                <i class="fas fa-universal-access"></i> Accessibility Statement
-                            </a>
-                            <a href="#screen-reader">
-                                <i class="fas fa-headphones"></i> Screen Reader Access
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Visitor Counter & Stats -->
-            <div class="footer-stats">
-                <div class="stat-item">
-                    <i class="fas fa-users"></i>
-                    <span>Visitors Today: <strong id="visitorsToday">2,456</strong></span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Total Visitors: <strong id="visitorsTotal">1,245,678</strong></span>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Last Updated: <strong>January 31, 2026</strong></span>
-                </div>
-            </div>
-
-            <!-- Disclaimer Section -->
-            <div class="footer-disclaimer">
-                <h4><i class="fas fa-exclamation-triangle"></i> Disclaimer</h4>
-                <p>This is an official website of the Department of School Education & Literacy, Ministry of Education, Government of India. The information provided on this website is for educational and informational purposes only. All data presented is based on official government records and is subject to periodic updates. While every effort has been made to ensure accuracy, the Ministry does not guarantee completeness or accuracy of the information. Users are advised to verify critical information from official sources.</p>
-            </div>
-
-            <!-- Copyright & Bottom Bar -->
             <div class="footer-bottom">
                 <div class="copyright">
-                    <p>© 2026 Department of School Education & Literacy, Ministry of Education, Government of India</p>
-                    <p>Content owned and maintained by Department of School Education & Literacy</p>
+                    <p>&copy; 2026 Department of School Education & Literacy, Ministry of Education, Government of India</p>
                     <p>Designed, Developed and Hosted by National Informatics Centre (NIC)</p>
                 </div>
-                <div class="footer-meta">
-                    <span><i class="fas fa-code"></i> Version 1.0.0</span>
-                    <span><i class="fas fa-calendar-alt"></i> Last Updated: January 31, 2026</span>
-                    <span><i class="fas fa-eye"></i> <a href="#page-views">Page Views: 15,234</a></span>
-                </div>
             </div>
-
-            <!-- Chat Widget FAB (replaces feedback FAB) -->
             <button class="chat-fab" id="chatFabButton" aria-label="Open AI Assistant" title="AI Newsletter Assistant">
                 <i class="fas fa-comments"></i>
             </button>
@@ -612,14 +393,10 @@
                 </button>
             </div>
         </div>
-
         <div class="chat-widget-body">
-            <!-- Language Selection Screen (shown on first open) -->
             <div class="chat-lang-select" id="chatLangSelect">
                 <div class="lang-select-inner">
-                    <div class="lang-select-icon">
-                        <i class="fas fa-globe-asia"></i>
-                    </div>
+                    <div class="lang-select-icon"><i class="fas fa-globe-asia"></i></div>
                     <h4>Choose Your Language / भाषा चुनें</h4>
                     <p>Select the language for the AI Assistant</p>
                     <div class="lang-select-buttons">
@@ -636,12 +413,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Chat Messages Area (hidden until language is selected) -->
-            <div class="chat-messages" id="chatMessages" style="display:none;">
-            </div>
-
-            <!-- Quick Query Buttons -->
+            <div class="chat-messages" id="chatMessages" style="display:none;"></div>
             <div class="quick-queries" id="quickQueries" style="display:none;">
                 <button class="quick-query-btn" data-query="What was the APAAR ID growth from April 2025 to January 2026?" data-query-hi="अप्रैल 2025 से जनवरी 2026 तक APAAR ID वृद्धि क्या थी?">
                     <span data-en="APAAR ID Growth" data-hi="APAAR ID वृद्धि">APAAR ID Growth</span>
@@ -653,17 +425,8 @@
                     <span data-en="Technical Updates" data-hi="तकनीकी अपडेट">Technical Updates</span>
                 </button>
             </div>
-
-            <!-- Chat Input Area -->
             <div class="chat-input-area" id="chatInputArea" style="display:none;">
-                <textarea
-                    id="chatInput"
-                    class="chat-input"
-                    rows="2"
-                    placeholder="Ask about education data, statistics, or initiatives..."
-                    data-placeholder-en="Ask about education data, statistics, or initiatives..."
-                    data-placeholder-hi="शिक्षा डेटा, सांख्यिकी या पहल के बारे में पूछें..."
-                ></textarea>
+                <textarea id="chatInput" class="chat-input" rows="2" placeholder="Ask about education data, statistics, or initiatives..." data-placeholder-en="Ask about education data, statistics, or initiatives..." data-placeholder-hi="शिक्षा डेटा, सांख्यिकी या पहल के बारे में पूछें..."></textarea>
                 <button id="chatSendBtn" class="chat-send-btn" aria-label="Send message">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -671,31 +434,16 @@
         </div>
     </div>
 
-    <!-- Marked.js for Markdown rendering (tables, formatting) -->
     <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
-
-    <!-- Translation System -->
     <script src="js/translations.js"></script>
-
-    <!-- Chat Widget -->
     <script src="js/chat-widget.js"></script>
-
-    <!-- Enhanced Chat with Language Selection -->
     <script src="js/enhanced-chat.js"></script>
-
-    <!-- Sidebar & Header Functionality -->
     <script src="js/sidebar-functionality.js"></script>
-
-    <!-- Main App -->
     <script src="js/app.js"></script>
-
-    <!-- Initialize on Load -->
+    <script src="js/dashboard-layers.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize language
             initializeLanguage();
-
-            // Initialize chat widget
             initializeChatWidget();
         });
     </script>
