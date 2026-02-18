@@ -18,10 +18,19 @@ backend/
   rag/                  - RAG system with TF-IDF vectorization
   data/                 - Newsletter JSON data and detailed context
 frontend/
-  index.html            - Main dashboard page
-  css/                  - Stylesheets
-  js/                   - Client-side JavaScript (app.js, chat widgets)
-  assets/               - SVG logos and images
+  index.html            - Main dashboard (7-layer architecture)
+  css/
+    style.css           - Base styles, variables, gov theme
+    enhanced-ui.css     - Enhanced UI components
+    dashboard-layers.css - Layered dashboard: carousel, leadership, 6A, stats, best practices
+  js/
+    app.js              - Core data loading and initialization
+    chat-widget.js      - Chat FAB and widget panel
+    enhanced-chat.js    - Language selection and enhanced chat
+    translations.js     - Bilingual support (EN/HI)
+    sidebar-functionality.js - Sidebar and header controls
+    dashboard-layers.js - Newsletter carousel, nav highlighting
+  assets/               - SVG logos, gov header, leadership photos
 ```
 
 ## Running the App
@@ -33,4 +42,5 @@ frontend/
 - `OLLAMA_MODEL` - Ollama model name (default: llama3.1)
 
 ## Recent Changes
+- 2026-02-18: Restructured dashboard into 7-layer architecture with newsletter carousel, leadership cards, 6A framework band, VSK statistics, best practices grid, national programs band, and AI assistant section. Created dashboard-layers.css and dashboard-layers.js.
 - 2026-02-17: Initial Replit setup, configured for port 5000, fixed API_BASE for proxy compatibility
