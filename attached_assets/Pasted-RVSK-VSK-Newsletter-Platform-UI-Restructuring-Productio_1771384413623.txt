@@ -1,0 +1,228 @@
+RVSK / VSK Newsletter Platform – UI Restructuring (Production Safe)
+
+System Role
+You are a senior full-stack engineer working on a production-grade Government of India newsletter web platform.
+Your task is to restructure the UI only based on official RVSK/VSK newsletters.
+⚠️ Do NOT modify any LLM data sources, prompts, embeddings, retrieval logic, or analytics pipelines.
+⚠️ All changes must be UI-layer only (components, layout, visibility, ordering).
+
+🎯 OBJECTIVE
+
+Update the website UI to reflect the latest RVSK newsletter presentation, ensuring:
+
+Clean, executive-friendly layout
+
+Carousel-based storytelling
+
+Data fidelity preserved for chatbot / LLM queries
+
+Removed metrics are hidden from UI only, not deleted from backend or vector store
+
+🧭 EXECUTION SEQUENCE (STRICT ORDER)
+1️⃣ Articles from Both Newsletters as Tiles (Carousel)
+
+Action
+
+Create a carousel section at the top titled:
+
+“RVSK / VSK Newsletter Highlights”
+
+Each slide represents:
+
+One article / section from both newsletters
+
+Include:
+
+Title
+
+Short excerpt (2–3 lines)
+
+“Read more” → opens full article view
+
+Rules
+
+Source articles from:
+
+Director’s Desk
+
+Joint Director’s Desk
+
+Head DICT Desk
+
+Current Progress
+
+Best Practices
+
+Workshops / Capacity Building
+
+Maintain chronological ordering (older → newer)
+
+2️⃣ VSK Stats – UI Pruning (NO DATA DELETION)
+
+Action
+From the VSK Stats UI section, remove the following cards/graphs ONLY FROM DISPLAY:
+
+❌ APAAR ID Generation Progress
+
+❌ Monthly Attendance Trend
+
+❌ Student Enrollment Growth
+
+❌ Infrastructure Expansion
+
+❌ Top Performing State
+
+Rules
+
+Backend APIs must continue returning these fields
+
+LLM/chatbot must still answer queries on these metrics
+
+Simply hide/remove components from the UI layer
+
+3️⃣ Leadership Messages – 3-Tile Carousel
+
+Action
+Create a dedicated carousel section titled:
+
+“Leadership Messages”
+
+Carousel Slides (Exactly 3):
+
+Director
+
+Joint Director (JD)
+
+Head ICT / DICT
+
+Each tile must contain:
+
+Official photograph
+
+Name & designation
+
+Short message excerpt
+
+“Read full message” CTA
+
+Source
+
+Use text from respective “From the Desk” sections in the newsletters
+
+4️⃣ Add 6A Framework Layer
+
+Action
+Insert a full-width visual layer titled:
+
+“RVSK – 6A Framework”
+
+Include
+
+Attendance
+
+Assessment
+
+Administration
+
+Accreditation
+
+Adaptive Learning
+
+AI Enablement
+
+Design
+
+Icon-based hex / circular layout
+
+Hover or click reveals short description
+
+Non-interactive (informational layer only)
+
+5️⃣ Re-Insert VSK Stats (Post-6A Layer)
+
+Action
+Add VSK Stats section again, but now:
+
+Only show approved high-level metrics
+
+Clean, minimal KPI cards
+
+No removed metrics from Step 2
+
+Purpose
+
+Executive snapshot
+
+Visual balance after conceptual 6A layer
+
+6️⃣ Best Practices – “Good Practices” Section
+
+Action
+Create a section titled:
+
+“Best Practices Observed”
+
+Include
+
+State / UT cards
+
+Short success summary
+
+Optional image
+
+Carousel or grid (responsive)
+
+Source
+
+Use “Best Practices Observed in State/UT VSKs” from newsletters
+
+7️⃣ Final Layer – Closing Section
+
+Action
+Create a final closing layer with:
+
+“Thank You for Reading”
+
+Attribution (RVSK / NCERT / CIET)
+
+Links:
+
+Official RVSK / NDEAR portals
+
+Static, lightweight footer-style design
+
+🛡️ NON-NEGOTIABLE CONSTRAINTS
+
+❌ Do NOT change:
+
+LLM prompts
+
+RAG pipelines
+
+Vector DB schema
+
+Data ingestion logic
+
+❌ Do NOT delete any dataset fields
+
+✅ UI changes must be:
+
+Modular
+
+Reversible
+
+Production-safe
+
+✅ Responsive across desktop & tablet
+
+✅ Government-grade accessibility & readability
+
+✅ EXPECTED OUTPUT
+
+Updated UI layout following the exact sequence above
+
+Clean component structure (Carousel, Cards, Sections)
+
+No regression in chatbot or analytics functionality
+
+Code ready for deployment on Render / GitLab Pages
