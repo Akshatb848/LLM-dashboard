@@ -51,6 +51,7 @@ frontend/
 - **RAG-only mode**: Works without external LLM; optional Ollama integration for enhanced analysis
 
 ## Recent Changes
+- 2026-02-18: UI corrections patch — replaced leadership letter avatars with real photos (circular crop), updated Operational VSKs from 37 to 38 (35 States/UTs + 3 CABs) across stats/newsletter/data/RAG, updated footer to NCERT address (Sri Aurobindo Marg, New Delhi 110016), added DPDP Act 2023 compliance handler to chatbot (bilingual, structured table, scope disclaimer)
 - 2026-02-18: Chatbot bilingual fine-tuning — added Hindi response labels, auto language detection (Devanagari + Hinglish), leadership query handling with canonical names, 6A Framework dedicated handler, Hindi RAG chunks, bilingual system prompt, hallucination guardrails
 - 2026-02-18: Header branding update — MoE and NCERT logos, leadership name/designation attribution
 - 2026-02-18: Restructured dashboard into 7-layer architecture with newsletter carousel, leadership cards, 6A framework band, VSK statistics, best practices grid, national programs band, and AI assistant section. Created dashboard-layers.css and dashboard-layers.js.

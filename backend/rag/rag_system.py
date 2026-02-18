@@ -138,7 +138,7 @@ class RagSystem:
                 f"Rashtriya Vidya Samiksha Kendra (RVSK) is the centralized national platform at CIET-NCERT, "
                 f"launched on {rvsk.get('launch_date', 'March 9, 2023')}. "
                 f"As of January 31, 2026: {progress.get('states_uts_operationalized', 35)} States/UTs operationalized, "
-                f"{progress.get('total_operational_vsks', 37)} operational VSKs, "
+                f"{progress.get('total_operational_vsks', 38)} operational VSKs (35 States/UTs + 3 CABs), "
                 f"{progress.get('schools_connected', '11.51 Lakh')} schools connected, "
                 f"{progress.get('teachers_linked', '51.38 Lakh')} teachers linked, "
                 f"{progress.get('students_tracked', '13.44 Crore')} students tracked, "
@@ -228,7 +228,7 @@ class RagSystem:
             rvsk_hi = (
                 "राष्ट्रीय विद्या समीक्षा केंद्र RVSK VSK विद्या समीक्षा: "
                 f"{progress.get('states_uts_operationalized', 35)} राज्य/केंद्र शासित प्रदेश, "
-                f"{progress.get('total_operational_vsks', 37)} VSK संचालित, "
+                f"{progress.get('total_operational_vsks', 38)} VSK संचालित (35 राज्य/केंद्र शासित प्रदेश + 3 CABs), "
                 f"APAAR IDs: {progress.get('total_apaar_ids', '')}. "
                 "स्कूल शिक्षा school education शिक्षा मंत्रालय ministry of education"
             )

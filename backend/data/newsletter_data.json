@@ -430,7 +430,7 @@
     "current_progress": {
       "states_uts_operationalized": 35,
       "cabs_operational": 3,
-      "total_operational_vsks": 37,
+      "total_operational_vsks": 38,
       "states_attendance_integrated": 33,
       "states_assessment_integrated": 7,
       "states_administration_integrated": 3,
@@ -464,7 +464,7 @@
       "curriculum": ["Data Governance", "Technical Integration", "6A Framework Implementation"]
     },
     "key_highlights": [
-      "West Bengal became fully operational in July 2025 (37th VSK)",
+      "West Bengal became fully operational in July 2025 (37th VSK), total now 38 operational VSKs (35 States/UTs + 3 CABs)",
       "Chhattisgarh and Bihar operationalized their VSKs",
       "Generated 15,67,37,923 APAAR IDs as of January 31, 2026",
       "Completed attendance integration for UT of Ladakh",

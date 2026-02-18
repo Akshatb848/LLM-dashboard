@@ -542,6 +542,52 @@ class ChatHandler:
                           col_styles=[{"bold": True, "color": "#003d82"}, {}])
         )
 
+    def _format_dpdp_answer(self, lang: str = "en") -> str:
+        if lang == "hi":
+            return (
+                '<h3 style="color:#003d82;margin:0 0 16px 0;">DPDP अधिनियम 2023 — RVSK/VSK में अनुपालन</h3>'
+                '<p style="margin:8px 0 12px;line-height:1.7;">डिजिटल व्यक्तिगत डेटा संरक्षण (DPDP) अधिनियम, 2023 भारत का व्यापक डेटा गोपनीयता कानून है। '
+                'RVSK/VSK प्लेटफ़ॉर्म इस अधिनियम के सिद्धांतों का पालन करते हुए शैक्षिक डेटा का प्रबंधन करता है:</p>'
+                + _html_table(
+                    ["DPDP सिद्धांत", "RVSK/VSK में कार्यान्वयन"],
+                    [
+                        ["डेटा न्यूनीकरण", "केवल आवश्यक शैक्षिक डेटा (उपस्थिति, मूल्यांकन, APAAR ID) एकत्र किया जाता है। 6A Framework के अंतर्गत विशिष्ट डेटा क्षेत्र परिभाषित हैं।"],
+                        ["उद्देश्य सीमा", "डेटा केवल शैक्षिक निगरानी, नीति निर्माण और सीखने के परिणामों में सुधार के लिए उपयोग किया जाता है।"],
+                        ["पहुँच नियंत्रण", "भूमिका-आधारित डैशबोर्ड: राज्य, जिला और ब्लॉक स्तर पर विभिन्न पहुँच स्तर। अधिकारी केवल अपने क्षेत्र का डेटा देख सकते हैं।"],
+                        ["सहमति ढांचा", "APAAR ID निर्माण के लिए अभिभावक/अभिभावक की सहमति आवश्यक। डिजिटल सहमति दर ट्रैक की जाती है।"],
+                        ["डेटा सुरक्षा", "UDISE+ और LGD नामावली का 28 राज्यों/केंद्र शासित प्रदेशों में संरेखण। Privacy-by-design सिद्धांत लागू।"],
+                        ["ऑडिट ट्रेल", "डेटा पहुँच और संशोधनों की लॉगिंग। बहु-स्तरीय एस्केलेशन प्रणाली (जैसे ओडिशा मॉडल) पारदर्शिता सुनिश्चित करती है।"],
+                        ["डेटा गुणवत्ता", "मूल्यांकन मॉड्यूल में 91.7% डेटा गुणवत्ता। RVSK आंतरिक पोर्टल सभी राज्यों/केंद्र शासित प्रदेशों के साथ UAT पूर्ण।"],
+                    ],
+                    col_styles=[{"bold": True, "color": "#003d82"}, {}],
+                )
+                + '<p style="margin:16px 0 4px;line-height:1.7;"><strong>कार्यक्षेत्र सीमाएं:</strong> '
+                'DPDP अधिनियम 2023 के विशिष्ट अनुपालन प्रमाणन की जानकारी वर्तमान न्यूज़लेटर डेटा में स्पष्ट रूप से प्रलेखित नहीं है। '
+                'उपरोक्त मैपिंग प्लेटफ़ॉर्म की मौजूदा प्रथाओं पर आधारित है जो DPDP सिद्धांतों के अनुरूप हैं।</p>'
+            )
+
+        return (
+            '<h3 style="color:#003d82;margin:0 0 16px 0;">DPDP Act 2023 — Compliance in RVSK/VSK</h3>'
+            '<p style="margin:8px 0 12px;line-height:1.7;">The Digital Personal Data Protection (DPDP) Act, 2023 is India\'s comprehensive data privacy legislation. '
+            'The RVSK/VSK platform manages educational data in alignment with the Act\'s principles:</p>'
+            + _html_table(
+                ["DPDP Principle", "Implementation in RVSK/VSK"],
+                [
+                    ["Data Minimization", "Only essential educational data (attendance, assessment, APAAR ID) is collected. The 6A Framework defines specific data domains to prevent excessive data collection."],
+                    ["Purpose Limitation", "Data is used exclusively for educational monitoring, policy formulation, and improving learning outcomes — not for unrelated purposes."],
+                    ["Access Control", "Role-based dashboards at State, District, and Block levels. Officials can only view data within their jurisdictional scope."],
+                    ["Consent Framework", "Parental/guardian consent is required for APAAR ID generation. Digital consent rates are tracked across States/UTs."],
+                    ["Data Security", "UDISE+ and LGD nomenclature alignment across 28 States/UTs. Privacy-by-design principles applied to all 6A Framework data handling."],
+                    ["Audit Trails", "Data access and modifications are logged. Multi-level escalation systems (e.g., Odisha model: 7 days → Headmaster, 15 → BEO, 30 → DEO) ensure transparency."],
+                    ["Data Quality", "91.7% data quality achieved in the Assessment module. Internal RVSK portal completed UAT with all States/UTs for data validation."],
+                ],
+                col_styles=[{"bold": True, "color": "#003d82"}, {}],
+            )
+            + '<p style="margin:16px 0 4px;line-height:1.7;"><strong>Scope Limitations:</strong> '
+            'Specific DPDP Act 2023 compliance certifications are not explicitly documented in the current newsletter data. '
+            'The above mapping is based on the platform\'s existing practices that align with DPDP principles.</p>'
+        )
+
     def _format_six_a_answer(self, lang: str = "en") -> str:
         rvsk = self.rag.data.get("rvsk_data", {})
         six_a = rvsk.get("six_a_framework", {})
@@ -589,6 +635,11 @@ class ChatHandler:
         if any(kw in q_lower for kw in leadership_keywords_en) or any(kw in query for kw in leadership_keywords_hi):
             if not any(kw in q_lower for kw in ["message", "vision", "संदेश"]):
                 return self._format_leadership_answer(lang)
+
+        dpdp_keywords = ["dpdp", "data protection", "digital personal data", "dpdp act", "dpdp 2023",
+                         "privacy", "data privacy", "डेटा संरक्षण", "गोपनीयता", "डीपीडीपी"]
+        if any(kw in q_lower for kw in dpdp_keywords) or any(kw in query for kw in dpdp_keywords):
+            return self._format_dpdp_answer(lang)
 
         six_a_keywords_en = ["6a framework", "6a", "six a", "attendance assessment administration",
                              "accreditation adaptive artificial"]
