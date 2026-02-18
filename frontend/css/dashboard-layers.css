@@ -175,6 +175,27 @@
     padding-left: 12px;
 }
 
+.leader-attribution {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.leader-name {
+    font-weight: 700;
+    color: var(--gov-blue);
+    font-size: 0.95em;
+}
+
+.leader-designation {
+    font-size: 0.82em;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
 .framework-6a-layer {
     background: linear-gradient(135deg, #003d82 0%, #00296b 100%);
     padding: 50px 0;
