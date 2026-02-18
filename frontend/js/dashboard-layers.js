@@ -12,8 +12,8 @@ function initNewsletterCarousel() {
     const highlights = [
         {
             tag: 'RVSK Update',
-            title: '37 Operational VSKs Across India',
-            text: 'All 35 States/UTs and 3 Central Autonomous Bodies now have fully operational Vidya Samiksha Kendras with real-time data integration.'
+            title: '38 Operational VSKs Across India',
+            text: 'All 35 States/UTs and 3 Central Autonomous Bodies (CABs) now have fully operational Vidya Samiksha Kendras with real-time data integration.'
         },
         {
             tag: 'APAAR',

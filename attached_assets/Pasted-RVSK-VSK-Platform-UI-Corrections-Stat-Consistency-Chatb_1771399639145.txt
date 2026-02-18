@@ -1,0 +1,212 @@
+RVSK / VSK Platform – UI Corrections, Stat Consistency & Chatbot Accuracy
+
+System Role
+You are a senior full-stack + LLM engineer applying a final corrective patch to a production Government of India web platform (RVSK / VSK).
+All major UI restructuring, branding, and leadership sections are already implemented.
+Your task is to fix remaining UI inconsistencies, numerical mismatches, and chatbot answer accuracy based strictly on verified RVSK/VSK data.
+
+⚠️ No schema changes, no dataset deletion, no hallucination.
+⚠️ Changes must be UI-safe and LLM-safe.
+
+1️⃣ Leadership Section – Replace Letter Avatars with Images (Image 1)
+Action
+
+In the Leadership Messages carousel:
+
+Replace all letter-based placeholder circles with actual profile images for:
+
+Prof. Dinesh Prasad Saklani
+
+Prof. Amarendra Behera
+
+Prof. Indu Kumar
+
+Rules
+
+Keep:
+
+Card layout
+
+Carousel behavior
+
+Typography
+
+Spacing
+
+Only replace the avatar component
+
+Images must be:
+
+Circular crop
+
+Center-aligned
+
+Equal size across all three leaders
+
+Add alt text with full name + designation
+
+⚠️ Do NOT alter text, ordering, or CTA placement.
+
+2️⃣ VSK Key Statistics – Numerical Consistency (Image 2)
+Observation
+
+The value “38” (Operational VSKs) is expected, but currently shown as 37.
+
+Action
+
+Update Operational VSKs value to:
+
+38 (35 States/UTs + 3 CABs)
+
+Rules
+
+Display format:
+
+Primary value: 38
+
+Supporting text: 35 States/UTs + 3 CABs
+
+Ensure this value is consistent across:
+
+VSK Key Statistics section
+
+Any summary tiles
+
+Any chatbot responses referencing operational VSKs
+
+⚠️ Do NOT change other statistics.
+
+3️⃣ Newsletter Highlight Tile – Stat Expression Fix (Image 3)
+Observation
+
+The newsletter highlight currently says:
+
+“37 Operational VSKs across India”
+
+Action
+
+Update the tile content to:
+
+“38 Operational VSKs across India (35 States/UTs + 3 CABs)”
+
+Rules
+
+Maintain:
+
+Tile design
+
+Color coding
+
+Iconography
+
+Only update the text content
+
+Ensure wording matches exactly with Section 2
+
+4️⃣ Footer – Contact Information Correction (Image 4)
+Action
+
+Update the Contact Us section in the footer to display the full official address clearly:
+
+National Council of Educational Research and Training (NCERT)
+Sri Aurobindo Marg,
+NCERT Campus, Katwaria Sarai,
+New Delhi – 110016
+
+Rules
+
+Replace any abbreviated or partial address
+
+Keep:
+
+Footer layout
+
+Icons
+
+Compliance badges
+
+Ensure readability on desktop and tablet
+
+5️⃣ LLM Chatbot – Response Accuracy Fix (Image 5)
+Observation
+
+The chatbot response related to “How DPD Act 2023 is implemented in VSK” is factually or contextually incorrect / loosely phrased.
+
+Action
+
+Re-validate and fine-tune the chatbot answer so that:
+
+The response:
+
+Strictly aligns with DPDP Act 2023 principles
+
+Correctly explains how RVSK/VSK complies
+
+Uses:
+
+Clear structure
+
+Bullet points
+
+Government-grade language
+
+Matches ChatGPT-style presentation (clear, neutral, explanatory)
+
+Expected Answer Structure
+
+Brief contextual introduction
+
+Clear mapping of:
+
+Data minimization
+
+Access control
+
+Role-based dashboards
+
+Audit trails
+
+Security & privacy safeguards
+
+Explicitly state scope limitations where applicable
+
+⚠️ Do NOT invent compliance mechanisms not present in RVSK documentation.
+⚠️ If something is implicit, phrase it conservatively.
+
+🛡️ GLOBAL CONSTRAINTS
+
+❌ No UI redesign
+
+❌ No new data introduction
+
+❌ No change to LLM tone guidelines
+
+❌ No backend or API mutation
+
+✅ Only corrective, consistency-driven updates
+
+✅ EXPECTED OUTPUT
+
+Leadership cards show real images instead of letter avatars
+
+Operational VSK count consistently shown as:
+
+38 (35 States/UTs + 3 CABs)
+
+Newsletter highlights and stats aligned
+
+Footer contact details corrected
+
+Chatbot gives accurate, structured, DPDP-compliant answers
+
+🔍 FINAL VERIFICATION CHECKLIST
+
+ All leadership avatars replaced correctly
+
+ “38” reflected everywhere consistently
+
+ Footer address verified and readable
+
+ Chatbot answer matches RVSK reality
+
+ No UI or LLM regressions
