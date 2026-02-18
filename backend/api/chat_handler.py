@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from typing import Any
 
 from fastapi import APIRouter
@@ -13,11 +14,17 @@ except ImportError:
     from llm.production_cleaner import production_grade_cleanup
     from llm.source_verification import get_footer_attribution
 
-# Month names for query detection
 MONTH_NAMES = [
     "january", "february", "march", "april", "may", "june",
     "july", "august", "september", "october", "november", "december",
 ]
+
+MONTH_NAMES_HI = {
+    "जनवरी": "january", "फरवरी": "february", "मार्च": "march",
+    "अप्रैल": "april", "मई": "may", "जून": "june",
+    "जुलाई": "july", "अगस्त": "august", "सितंबर": "september",
+    "अक्टूबर": "october", "नवंबर": "november", "दिसंबर": "december",
+}
 
 TABLE_STYLE = (
     'border-collapse:collapse;width:100%;margin:16px 0;'
@@ -26,6 +33,140 @@ TABLE_STYLE = (
 )
 THEAD_STYLE = 'background:linear-gradient(135deg,#003d82 0%,#0056b3 100%);color:white;'
 TH_STYLE = 'padding:14px 12px;text-align:left;font-weight:600;border-bottom:3px solid #FF6600;'
+
+LEADERSHIP_CANONICAL = {
+    "director": {"name": "Prof. Dinesh Prasad Saklani", "title": "Director, NCERT"},
+    "joint_director": {"name": "Prof. Amarendra Behera", "title": "Joint Director, CIET-NCERT"},
+    "head_dict": {"name": "Prof. Indu Kumar", "title": "Head, DICT & TD, CIET-NCERT"},
+    "national_coordinator": {"name": "Dr. Rajesh D.", "title": "Associate Professor, CIET-NCERT, National Coordinator VSK"},
+}
+
+BILINGUAL_LABELS = {
+    "en": {
+        "education_report": "Education Intelligence Report",
+        "key_statistics": "Key Statistics",
+        "key_highlights": "Key Highlights",
+        "major_activities": "Major Activities & Initiatives",
+        "notable_events": "Notable Events",
+        "state_performance": "State-wise Performance",
+        "metric": "Metric",
+        "value": "Value",
+        "event": "Event",
+        "date": "Date",
+        "description": "Description",
+        "participants": "Participants",
+        "state_ut": "State / UT",
+        "attendance": "Attendance",
+        "apaar_coverage": "APAAR Coverage",
+        "schools": "Schools",
+        "teachers": "Teachers",
+        "students": "Students",
+        "apaar_ids": "APAAR IDs Generated",
+        "attendance_rate": "Attendance Rate",
+        "rvsk_title": "Rashtriya Vidya Samiksha Kendra (RVSK)",
+        "current_progress": "Current Progress (As of January 31, 2026)",
+        "six_a_framework": "6A Educational Data Framework",
+        "pillar": "Pillar",
+        "integration_status": "Integration Status",
+        "coverage": "Coverage",
+        "national_programs": "13 National Programs Supported",
+        "leadership": "RVSK Leadership",
+        "name": "Name",
+        "designation": "Designation",
+        "technical_title": "Technical Developments & Infrastructure",
+        "dashboard_features": "Dashboard Features",
+        "infrastructure_upgrades": "Infrastructure Upgrades",
+        "apaar_milestones": "APAAR Registration Milestones",
+        "month": "Month",
+        "registrations": "Registrations",
+        "states_active": "States Active",
+        "growth": "Growth",
+        "kpi_title": "Key Performance Indicators",
+        "indicator": "Indicator",
+        "parameter": "Parameter",
+        "state_engagement_title": "State Engagement Overview",
+        "top_performing": "Top Performing States",
+        "consent_framework": "Consent Framework",
+        "director_message": "Director's Message",
+        "no_data_title": "No relevant information found in the official newsletter data.",
+        "no_data_suggest": "Please try asking about:",
+        "no_data_items": [
+            "Monthly statistics and activities (April 2025 - January 2026)",
+            "APAAR ID generation progress and milestones",
+            "State performance and attendance rates",
+            "Technical developments and infrastructure",
+            "Learning outcomes and key performance indicators",
+            "RVSK leadership and 6A Framework",
+        ],
+        "based_on": "Based on official newsletter data",
+        "analysis_insights": "Analysis & Insights",
+        "not_available": "This information is not available in the current RVSK newsletters.",
+        "activity": "Activity / Initiative",
+        "rank": "#",
+    },
+    "hi": {
+        "education_report": "शिक्षा गुप्तचर रिपोर्ट",
+        "key_statistics": "मुख्य सांख्यिकी",
+        "key_highlights": "मुख्य विशेषताएं",
+        "major_activities": "प्रमुख गतिविधियां एवं पहल",
+        "notable_events": "उल्लेखनीय कार्यक्रम",
+        "state_performance": "राज्य-वार प्रदर्शन",
+        "metric": "मापदंड",
+        "value": "मान",
+        "event": "कार्यक्रम",
+        "date": "तिथि",
+        "description": "विवरण",
+        "participants": "प्रतिभागी",
+        "state_ut": "राज्य / केंद्र शासित प्रदेश",
+        "attendance": "उपस्थिति",
+        "apaar_coverage": "APAAR कवरेज",
+        "schools": "स्कूल",
+        "teachers": "शिक्षक",
+        "students": "छात्र",
+        "apaar_ids": "APAAR IDs जनित",
+        "attendance_rate": "उपस्थिति दर",
+        "rvsk_title": "राष्ट्रीय विद्या समीक्षा केंद्र (RVSK)",
+        "current_progress": "वर्तमान प्रगति (31 जनवरी 2026 तक)",
+        "six_a_framework": "6A शैक्षिक डेटा फ्रेमवर्क",
+        "pillar": "स्तंभ",
+        "integration_status": "एकीकरण स्थिति",
+        "coverage": "कवरेज",
+        "national_programs": "13 राष्ट्रीय कार्यक्रम समर्थित",
+        "leadership": "RVSK नेतृत्व",
+        "name": "नाम",
+        "designation": "पदनाम",
+        "technical_title": "तकनीकी विकास एवं अवसंरचना",
+        "dashboard_features": "डैशबोर्ड सुविधाएं",
+        "infrastructure_upgrades": "अवसंरचना उन्नयन",
+        "apaar_milestones": "APAAR पंजीकरण मील के पत्थर",
+        "month": "माह",
+        "registrations": "पंजीकरण",
+        "states_active": "सक्रिय राज्य",
+        "growth": "वृद्धि",
+        "kpi_title": "मुख्य प्रदर्शन संकेतक",
+        "indicator": "संकेतक",
+        "parameter": "पैरामीटर",
+        "state_engagement_title": "राज्य जुड़ाव अवलोकन",
+        "top_performing": "शीर्ष प्रदर्शन करने वाले राज्य",
+        "consent_framework": "सहमति ढांचा",
+        "director_message": "निदेशक का संदेश",
+        "no_data_title": "आधिकारिक न्यूज़लेटर डेटा में कोई प्रासंगिक जानकारी नहीं मिली।",
+        "no_data_suggest": "कृपया इनके बारे में पूछने का प्रयास करें:",
+        "no_data_items": [
+            "मासिक सांख्यिकी और गतिविधियां (अप्रैल 2025 - जनवरी 2026)",
+            "APAAR ID निर्माण प्रगति और मील के पत्थर",
+            "राज्य प्रदर्शन और उपस्थिति दर",
+            "तकनीकी विकास और अवसंरचना",
+            "सीखने के परिणाम और प्रमुख प्रदर्शन संकेतक",
+            "RVSK नेतृत्व और 6A Framework",
+        ],
+        "based_on": "आधिकारिक न्यूज़लेटर डेटा पर आधारित",
+        "analysis_insights": "विश्लेषण एवं अंतर्दृष्टि",
+        "not_available": "यह जानकारी वर्तमान RVSK न्यूज़लेटर में उपलब्ध नहीं है।",
+        "activity": "गतिविधि / पहल",
+        "rank": "क्र.",
+    },
+}
 
 
 def _row_bg(i: int) -> str:
@@ -39,7 +180,6 @@ def _td(value: str, bold: bool = False, color: str = "#333") -> str:
 
 def _html_table(headers: list[str], rows: list[list[str]], *,
                 col_styles: list[dict] | None = None) -> str:
-    """Build a fully-styled HTML table."""
     ths = "".join(f'<th style="{TH_STYLE}">{h}</th>' for h in headers)
     body = ""
     for i, row in enumerate(rows):
@@ -56,6 +196,38 @@ def _html_table(headers: list[str], rows: list[list[str]], *,
     )
 
 
+HINGLISH_KEYWORDS = [
+    "kya", "hai", "hain", "mein", "ka", "ki", "ke", "ko", "se", "par",
+    "kitne", "kitni", "kaun", "kaise", "kahan", "kab", "kyun", "kyon",
+    "batao", "bataiye", "bataen", "dijiye", "karein", "karo",
+    "aur", "ya", "lekin", "agar", "toh", "nahi", "nahin",
+    "shiksha", "vidyalaya", "school", "adhyapak", "chhatra",
+    "upasthiti", "pradesh", "rajya", "sarkar", "mantralaya",
+    "vikas", "yojana", "karyakram",
+    "kitna", "kaisa", "sabhi", "sab", "kuch", "bahut",
+    "samiksha", "vidya", "kendra",
+]
+
+
+def _detect_language(query: str) -> str:
+    devanagari_count = sum(1 for ch in query if '\u0900' <= ch <= '\u097F')
+    latin_count = sum(1 for ch in query if 'a' <= ch.lower() <= 'z')
+    if devanagari_count > 0 and devanagari_count >= latin_count * 0.3:
+        return "hi"
+    words = query.lower().split()
+    hinglish_hits = sum(1 for w in words if w in HINGLISH_KEYWORDS)
+    if len(words) > 0 and hinglish_hits / len(words) >= 0.25:
+        return "hi"
+    return "en"
+
+
+def _wants_brief(query: str) -> bool:
+    brief_en = ["briefly", "brief", "short", "summary", "summarize", "in short", "one line"]
+    brief_hi = ["संक्षेप", "संक्षिप्त", "छोटा", "सारांश"]
+    q = query.lower()
+    return any(kw in q for kw in brief_en + brief_hi)
+
+
 class ChatRequest(BaseModel):
     query: str
     language: str = "en"
@@ -68,75 +240,70 @@ class ChatHandler:
         self.router = APIRouter(prefix="/api", tags=["chat"])
         self.router.add_api_route("/chat", self.chat, methods=["POST"])
 
-    # ------------------------------------------------------------------
-    # Month detection helpers
-    # ------------------------------------------------------------------
+    def _L(self, key: str, lang: str) -> str:
+        return BILINGUAL_LABELS.get(lang, BILINGUAL_LABELS["en"]).get(key, key)
+
     @staticmethod
     def _detect_month_in_query(query: str) -> str | None:
-        """Return 'Month YYYY' if the query references a specific month."""
         q = query.lower()
         for m in MONTH_NAMES:
             if m in q:
-                # Try to find a year
                 year_match = re.search(r'(202[4-9]|2030)', q)
                 year = year_match.group(1) if year_match else "2025"
                 if m == "january" and "2026" not in q:
                     year = "2026"
                 return f"{m.capitalize()} {year}"
+        for hi_month, en_month in MONTH_NAMES_HI.items():
+            if hi_month in query:
+                year_match = re.search(r'(202[4-9]|2030)', query)
+                year = year_match.group(1) if year_match else "2025"
+                if en_month == "january" and "2026" not in query:
+                    year = "2026"
+                return f"{en_month.capitalize()} {year}"
         return None
 
     def _find_month_data(self, month_name: str) -> dict[str, Any] | None:
-        """Lookup structured month data from the RAG system."""
         return self.rag.get_month(month_name)
 
-    # ------------------------------------------------------------------
-    # Formatters
-    # ------------------------------------------------------------------
-    def _format_monthly_data(self, md: dict[str, Any]) -> str:
-        """Comprehensive monthly formatter with statistics, activities, events, and states."""
+    def _format_monthly_data(self, md: dict[str, Any], lang: str = "en") -> str:
         month = md.get("month", "Unknown")
         parts: list[str] = []
 
-        # --- Title
-        parts.append(f'<h3 style="color:#003d82;margin:0 0 16px 0;">{month} — Education Intelligence Report</h3>')
+        parts.append(f'<h3 style="color:#003d82;margin:0 0 16px 0;">{month} — {self._L("education_report", lang)}</h3>')
 
-        # --- Key Statistics table
         stats = [
-            ("Schools", f"{md.get('schools', 0):,}"),
-            ("Teachers", f"{md.get('teachers', 0):,}"),
-            ("Students", f"{md.get('students', 0):,}"),
-            ("APAAR IDs Generated", f"{md.get('apaar_ids', 0):,}"),
-            ("Attendance Rate", f"{md.get('attendance_rate', 0)}%"),
+            (self._L("schools", lang), f"{md.get('schools', 0):,}"),
+            (self._L("teachers", lang), f"{md.get('teachers', 0):,}"),
+            (self._L("students", lang), f"{md.get('students', 0):,}"),
+            (self._L("apaar_ids", lang), f"{md.get('apaar_ids', 0):,}"),
+            (self._L("attendance_rate", lang), f"{md.get('attendance_rate', 0)}%"),
         ]
-        parts.append('<p style="margin:8px 0;"><strong>Key Statistics:</strong></p>')
+        parts.append(f'<p style="margin:8px 0;"><strong>{self._L("key_statistics", lang)}:</strong></p>')
         parts.append(_html_table(
-            ["Metric", "Value"],
+            [self._L("metric", lang), self._L("value", lang)],
             [[s[0], s[1]] for s in stats],
             col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}],
         ))
 
-        # --- Highlights
         highlights = md.get("highlights", [])
         if highlights:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Key Highlights:</strong></p><ul style="margin:0;padding-left:24px;">')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("key_highlights", lang)}:</strong></p><ul style="margin:0;padding-left:24px;">')
             for h in highlights:
                 parts.append(f'<li style="margin:6px 0;line-height:1.7;">{h}</li>')
             parts.append("</ul>")
 
-        # --- Activities table
         activities = md.get("activities", [])
         if activities:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Major Activities &amp; Initiatives:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("major_activities", lang)}:</strong></p>')
             parts.append(_html_table(
-                ["#", "Activity / Initiative"],
+                [self._L("rank", lang), self._L("activity", lang)],
                 [[str(i + 1), a] for i, a in enumerate(activities)],
                 col_styles=[{"bold": True, "color": "#003d82"}, {}],
             ))
 
-        # --- Events table
         events = md.get("events", [])
         if events:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Notable Events:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("notable_events", lang)}:</strong></p>')
             rows = []
             for e in events:
                 rows.append([
@@ -146,7 +313,7 @@ class ChatHandler:
                     f'{e.get("participants", 0):,}',
                 ])
             parts.append(_html_table(
-                ["Event", "Date", "Description", "Participants"],
+                [self._L("event", lang), self._L("date", lang), self._L("description", lang), self._L("participants", lang)],
                 rows,
                 col_styles=[
                     {"bold": True, "color": "#003d82"},
@@ -156,14 +323,12 @@ class ChatHandler:
                 ],
             ))
 
-        # --- State Performance table
         states = md.get("states", {})
         if states:
-            parts.append('<p style="margin:20px 0 8px;"><strong>State-wise Performance:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("state_performance", lang)}:</strong></p>')
             state_rows = []
             for state, data in states.items():
                 att = data.get("attendance", "N/A")
-                att_color = "#28a745" if isinstance(att, (int, float)) and att >= 95 else "#333"
                 state_rows.append([
                     state,
                     f'{att}%',
@@ -171,7 +336,7 @@ class ChatHandler:
                     f'{data.get("schools", 0):,}',
                 ])
             parts.append(_html_table(
-                ["State / UT", "Attendance", "APAAR Coverage", "Schools"],
+                [self._L("state_ut", lang), self._L("attendance", lang), self._L("apaar_coverage", lang), self._L("schools", lang)],
                 state_rows,
                 col_styles=[
                     {"bold": True, "color": "#003d82"},
@@ -183,33 +348,33 @@ class ChatHandler:
 
         return "\n".join(parts)
 
-    def _format_technical_data(self, tech_data: dict[str, Any]) -> str:
+    def _format_technical_data(self, tech_data: dict[str, Any], lang: str = "en") -> str:
         if not isinstance(tech_data, dict):
-            return "<p>Technical development data is not available.</p>"
+            return f"<p>{self._L('not_available', lang)}</p>"
 
-        parts = ['<h3 style="color:#003d82;margin:0 0 16px 0;">Technical Developments &amp; Infrastructure</h3>']
+        parts = [f'<h3 style="color:#003d82;margin:0 0 16px 0;">{self._L("technical_title", lang)}</h3>']
 
         features = tech_data.get("dashboard_features", [])
         if features:
-            parts.append('<p style="margin:12px 0 8px;"><strong>Dashboard Features:</strong></p>')
+            parts.append(f'<p style="margin:12px 0 8px;"><strong>{self._L("dashboard_features", lang)}:</strong></p>')
             parts.append(_html_table(
-                ["#", "Feature"],
+                [self._L("rank", lang), "Feature"],
                 [[str(i + 1), f] for i, f in enumerate(features)],
                 col_styles=[{"bold": True, "color": "#003d82"}, {}],
             ))
 
         upgrades = tech_data.get("infrastructure_upgrades", [])
         if upgrades:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Infrastructure Upgrades:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("infrastructure_upgrades", lang)}:</strong></p>')
             parts.append(_html_table(
-                ["#", "Upgrade"],
+                [self._L("rank", lang), "Upgrade"],
                 [[str(i + 1), u] for i, u in enumerate(upgrades)],
                 col_styles=[{"bold": True, "color": "#003d82"}, {}],
             ))
 
         milestones = tech_data.get("apaar_milestones", [])
         if milestones:
-            parts.append('<p style="margin:20px 0 8px;"><strong>APAAR Registration Milestones:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("apaar_milestones", lang)}:</strong></p>')
             rows = []
             prev_reg = 0
             for m in milestones:
@@ -226,7 +391,7 @@ class ChatHandler:
                     growth,
                 ])
             parts.append(_html_table(
-                ["Month", "Registrations", "States Active", "Growth"],
+                [self._L("month", lang), self._L("registrations", lang), self._L("states_active", lang), self._L("growth", lang)],
                 rows,
                 col_styles=[
                     {"bold": True, "color": "#003d82"},
@@ -238,19 +403,19 @@ class ChatHandler:
 
         return "\n".join(parts)
 
-    def _format_kpi_data(self, kpi_data: dict[str, Any], category: str) -> str:
+    def _format_kpi_data(self, kpi_data: dict[str, Any], category: str, lang: str = "en") -> str:
         category_name = category.replace("_", " ").title()
         if not isinstance(kpi_data, dict) or not kpi_data:
-            return f"<p>KPI data for {category_name} is not available.</p>"
+            return f"<p>{self._L('not_available', lang)}</p>"
 
         rows = [[key.replace("_", " ").title(), str(value)] for key, value in kpi_data.items()]
         return (
-            f'<h3 style="color:#003d82;margin:0 0 16px 0;">Key Performance Indicators: {category_name}</h3>'
-            + _html_table(["Indicator", "Value"], rows,
+            f'<h3 style="color:#003d82;margin:0 0 16px 0;">{self._L("kpi_title", lang)}: {category_name}</h3>'
+            + _html_table([self._L("indicator", lang), self._L("value", lang)], rows,
                           col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}])
         )
 
-    def _format_director_message(self, msg: dict[str, Any]) -> str:
+    def _format_director_message(self, msg: dict[str, Any], lang: str = "en") -> str:
         name = msg.get("name", "Director")
         position = msg.get("position", "Director, Dept. of School Education & Literacy")
         message = msg.get("message", "")
@@ -259,15 +424,15 @@ class ChatHandler:
             for p in message.split("\n\n") if p.strip()
         )
         return (
-            f'<h3 style="color:#003d82;margin:0 0 16px 0;">Director\'s Message</h3>'
+            f'<h3 style="color:#003d82;margin:0 0 16px 0;">{self._L("director_message", lang)}</h3>'
             f'<p><strong>{name}</strong><br><em>{position}</em></p>{paragraphs}'
         )
 
-    def _format_state_engagement(self, eng: dict[str, Any]) -> str:
+    def _format_state_engagement(self, eng: dict[str, Any], lang: str = "en") -> str:
         if not isinstance(eng, dict):
-            return "<p>State engagement data is not available.</p>"
+            return f"<p>{self._L('not_available', lang)}</p>"
 
-        parts = ['<h3 style="color:#003d82;margin:0 0 16px 0;">State Engagement Overview</h3>']
+        parts = [f'<h3 style="color:#003d82;margin:0 0 16px 0;">{self._L("state_engagement_title", lang)}</h3>']
 
         summary = eng.get("correspondence_summary", {})
         if summary:
@@ -278,40 +443,38 @@ class ChatHandler:
                 ["Advanced Implementation", str(summary.get("implementation_advanced", 0))],
                 ["Pilot Phase", str(summary.get("pilot_phase", 0))],
             ]
-            parts.append(_html_table(["Parameter", "Value"], rows,
+            parts.append(_html_table([self._L("parameter", lang), self._L("value", lang)], rows,
                                      col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}]))
 
         top = eng.get("top_performing_states", [])
         if top:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Top Performing States:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("top_performing", lang)}:</strong></p>')
             rows = [
                 [s["name"], f'{s["apaar_coverage"]}%', f'{s["attendance"]}%', f'{s["digital_readiness"]}%']
                 for s in top[:5]
             ]
             parts.append(_html_table(
-                ["State", "APAAR Coverage", "Attendance", "Digital Readiness"], rows,
+                [self._L("state_ut", lang), self._L("apaar_coverage", lang), self._L("attendance", lang), "Digital Readiness"], rows,
                 col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}, {"bold": True}, {}],
             ))
 
         consent = eng.get("consent_framework", {})
         if consent:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Consent Framework:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("consent_framework", lang)}:</strong></p>')
             rows = [
                 ["Total Consents Collected", f'{consent.get("total_consents_collected", 0):,}'],
                 ["Digital Consent Rate", f'{consent.get("digital_consent_rate", 0)}%'],
                 ["Parent Awareness Programs", f'{consent.get("parent_awareness_programs", 0):,}'],
                 ["Data Privacy Compliance", str(consent.get("data_privacy_compliance", "N/A"))],
             ]
-            parts.append(_html_table(["Parameter", "Value"], rows,
+            parts.append(_html_table([self._L("parameter", lang), self._L("value", lang)], rows,
                                      col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}]))
 
         return "\n".join(parts)
 
-    def _format_rvsk_data(self, rvsk: dict[str, Any]) -> str:
-        """Format RVSK-specific data with comprehensive HTML tables."""
-        parts = ['<h3 style="color:#003d82;margin:0 0 16px 0;">Rashtriya Vidya Samiksha Kendra (RVSK)</h3>']
+    def _format_rvsk_data(self, rvsk: dict[str, Any], lang: str = "en") -> str:
+        parts = [f'<h3 style="color:#003d82;margin:0 0 16px 0;">{self._L("rvsk_title", lang)}</h3>']
 
-        # Current progress
         progress = rvsk.get("current_progress", {})
         if progress:
             rows = [
@@ -326,82 +489,116 @@ class ChatHandler:
                 ["Attendance Integration", f'{progress.get("states_attendance_integrated", "")} States/UTs'],
                 ["Assessment Integration", f'{progress.get("states_assessment_integrated", "")} States/UTs'],
             ]
-            parts.append('<p style="margin:8px 0;"><strong>Current Progress (As of January 31, 2026):</strong></p>')
-            parts.append(_html_table(["Parameter", "Value"], rows,
+            parts.append(f'<p style="margin:8px 0;"><strong>{self._L("current_progress", lang)}:</strong></p>')
+            parts.append(_html_table([self._L("parameter", lang), self._L("value", lang)], rows,
                                      col_styles=[{"bold": True, "color": "#003d82"}, {"bold": True}]))
 
-        # 6A Framework
         six_a = rvsk.get("six_a_framework", {})
         if six_a:
             rows = [[k.replace("_", " ").title(), v.get("status", ""), v.get("coverage", "—")]
                     for k, v in six_a.items()]
-            parts.append('<p style="margin:20px 0 8px;"><strong>6A Educational Data Framework:</strong></p>')
-            parts.append(_html_table(["Pillar", "Integration Status", "Coverage"], rows,
-                                     col_styles=[{"bold": True, "color": "#003d82"}, {}, {"bold": True}]))
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("six_a_framework", lang)}:</strong></p>')
+            parts.append(_html_table(
+                [self._L("pillar", lang), self._L("integration_status", lang), self._L("coverage", lang)], rows,
+                col_styles=[{"bold": True, "color": "#003d82"}, {}, {"bold": True}]))
 
-        # Key highlights
         highlights = rvsk.get("key_highlights", [])
         if highlights:
-            parts.append('<p style="margin:20px 0 8px;"><strong>Key Highlights:</strong></p><ul style="margin:0;padding-left:24px;">')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("key_highlights", lang)}:</strong></p><ul style="margin:0;padding-left:24px;">')
             for h in highlights:
                 parts.append(f'<li style="margin:6px 0;line-height:1.7;">{h}</li>')
             parts.append("</ul>")
 
-        # National programs
         programs = rvsk.get("national_programs", [])
         if programs:
-            parts.append(f'<p style="margin:20px 0 8px;"><strong>13 National Programs Supported:</strong></p>')
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("national_programs", lang)}:</strong></p>')
             parts.append(f'<p style="line-height:1.8;">{", ".join(programs)}</p>')
 
-        # Leadership
         leaders = rvsk.get("leadership", {})
         if leaders:
-            rows = [[v.get("name", ""), v.get("title", "")] for v in leaders.values()]
-            parts.append('<p style="margin:20px 0 8px;"><strong>RVSK Leadership:</strong></p>')
-            parts.append(_html_table(["Name", "Designation"], rows,
+            rows = [[LEADERSHIP_CANONICAL.get(k, {}).get("name", v.get("name", "")),
+                     LEADERSHIP_CANONICAL.get(k, {}).get("title", v.get("title", ""))]
+                    for k, v in leaders.items()]
+            parts.append(f'<p style="margin:20px 0 8px;"><strong>{self._L("leadership", lang)}:</strong></p>')
+            parts.append(_html_table([self._L("name", lang), self._L("designation", lang)], rows,
                                      col_styles=[{"bold": True, "color": "#003d82"}, {}]))
 
         return "\n".join(parts)
 
-    def _render_no_data(self) -> str:
+    def _format_leadership_answer(self, lang: str = "en") -> str:
+        rvsk = self.rag.data.get("rvsk_data", {})
+        leaders = rvsk.get("leadership", {})
+        if not leaders:
+            return f"<p>{self._L('not_available', lang)}</p>"
+
+        rows = [[LEADERSHIP_CANONICAL.get(k, {}).get("name", v.get("name", "")),
+                 LEADERSHIP_CANONICAL.get(k, {}).get("title", v.get("title", ""))]
+                for k, v in leaders.items()]
+
+        title = self._L("leadership", lang)
         return (
-            '<p><strong>No relevant information found in the official newsletter data.</strong></p>'
-            '<p>Please try asking about:</p>'
-            '<ul>'
-            '<li>Monthly statistics and activities (April 2025 - January 2026)</li>'
-            '<li>APAAR ID generation progress and milestones</li>'
-            '<li>State performance and attendance rates</li>'
-            '<li>Technical developments and infrastructure</li>'
-            '<li>Learning outcomes and key performance indicators</li>'
-            '</ul>'
+            f'<h3 style="color:#003d82;margin:0 0 16px 0;">{title}</h3>'
+            + _html_table([self._L("name", lang), self._L("designation", lang)], rows,
+                          col_styles=[{"bold": True, "color": "#003d82"}, {}])
         )
 
-    # ------------------------------------------------------------------
-    # Intelligent response assembly
-    # ------------------------------------------------------------------
-    def _try_structured_format(self, results: list[dict], query: str) -> str | None:
-        """
-        Walk through ALL search results and pick the best structured
-        data source.  Prioritise structured types over detailed_context.
-        If no structured type is found in search results, use keyword
-        detection to explicitly fetch structured data.
-        """
-        # --- Step A: Check if the query is about a specific month ---
+    def _format_six_a_answer(self, lang: str = "en") -> str:
+        rvsk = self.rag.data.get("rvsk_data", {})
+        six_a = rvsk.get("six_a_framework", {})
+        if not six_a:
+            return f"<p>{self._L('not_available', lang)}</p>"
+
+        title = self._L("six_a_framework", lang)
+        intro = {
+            "en": "The 6A Framework is the core educational data architecture of RVSK, covering six pillars of school education monitoring:",
+            "hi": "6A Framework, RVSK का मूल शैक्षिक डेटा ढांचा है, जो स्कूली शिक्षा निगरानी के छह स्तंभों को कवर करता है:",
+        }
+
+        rows = [[k.replace("_", " ").title(), v.get("status", ""), v.get("coverage", "—")]
+                for k, v in six_a.items()]
+
+        return (
+            f'<h3 style="color:#003d82;margin:0 0 16px 0;">{title}</h3>'
+            f'<p style="margin:8px 0 12px;line-height:1.7;">{intro.get(lang, intro["en"])}</p>'
+            + _html_table(
+                [self._L("pillar", lang), self._L("integration_status", lang), self._L("coverage", lang)], rows,
+                col_styles=[{"bold": True, "color": "#003d82"}, {}, {"bold": True}])
+        )
+
+    def _render_no_data(self, lang: str = "en") -> str:
+        labels = BILINGUAL_LABELS.get(lang, BILINGUAL_LABELS["en"])
+        items = "".join(f'<li>{item}</li>' for item in labels["no_data_items"])
+        return (
+            f'<p><strong>{labels["no_data_title"]}</strong></p>'
+            f'<p>{labels["no_data_suggest"]}</p>'
+            f'<ul>{items}</ul>'
+        )
+
+    def _try_structured_format(self, results: list[dict], query: str, lang: str = "en") -> str | None:
         target_month = self._detect_month_in_query(query)
         if target_month:
             month_data = self._find_month_data(target_month)
             if month_data:
-                return self._format_monthly_data(month_data)
+                return self._format_monthly_data(month_data, lang)
 
-        # --- Step B: Search results for a structured type ---
+        q_lower = query.lower()
+
+        leadership_keywords_en = ["leadership", "leader", "director", "joint director", "head dict",
+                                  "who leads", "who is the director", "who runs", "saklani", "behera", "indu kumar"]
+        leadership_keywords_hi = ["नेतृत्व", "निदेशक", "संयुक्त निदेशक", "कौन है", "प्रमुख"]
+        if any(kw in q_lower for kw in leadership_keywords_en) or any(kw in query for kw in leadership_keywords_hi):
+            if not any(kw in q_lower for kw in ["message", "vision", "संदेश"]):
+                return self._format_leadership_answer(lang)
+
+        six_a_keywords_en = ["6a framework", "6a", "six a", "attendance assessment administration",
+                             "accreditation adaptive artificial"]
+        six_a_keywords_hi = ["6a फ्रेमवर्क", "6a", "छह स्तंभ"]
+        if any(kw in q_lower for kw in six_a_keywords_en) or any(kw in query for kw in six_a_keywords_hi):
+            return self._format_six_a_answer(lang)
+
         priority = {
-            "month": 1,
-            "rvsk": 2,
-            "kpi": 3,
-            "state_engagement": 4,
-            "technical": 5,
-            "director_message": 6,
-            "detailed_context": 99,
+            "month": 1, "rvsk": 2, "kpi": 3, "state_engagement": 4,
+            "technical": 5, "director_message": 6, "detailed_context": 99,
         }
 
         best = None
@@ -413,97 +610,92 @@ class ChatHandler:
                 best = r
                 best_pri = pri
 
-        # If we found a structured type, use it
         if best and best_pri < 99:
             chunk_type = best["metadata"].get("type", "")
             data = best["metadata"].get("data", {})
 
             if chunk_type == "month":
-                return self._format_monthly_data(data)
+                return self._format_monthly_data(data, lang)
             elif chunk_type == "rvsk":
-                return self._format_rvsk_data(data)
+                return self._format_rvsk_data(data, lang)
             elif chunk_type == "technical":
-                return self._format_technical_data(data)
+                return self._format_technical_data(data, lang)
             elif chunk_type == "kpi":
-                return self._format_kpi_data(data, best["metadata"].get("category", "general"))
+                return self._format_kpi_data(data, best["metadata"].get("category", "general"), lang)
             elif chunk_type == "director_message":
-                return self._format_director_message(data)
+                return self._format_director_message(data, lang)
             elif chunk_type == "state_engagement":
-                return self._format_state_engagement(data)
+                return self._format_state_engagement(data, lang)
 
-        # --- Step C: Keyword-based fallback to structured data ---
-        q_lower = query.lower()
-
-        # RVSK query: fetch structured RVSK data
-        rvsk_keywords = ["rvsk", "rashtriya vidya samiksha", "6a framework", "capacity building workshop",
+        rvsk_keywords = ["rvsk", "rashtriya vidya samiksha", "capacity building workshop",
                          "dpdp", "data protection", "best practice", "early warning system",
-                         "facial recognition", "apaar for teacher", "institutionaliz"]
-        if any(kw in q_lower for kw in rvsk_keywords):
+                         "facial recognition", "apaar for teacher", "institutionaliz",
+                         "राष्ट्रीय विद्या समीक्षा", "विद्या समीक्षा केंद्र"]
+        if any(kw in q_lower for kw in rvsk_keywords) or any(kw in query for kw in rvsk_keywords):
             rvsk_data = self.rag.data.get("rvsk_data")
             if rvsk_data:
-                return self._format_rvsk_data(rvsk_data)
+                return self._format_rvsk_data(rvsk_data, lang)
 
-        # Technical query: fetch structured tech data from RAG
-        tech_keywords = ["technical", "dashboard", "infrastructure", "upgrade", "feature", "system", "platform"]
+        tech_keywords = ["technical", "dashboard", "infrastructure", "upgrade", "feature", "system", "platform",
+                         "तकनीकी", "डैशबोर्ड", "अवसंरचना"]
         if any(kw in q_lower for kw in tech_keywords):
             tech_data = self.rag.data.get("technical_developments")
             if tech_data:
-                return self._format_technical_data(tech_data)
+                return self._format_technical_data(tech_data, lang)
 
-        # KPI query: fetch structured KPI data
-        kpi_keywords = ["kpi", "performance indicator", "learning outcome", "equity", "growth metric"]
+        kpi_keywords = ["kpi", "performance indicator", "learning outcome", "equity", "growth metric",
+                        "प्रदर्शन संकेतक", "सीखने के परिणाम"]
         if any(kw in q_lower for kw in kpi_keywords):
             kpis = self.rag.data.get("key_performance_indicators", {})
             if kpis:
                 parts = []
                 for cat, data in kpis.items():
-                    parts.append(self._format_kpi_data(data, cat))
+                    parts.append(self._format_kpi_data(data, cat, lang))
                 return "\n".join(parts)
 
-        # State engagement query
-        state_keywords = ["state engagement", "state performance", "top state", "top performing"]
-        if any(kw in q_lower for kw in state_keywords):
+        state_keywords = ["state engagement", "state performance", "top state", "top performing",
+                          "राज्य प्रदर्शन", "शीर्ष राज्य"]
+        if any(kw in q_lower for kw in state_keywords) or any(kw in query for kw in state_keywords):
             eng_data = self.rag.data.get("state_engagement")
             if eng_data:
-                return self._format_state_engagement(eng_data)
+                return self._format_state_engagement(eng_data, lang)
 
-        # Director message query
-        director_keywords = ["director", "message", "vision"]
-        if all(kw in q_lower for kw in ["director"]):
+        director_keywords_en = ["director's message", "director message", "vision"]
+        director_keywords_hi = ["निदेशक का संदेश", "संदेश"]
+        if any(kw in q_lower for kw in director_keywords_en) or any(kw in query for kw in director_keywords_hi):
             msg_data = self.rag.data.get("director_message")
             if msg_data:
-                return self._format_director_message(msg_data)
+                return self._format_director_message(msg_data, lang)
 
         return None
 
-    # ------------------------------------------------------------------
-    # Main chat endpoint
-    # ------------------------------------------------------------------
     async def chat(self, payload: ChatRequest) -> dict[str, Any]:
         query = payload.query.strip()
-        language = payload.language
         if not query:
-            return {"answer": self._render_no_data(), "mode": "rag_only", "sources": []}
+            return {"answer": self._render_no_data("en"), "mode": "rag_only", "sources": []}
+
+        detected_lang = _detect_language(query)
+        language = detected_lang if detected_lang == "hi" else payload.language
 
         results = self.rag.search(query, top_k=5)
         if not results or results[0]["score"] <= 0:
-            return {"answer": self._render_no_data(), "mode": "rag_only", "sources": []}
+            return {"answer": self._render_no_data(language), "mode": "rag_only", "sources": []}
 
-        # ---- Step 1: Build a structured answer from the best data ----
-        answer = self._try_structured_format(results, query)
+        answer = self._try_structured_format(results, query, language)
 
         if not answer:
-            # Fallback: basic formatted list from search results
-            answer = '<p><strong>Based on official newsletter data:</strong></p><ul>'
+            label = self._L("based_on", language)
+            answer = f'<p><strong>{label}:</strong></p><ul>'
+            seen_texts = set()
             for r in results[:3]:
                 txt = r.get("text", "").replace("\n", " ").strip()
-                if txt:
+                if txt and txt not in seen_texts:
+                    seen_texts.add(txt)
                     if len(txt) > 350:
                         txt = txt[:347] + "..."
                     answer += f'<li style="margin:8px 0;line-height:1.7;">{txt}</li>'
             answer += "</ul>"
 
-        # ---- Step 2: Try LLM enhancement ----
         context = "\n\n".join(item["text"] for item in results[:3])
         llm_text = self.llm.summarize(query, context, language=language)
         mode = "rag_only"
@@ -511,20 +703,18 @@ class ChatHandler:
         if llm_text and llm_text.strip():
             llm_cleaned = production_grade_cleanup(llm_text)
             if len(llm_cleaned) > 150:
-                # If LLM produced HTML tables, use its response
                 if "<table" in llm_cleaned.lower():
                     answer = llm_cleaned
                 else:
-                    # Append LLM analysis as a supplementary insight section
+                    insight_label = self._L("analysis_insights", language)
                     answer += (
                         '\n<hr style="border:none;border-top:1px solid #e0e0e0;margin:24px 0;">'
-                        '\n<p style="margin:12px 0 8px;"><strong>Analysis &amp; Insights:</strong></p>'
+                        f'\n<p style="margin:12px 0 8px;"><strong>{insight_label}:</strong></p>'
                         f'\n<div style="padding:12px 16px;background:#f8f9fa;border-left:4px solid #003d82;'
                         f'border-radius:4px;line-height:1.7;">{llm_cleaned}</div>'
                     )
             mode = "hybrid"
 
-        # ---- Step 3: Professional footer ----
         answer += '\n\n' + get_footer_attribution()
 
         return {
