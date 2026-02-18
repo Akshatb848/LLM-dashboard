@@ -146,11 +146,13 @@
 }
 
 .leader-image img {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center center;
     border: 3px solid var(--gov-blue);
+    box-shadow: 0 2px 8px rgba(0,61,130,0.15);
 }
 
 .leader-info h3 {
