@@ -1,18 +1,14 @@
 services:
-  backend:
+  app:
     build:
       context: .
       dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
     environment:
+      # Leave OLLAMA_URL empty for retrieval-only mode.
+      # To use an Ollama server on the host: OLLAMA_URL=http://host.docker.internal:11434
       - OLLAMA_URL=${OLLAMA_URL:-}
       - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.1}
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "8080:80"
-    depends_on:
-      - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

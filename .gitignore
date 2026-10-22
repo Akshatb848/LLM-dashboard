@@ -9,3 +9,15 @@ build/
 .venv/
 *.so
 uploads_extracted.txt
+
+# Environment & local tooling
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.DS_Store
+.idea/
+.vscode/

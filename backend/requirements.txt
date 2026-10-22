@@ -1,38 +1,11 @@
-# =========================
-# Core API & Server
-# =========================
+# Runtime dependencies (only what the backend actually imports)
 fastapi>=0.110.0
 uvicorn>=0.29.0
 pydantic>=2.6.0
-
-# =========================
-# LLM / Orchestration
-# =========================
-langchain>=0.1.16
-langchain-community>=0.0.33
-langchain-core>=0.1.45
-python-dotenv>=1.0.1
-
-# =========================
-# HTTP / Utilities
-# =========================
-requests>=2.31.0
-tqdm>=4.66.0
-
-# =========================
-# Data handling & ML
-# =========================
 numpy>=1.26.0
-pandas>=2.2.0
 scikit-learn>=1.3.0
+requests>=2.31.0
 
-# =========================
-# Vector search (optional)
-# =========================
-# faiss-cpu>=1.7.4  # Uncomment for FAISS support
-
-# =========================
-# Testing
-# =========================
-pytest>=7.4.0
-httpx>=0.25.0
+# Optional: faster vector search. The RAG system falls back to NumPy
+# cosine similarity automatically when FAISS is not installed.
+# faiss-cpu>=1.7.4

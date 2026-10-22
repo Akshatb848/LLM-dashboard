@@ -21,7 +21,7 @@ def ping_service():
     service_url = os.getenv("SERVICE_URL", "https://vsk-newsletter.in")
 
     print(f"{'='*60}")
-    print(f"🕐 VSK Dashboard Keep-Alive Cron Job")
+    print("🕐 VSK Dashboard Keep-Alive Cron Job")
     print(f"{'='*60}")
     print(f"⏰ Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}")
     print(f"🌐 Service URL: {service_url}")
@@ -36,7 +36,7 @@ def ping_service():
 
         if response.status_code == 200:
             data = response.json()
-            print(f"✅ SUCCESS - Service is alive!")
+            print("✅ SUCCESS - Service is alive!")
             print(f"   Status: {data.get('status')}")
             print(f"   Service: {data.get('service')}")
             print(f"   Uptime: {data.get('uptime_seconds', 'N/A')} seconds")
@@ -49,18 +49,18 @@ def ping_service():
             return 1
 
     except requests.exceptions.Timeout:
-        print(f"⏱️  TIMEOUT - Service is waking up (this is normal after sleep)")
-        print(f"   The service will be ready in ~30 seconds")
+        print("⏱️  TIMEOUT - Service is waking up (this is normal after sleep)")
+        print("   The service will be ready in ~30 seconds")
 
         # Try one more time after waiting
-        print(f"\n🔄 Retrying after 30 seconds...")
+        print("\n🔄 Retrying after 30 seconds...")
         import time
         time.sleep(30)
 
         try:
             response = requests.get(keep_alive_url, timeout=60)
             if response.status_code == 200:
-                print(f"✅ SUCCESS - Service woke up successfully")
+                print("✅ SUCCESS - Service woke up successfully")
                 return 0
             else:
                 print(f"⚠️  WARNING - Retry returned HTTP {response.status_code}")
@@ -81,7 +81,7 @@ def ping_service():
 
     finally:
         print(f"\n{'='*60}")
-        print(f"🏁 Cron job completed")
+        print("🏁 Cron job completed")
         print(f"{'='*60}\n")
 
 

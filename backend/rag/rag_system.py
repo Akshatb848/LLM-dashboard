@@ -187,7 +187,7 @@ class RagSystem:
             # DPDP compliance
             dpdp = rvsk.get("dpdp_compliance", {})
             if dpdp:
-                dpdp_text = f"DPDP Act 2023 compliance for VSKs: " + "; ".join(dpdp.get("areas", []))
+                dpdp_text = "DPDP Act 2023 compliance for VSKs: " + "; ".join(dpdp.get("areas", []))
                 chunks.append({"text": dpdp_text, "metadata": {"type": "rvsk", "data": rvsk}})
 
             # APAAR for teachers

@@ -46,11 +46,11 @@ def check_health(service_url: str) -> bool:
 def wake_up_service(service_url: str) -> bool:
     """Try to wake up the service by hitting the root endpoint"""
     try:
-        print(f"🔄 Attempting to wake up service...")
+        print("🔄 Attempting to wake up service...")
         response = requests.get(service_url, timeout=60)  # Longer timeout for cold start
 
         if response.status_code == 200:
-            print(f"✅ Service woke up successfully")
+            print("✅ Service woke up successfully")
             return True
         else:
             print(f"⚠️  Service returned HTTP {response.status_code}")
@@ -71,7 +71,7 @@ def keep_alive(service_url: str, interval: int = 600):
     """
     print(f"🚀 Starting keep-alive service for: {service_url}")
     print(f"⏰ Ping interval: {interval} seconds ({interval // 60} minutes)")
-    print(f"📝 Press Ctrl+C to stop\n")
+    print("📝 Press Ctrl+C to stop\n")
 
     consecutive_failures = 0
     max_failures = 3
@@ -85,12 +85,12 @@ def keep_alive(service_url: str, interval: int = 600):
                 print(f"⚠️  Consecutive failures: {consecutive_failures}/{max_failures}")
 
                 if consecutive_failures >= max_failures:
-                    print(f"🔄 Service appears to be down, attempting to wake it up...")
+                    print("🔄 Service appears to be down, attempting to wake it up...")
                     wake_up_service(service_url)
                     consecutive_failures = 0
 
                     # Wait a bit longer after wake-up attempt
-                    print(f"⏸️  Waiting 30 seconds for service to fully start...")
+                    print("⏸️  Waiting 30 seconds for service to fully start...")
                     time.sleep(30)
                     continue
             else:
@@ -101,7 +101,7 @@ def keep_alive(service_url: str, interval: int = 600):
             time.sleep(interval)
 
     except KeyboardInterrupt:
-        print(f"\n👋 Keep-alive service stopped by user")
+        print("\n👋 Keep-alive service stopped by user")
     except Exception as e:
         print(f"\n❌ Unexpected error: {e}")
         raise
